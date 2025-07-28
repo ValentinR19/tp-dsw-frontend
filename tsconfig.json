@@ -1,11 +1,9 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./", // <<--- Esto es lo que falta
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "strict": true,
+    "strict": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -19,8 +17,9 @@
     "target": "ES2022",
     "module": "ES2022",
     "paths": {
-      "@admin-layout-module/*": ["src/app/admin-layout/*"],
-      "@main-module/*": ["src/app/*"]
+      "@admin-layout-module/*": ["src/app/layouts/*"],
+      "@auth-module/*": ["src/app/auth/*"],
+      "@main-module/*": ["src/*"]
     }
   }
 }

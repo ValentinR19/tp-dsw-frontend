@@ -1,1 +1,93 @@
-/* You can add global styles to this file, and also import other style files */
+@use './assets/theme/theme.scss';
+@import '../node_modules/primeflex/primeflex.css';
+@import 'primeicons/primeicons.css';
+@import '../node_modules/ngx-toastr/toastr.css';
+@import '../node_modules/quill/dist/quill.snow.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+  color: var(--accent-color);
+}
+
+p {
+  margin: 0.5rem 0 1rem;
+  color: var(--text-muted);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--primary-color-hover);
+  }
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-base);
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius);
+  color: var(--text-color);
+  transition: border-color 0.2s ease;
+
+  &::placeholder {
+    color: var(--input-placeholder);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 122, 217, 0.25);
+  }
+
+  &.is-invalid {
+    border-color: var(--danger-color);
+  }
+}
+
+button {
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  color: white;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--primary-color-hover);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AdminLayoutComponent } from '@main-module/layouts/admin-layout/admin-layout.component';
+import { DashboardComponent } from '@main-module/app/dashboard/views/dashboard/dashboard.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -8,7 +8,7 @@ export const AdminLayoutRoutes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: '',
-    component: AdminLayoutComponent,
+    path: 'dashboard',
+    component: DashboardComponent,
   },
 ];

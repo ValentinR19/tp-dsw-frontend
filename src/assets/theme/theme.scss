@@ -1,0 +1,35 @@
+:root {
+  --primary-color: #007ad9;
+  --primary-color-hover: #005fa3;
+  --secondary-color: #f5f7fa;
+  --accent-color: #2c3e50;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+
+  --text-color: #333;
+  --text-muted: var(--gray-600);
+  --background-color: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: var(--gray-300);
+  --input-placeholder: var(--gray-500);
+  --border-radius: 0.5rem;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  --font-family-base: 'Roboto', sans-serif;
+  --font-size-base: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-lg: 1.25rem;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+}
