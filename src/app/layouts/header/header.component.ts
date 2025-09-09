@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth-module/services/auth.service';
-import { User } from '@main-module/app/user/models/classes/user.entity';
-import { UserService } from '@main-module/app/user/services/user.service';
+import { User } from '@main-module/app/users/models/classes/user.entity';
+import { UserService } from '@main-module/app/users/services/user.service';
+
 import { Subscription } from 'rxjs';
 
 @Component({

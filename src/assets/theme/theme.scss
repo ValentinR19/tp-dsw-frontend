@@ -1,13 +1,26 @@
 :root {
   --primary-color: #007ad9;
-  --primary-color-hover: #005fa3;
+  --primary-color-600: #005fa3;
+  --primary-color-400: #3398ee;
+  --primary-color-100: #e6f3ff;
+
   --secondary-color: #f5f7fa;
-  --accent-color: #2c3e50;
+  --secondary-color-300: #e9eef6;
+
+  --accent-color: #f9a21b;
+  --accent-color-700: #d18e00;
+  --accent-color-100: #fff4e6;
+
   --danger-color: #dc3545;
   --success-color: #28a745;
   --warning-color: #ffc107;
+  --info-color: #17a2b8;
 
-  --gray-100: #f8f9fa;
+  --error-color: var(--danger-color);
+
+  /* Grises (ampliados) */
+  --gray-50: #f8f9fa;
+  --gray-100: #f1f3f5;
   --gray-200: #e9ecef;
   --gray-300: #dee2e6;
   --gray-400: #ced4da;
@@ -17,14 +30,29 @@
   --gray-800: #343a40;
   --gray-900: #212529;
 
-  --text-color: #333;
+  --text-color: #333333;
+  --text-secondary: #6c757d;
   --text-muted: var(--gray-600);
+  --text-secondary-color: #b0b3b8;
+
   --background-color: #ffffff;
+  --background: var(--background-color);
+  --background-card: #ffffff;
+  --bg-secondary-color: var(--gray-100);
+  --bg-hover-select: var(--gray-200);
+
   --input-bg: #ffffff;
+  --input-text: #333333;
   --input-border: var(--gray-300);
+  --input-border-focus: var(--primary-color);
   --input-placeholder: var(--gray-500);
+  --input-border-radius: 6px;
+
   --border-radius: 0.5rem;
-  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --sidebar-border-radius: 6px;
+
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --focus-shadow: 0 0 0 0.2rem rgba(0, 122, 217, 0.18);
 
   --font-family-base: 'Roboto', sans-serif;
   --font-size-base: 1rem;
@@ -39,5 +67,49 @@
   --sidebar-hover: rgba(255, 255, 255, 0.05);
   --sidebar-active: rgba(255, 255, 255, 0.1);
   --sidebar-sub-hover: rgba(255, 255, 255, 0.05);
-  --sidebar-border-radius: 6px;
+
+  --button-background-color: var(--primary-color);
+  --button-hover-background-color: var(--primary-color-600);
+  --button-text-color: #ffffff;
+  --button-disabled-background: var(--gray-300);
+  --button-disabled-text: var(--gray-600);
+
+  --paginator-bg: var(--background-color);
+  --paginator-text-color: var(--text-color);
+  --paginator-active-bg: var(--primary-color);
+  --paginator-hover-bg: var(--primary-color-600);
+  --table-border-color: var(--gray-300);
+
+  --table-background: #ffffff;
+  --table-header-bg: #f3f4f6;
+  --table-header-text: #1f2937;
+  --table-border-color: #e5e7eb;
+  --table-row-bg-odd: #f9fafb;
+  --table-row-bg-even: #f3f4f6;
+  --table-row-hover-bg: #e5e7eb;
+  --table-footer-bg: #f3f4f6;
+  --table-card-background: #f9fafb;
+
+  --scrollbar-color: var(--gray-400);
+
+  --transition-speed: 0.2s;
+
+  --chart-1: #007ad9;
+  --chart-2: #f9a21b;
+  --chart-3: #17c3b2;
+  --chart-4: #6f42c1;
+  --chart-5: #ff6b6b;
+  --chart-6: #adb5bd;
+
+  --setting-background: #f1f5f9;
+
+  --gradient-primary: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-color-600) 100%);
+  --gradient-accent: linear-gradient(90deg, var(--accent-color) 0%, var(--accent-color-700) 100%);
+}
+
+/* ----------------------
+   Reset / Global
+   ---------------------- */
+* {
+  box-sizing: border-box;
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { IPaginated } from '@main-module/app/core/interfaces/paginated.interface';
-import { User } from '@main-module/app/user/models/classes/user.entity';
+import { User } from '@main-module/app/users/models/classes/user.entity';
 import { environment } from '@main-module/environments/environment';
 import { Observable } from 'rxjs';
 

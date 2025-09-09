@@ -1,0 +1,10 @@
+<app-custom-table-data
+  title="Usuarios"
+  [totalRecords]="usersCount"
+  [rowsPerPage]="rowsPerPage"
+  [columns]="tableColumns"
+  [data]="user$ | async"
+  [lazy]="true"
+  (onLazyLoad)="lazyLoadTable($event)"
+  [canSearch]="true"
+></app-custom-table-data>
