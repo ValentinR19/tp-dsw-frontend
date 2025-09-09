@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { InformeService } from '@main-module/app/permissions/informe/services/informe.service';
 import { environment } from '@main-module/environments/environment';
 import { MenuItem } from 'primeng/api';
+import { DrawerModule as primengSidebarModule } from 'primeng/drawer';
+import { PanelMenuModule } from 'primeng/panelmenu';
+
 import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule, PanelMenuModule, primengSidebarModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
