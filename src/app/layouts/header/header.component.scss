@@ -1,0 +1,144 @@
+.app-header {
+  color: var(--header-footer-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+
+  &__logo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--header-footer-text-color);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .action-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.25rem;
+      color: var(--text-color);
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: var(--primary-color);
+      }
+
+      &:focus {
+        outline: 2px solid var(--focus-color);
+      }
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary-color);
+      }
+
+      .user-name {
+        font-size: 1rem;
+        color: var(--text-color);
+      }
+    }
+  }
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-right: 2rem;
+
+  .settings-dropdown {
+    position: relative;
+
+    .dropdown-menu {
+      background-color: var(--setting-background);
+      color: var(--text-color);
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      padding: 0.75rem 0;
+      min-width: 262px;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      z-index: 1;
+
+      .dropdown-header {
+        display: flex;
+        align-items: center;
+        padding: 0 1rem 0.75rem 1rem;
+
+        .user-avatar-wrapper {
+          margin-right: 0.75rem;
+
+          .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+
+        .user-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          .user-name {
+            font-size: 0.95rem;
+            color: var(--text-color);
+          }
+
+          .user-email {
+            font-size: 0.8rem;
+            color: var(secondary-text-color);
+          }
+        }
+      }
+
+      .dropdown-divider {
+        border: none;
+        height: 1px;
+        background-color: #333;
+        margin: 0.5rem 0;
+      }
+
+      .dropdown-item {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        padding: 0.75rem 1rem;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        transition: background-color 0.2s;
+
+        &:hover {
+          color: var(--secondary-text-color);
+          background-color: var(--bg-hover-select);
+        }
+      }
+    }
+  }
+}
+button {
+  margin-left: 0px;
+}
