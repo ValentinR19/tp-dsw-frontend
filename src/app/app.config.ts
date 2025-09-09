@@ -2,7 +2,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { JWT_OPTIONS } from '@auth0/angular-jwt';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { routes } from '@main-module/app/app.routes';
 import { ErrorInterceptor } from '@main-module/app/core/interceptors/error.interceptor';
 import { JwtInterceptor } from '@main-module/app/core/interceptors/jwt.interceptor';
@@ -43,5 +43,6 @@ export const appConfig: ApplicationConfig = {
     },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    JwtHelperService,
   ],
 };

@@ -11,4 +11,8 @@ export const AdminLayoutRoutes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
   },
+  {
+    path: 'users',
+    loadChildren: () => import('@main-module/app/users/users.routes').then((m) => m.routes),
+  },
 ];

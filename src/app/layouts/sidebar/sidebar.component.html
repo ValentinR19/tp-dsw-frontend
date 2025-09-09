@@ -1,1 +1,26 @@
-<p>sidebar works!</p>
+<div class="sidebar-container" [class.collapsed]="collapsed && !mobile" [class.mobile]="mobile" [class.visible]="mobile && visible">
+  <div *ngIf="mobile" class="mobile-close-button">
+    <button (click)="onMenuItemClick()" class="action-btn pi pi-times" style="margin-top: 1rem" aria-label="Cerrar menú"></button>
+  </div>
+
+  <div class="layout-menu-container">
+    <ul class="custom-menu">
+      <li *ngFor="let item of menu" [class.active]="item.active">
+        <a (click)="toggleSubmenu(item)">
+          <i [class]="item.icon"></i>
+          <span *ngIf="!collapsed || mobile" [routerLink]="item.routerLink">{{ item.label }}</span>
+          <i *ngIf="item.items" class="submenu-toggler pi pi-fw pi-angle-down" [class.rotated]="item.expanded"></i>
+        </a>
+
+        <ul class="sub-menu-expand" *ngIf="item.items" [class.expanded]="item.expanded">
+          <li *ngFor="let subItem of item.items">
+            <a [routerLink]="subItem.routerLink" (click)="onMenuItemClick()">
+              <i [class]="subItem.icon"></i>
+              <span *ngIf="!collapsed || mobile">{{ subItem.label }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

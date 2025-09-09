@@ -1,0 +1,145 @@
+@if (canDivider) {
+  <div class="content-container">
+    <header class="header">
+      <h1>{{ title }}</h1>
+      <p class="subtitle">{{ subtitle || 'Gestiona y visualiza ' + title + ' de tu sistema' }}</p>
+    </header>
+
+    <section class="toolbar" *ngIf="canSearch">
+      <div class="search">
+        <input
+          pInputText
+          type="text"
+          placeholder="🔍 Buscar"
+          class="search-input p-inputtext"
+          (input)="applyGlobalFilter($event, false)"
+          (keydown.enter)="applyGlobalFilter($event, true)"
+        />
+      </div>
+      <div class="actions">
+        <p-button type="button" *ngIf="canCreate" (onClick)="create($event)">Nuevo</p-button>
+      </div>
+    </section>
+  </div>
+}
+<div class="table-card p-3">
+  <p-table
+    class="custom-table"
+    [value]="data"
+    [columns]="columns"
+    [lazy]="lazy"
+    [paginator]="isPaginator"
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [responsiveLayout]="'scroll'"
+    [filterDelay]="500"
+    styleClass="p-datatable-gridlines"
+    selectionMode="single"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+    (onLazyLoad)="loadLazyData($event)"
+    (onRowSelect)="rowSelected($event)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let column of columns">{{ column.name }}</th>
+        @if (actions) {
+          <th><span class="filter-icon pi pi-sliders-h"></span> Actions</th>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item>
+      @if (selectableRow) {
+        <tr [pSelectableRow]="item">
+          @for (column of columns; track column.name) {
+            @if (column.isStatus) {
+              <td class="center-align status-cell" [style.background-color]="getNestedValue(item, column.attribute)">
+                <i class="pi pi-inbox"></i>
+              </td>
+            }
+            @if (!column.isStatus) {
+              <td>
+                @if (column.isQuill) {
+                  <span [innerHTML]="sanitizeContent(getNestedValue(item, column.attribute))"></span>
+                } @else if (column.jsonParse) {
+                  <span>{{ jsonParse(getNestedValue(item, column.attribute)) }}</span>
+                } @else if (column.isProminent) {
+                  <span style="font-weight: bold">{{ getNestedValue(item, column.attribute) }}</span>
+                } @else if (column.isDate) {
+                  <span>{{ jsonParse(getNestedValue(item, column.attribute)) | date: 'dd/mm/yyyy' }}</span>
+                } @else if (column.isBadge) {
+                  <span class="badge" [style.backgroundColor]="getNestedValue(item, column.attribute)?.color">
+                    {{ getNestedValue(item, column.attribute)?.name }}
+                  </span>
+                } @else {
+                  <span>{{ getNestedValue(item, column.attribute) }}</span>
+                }
+              </td>
+            }
+          }
+          @if (actions) {
+            <td>
+              @if (canView) {
+                <button class="action-btn pi pi-eye" style="font-size: 1.1rem" (click)="view(item)"></button>
+              }
+              @if (canTree) {
+                <button class="action-btn pi pi-sitemap" style="font-size: 1.1rem" (click)="tree(item)"></button>
+              }
+              @if (canUpdate) {
+                <button class="action-btn pi pi-pen-to-square" style="font-size: 1.1rem" (click)="update(item)"></button>
+              }
+              @if (canDelete) {
+                <button class="action-btn pi pi-trash" style="font-size: 1.1rem" (click)="delete(item)"></button>
+              }
+            </td>
+          }
+        </tr>
+      } @else {
+        <tr>
+          @for (column of columns; track column.name) {
+            @if (column.isStatus) {
+              <td class="center-align status-cell" [style.background-color]="getNestedValue(item, column.attribute)">
+                <i class="pi pi-inbox"></i>
+              </td>
+            }
+            @if (!column.isStatus) {
+              <td>
+                @if (column.isQuill) {
+                  <span [innerHTML]="sanitizeContent(getNestedValue(item, column.attribute))"></span>
+                } @else if (column.jsonParse) {
+                  <span>{{ jsonParse(getNestedValue(item, column.attribute)) }}</span>
+                } @else if (column.isProminent) {
+                  <span style="font-weight: bold">{{ getNestedValue(item, column.attribute) }}</span>
+                } @else if (column.isDate) {
+                  <span>{{ getNestedValue(item, column.attribute) | date: 'dd-MM-yyyy' }}</span>
+                } @else if (column.isBadge) {
+                  <span class="badge" [style.backgroundColor]="getNestedValue(item, column.attribute)?.color">
+                    {{ getNestedValue(item, column.attribute)?.name }}
+                  </span>
+                } @else {
+                  <span>{{ getNestedValue(item, column.attribute) }}</span>
+                }
+              </td>
+            }
+          }
+          @if (actions) {
+            <td class="flex align-items-between gap-2">
+              @if (canView) {
+                <button class="action-btn pi pi-eye" style="font-size: 1.1rem" (click)="view(item)"></button>
+              }
+              @if (canTree) {
+                <button class="action-btn pi pi-sitemap" style="font-size: 1.1rem" (click)="tree(item)"></button>
+              }
+              @if (canUpdate) {
+                <button class="action-btn pi pi-pen-to-square" style="font-size: 1.1rem" (click)="update(item)"></button>
+              }
+              @if (canDelete) {
+                <button class="action-btn pi pi-trash" style="font-size: 1.1rem" (click)="delete(item)"></button>
+              }
+            </td>
+          }
+        </tr>
+      }
+    </ng-template>
+  </p-table>
+</div>

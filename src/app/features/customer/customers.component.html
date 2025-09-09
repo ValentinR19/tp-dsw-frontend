@@ -1,8 +1,6 @@
 <h2>Clientes</h2>
 <ul>
-  <li *ngFor="let c of customers">
-    {{ c.firstName }} {{ c.lastName }} - {{ c.companyName }}
-  </li>
+  <li *ngFor="let c of customers">{{ c.firstName }} {{ c.lastName }} - {{ c.companyName }}</li>
 </ul>
 
 <button (click)="addCustomer()">Agregar Cliente</button>
