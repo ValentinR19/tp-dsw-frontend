@@ -1,9 +1,9 @@
 export interface Customer {
-  id?: number;                // opcional cuando creás un nuevo customer
+  id?: number; // opcional cuando creás un nuevo customer
   firstName: string;
   lastName: string;
   companyName: string;
-  gender?: string;             // opcional porque en backend es nullable
+  gender?: string; // opcional porque en backend es nullable
   address: string;
   zipCode: string;
   typeOfDocument: string;

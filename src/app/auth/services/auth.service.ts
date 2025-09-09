@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IAccessToken } from '@auth-module/models/interfaces/access-token.interface';
@@ -16,11 +16,11 @@ export class AuthService {
   private _authenticationState = new BehaviorSubject(false);
   loggedUser$: Observable<IAppPayload>;
 
-  private readonly http: HttpClient = inject(HttpClient);
-  private readonly router: Router = inject(Router);
-  private readonly helper: JwtHelperService;
-
-  constructor() {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly router: Router,
+    private helper: JwtHelperService,
+  ) {
     this.loggedUser$ = this._loggedUser.asObservable();
     const token = this.accessToken;
     this.loadLoggedUser();

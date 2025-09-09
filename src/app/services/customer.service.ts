@@ -7,7 +7,7 @@ import { Customer } from '../models/customer';
 export class CustomerService {
   private apiUrl = 'http://localhost:3000/customers'; // ajustá tu endpoint
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.apiUrl);

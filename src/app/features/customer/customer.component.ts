@@ -4,19 +4,19 @@ import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
   selector: 'app-customers',
-  templateUrl: './customers.component.html'
+  templateUrl: './customers.component.html',
 })
 export class CustomersComponent implements OnInit {
   customers: Customer[] = [];
 
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService) {}
 
   ngOnInit() {
     this.loadCustomers();
   }
 
   loadCustomers() {
-    this.customerService.getCustomers().subscribe(data => {
+    this.customerService.getCustomers().subscribe((data) => {
       this.customers = data;
     });
   }
@@ -31,10 +31,10 @@ export class CustomersComponent implements OnInit {
       typeOfDocument: 'DNI',
       document: '12345678',
       internalCode: 'C-001',
-      active: true
+      active: true,
     };
 
-    this.customerService.createCustomer(nuevo).subscribe(res => {
+    this.customerService.createCustomer(nuevo).subscribe((res) => {
       this.customers.push(res);
     });
   }
