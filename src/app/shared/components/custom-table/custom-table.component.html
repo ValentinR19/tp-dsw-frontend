@@ -36,13 +36,12 @@
     styleClass="p-datatable-gridlines"
     selectionMode="single"
     [rowsPerPageOptions]="rowsPerPageOptions"
-    [resizableColumns]="true"
     (onLazyLoad)="loadLazyData($event)"
     (onRowSelect)="rowSelected($event)"
   >
     <ng-template pTemplate="header">
       <tr>
-        <th pResizableColumn *ngFor="let column of columns">{{ column.name }}</th>
+        <th *ngFor="let column of columns">{{ column.name }}</th>
         @if (actions) {
           <th><span class="filter-icon pi pi-sliders-h"></span> Actions</th>
         }

@@ -12,26 +12,35 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
   color: var(--text-color);
-  background-color: var(--background-color);
+  background: var(--background);
 }
 
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  font-weight: var(--font-weight-bold);
-  color: var(--accent-color);
+h4 {
+  color: var(--heading-color);
+  margin-bottom: 0.5rem;
 }
 
-p {
-  margin: 0.5rem 0 1rem;
-  color: var(--text-muted);
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
 }
 
 a {

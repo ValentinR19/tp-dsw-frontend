@@ -90,10 +90,13 @@
   --table-footer-bg: #f3f4f6;
   --table-card-background: #f9fafb;
 
+  /* Scrollbar */
   --scrollbar-color: var(--gray-400);
 
+  /* Transitions */
   --transition-speed: 0.2s;
 
+  /* Charts / graphs palette */
   --chart-1: #007ad9;
   --chart-2: #f9a21b;
   --chart-3: #17c3b2;
@@ -103,8 +106,23 @@
 
   --setting-background: #f1f5f9;
 
+  /* Gradients */
   --gradient-primary: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-color-600) 100%);
   --gradient-accent: linear-gradient(90deg, var(--accent-color) 0%, var(--accent-color-700) 100%);
+
+  --header-height: 56px;
+  --header-bg: #ffffff; /* o rgba(245,247,252,.85) si querés tinte */
+  --header-border-color: rgba(0, 0, 0, 0.06);
+  --header-footer-text-color: var(--text-color);
+
+  --header-btn-hover-bg: rgba(15, 23, 42, 0.06); /* hover suave de iconos */
+  --focus-ring: rgba(76, 159, 254, 0.35);
+
+  --setting-background: var(--card-background-color);
+  --dropdown-border-color: rgba(0, 0, 0, 0.08);
+  --divider-color: rgba(0, 0, 0, 0.08);
+
+  --secondary-text-color: var(--text-secondary-color, #b0b3b8);
 }
 
 /* ----------------------
