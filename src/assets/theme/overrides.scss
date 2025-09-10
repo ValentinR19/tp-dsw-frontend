@@ -1,0 +1,269 @@
+html {
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-color);
+  background: var(--background);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--heading-color);
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+p,
+span,
+label {
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.card,
+.p-card {
+  background-color: var(--card-background-color);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: none;
+  border: 1px solid var(--table-border-color);
+}
+
+button,
+.p-button {
+  font-size: 0.875rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 500;
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  border: none;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--button-hover-background-color);
+  }
+
+  &:disabled {
+    background-color: var(--button-disabled-background);
+    color: var(--button-disabled-text);
+    cursor: not-allowed;
+  }
+}
+
+.p-inputtext,
+input,
+textarea {
+  font-size: 0.875rem;
+  padding: 0.45rem 0.75rem;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-border-radius);
+  color: var(--input-text);
+}
+
+.p-inputtext:focus {
+  border-color: var(--input-border-focus);
+  box-shadow: var(--focus-shadow);
+}
+
+.p-dropdown,
+.p-multiselect {
+  font-size: 0.875rem;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  border-radius: var(--input-border-radius);
+}
+
+.estado,
+.badge,
+.p-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 500;
+  display: inline-block;
+  text-transform: uppercase;
+
+  &.success {
+    background-color: var(--success-color);
+    color: white;
+  }
+  &.danger {
+    background-color: var(--error-color);
+    color: white;
+  }
+  &.info {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  &.warning {
+    background-color: #facc15;
+    color: #1e293b;
+  }
+}
+
+.p-paginator {
+  background: var(--paginator-bg);
+  padding: 0.5rem;
+
+  .p-paginator-page,
+  .p-paginator-prev,
+  .p-paginator-next,
+  .p-paginator-first,
+  .p-paginator-last {
+    padding: 0.3rem 0.6rem;
+    margin: 0 0.25rem;
+    border-radius: 6px;
+    color: var(--paginator-text-color);
+    transition: background-color 0.2s;
+  }
+
+  .p-paginator-page.p-highlight {
+    background: var(--paginator-active-bg);
+    color: white;
+  }
+
+  .p-paginator-page:hover {
+    background: var(--paginator-hover-bg);
+    color: white;
+  }
+}
+
+.p-dialog {
+  background-color: var(--card-background-color);
+  color: var(--text-color);
+  border-radius: 10px;
+
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer {
+    padding: 1rem;
+  }
+
+  .p-dialog-header {
+    font-weight: 600;
+  }
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+}
+
+.p-divider {
+  margin: 1rem 0;
+  border-top: 1px solid var(--table-border-color);
+}
+
+.p-tooltip {
+  font-size: 0.75rem;
+  background-color: var(--text-color);
+  color: var(--card-background-color);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-color);
+  border-radius: 10px;
+}
+
+:root .p-selectbutton {
+  display: flex;
+  flex-wrap: wrap;
+
+  .p-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    border: 1px solid var(--input-border);
+    background-color: var(--bg-secondary-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition:
+      background-color var(--transition-speed),
+      border-color var(--transition-speed);
+
+    &:hover {
+      background-color: var(--bg-hover-select);
+      border-color: var(--input-border-focus);
+    }
+
+    &.p-highlight {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border-color: var(--primary-color);
+    }
+
+    &.p-disabled {
+      background-color: var(--button-disabled-background);
+      color: var(--button-disabled-text);
+      cursor: not-allowed;
+    }
+  }
+}
+
+:root .p-togglebutton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  background-color: var(--bg-secondary-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-speed),
+    border-color var(--transition-speed);
+
+  &:hover,
+  &:focus-visible,
+  &:active {
+    background-color: var(--bg-hover-select);
+    border-color: var(--input-border-focus);
+    outline: none;
+  }
+
+  &.p-togglebutton-checked {
+    background: var(--bg-hover-select, var(--primary-color));
+    border-color: var(--bg-hover-select, var(--primary-color));
+    color: var(--p-togglebutton-checked-color, #ffffff);
+  }
+
+  &.p-disabled {
+    background-color: var(--button-disabled-background);
+    color: var(--button-disabled-text);
+    cursor: not-allowed;
+  }
+}

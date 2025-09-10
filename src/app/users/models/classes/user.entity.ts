@@ -6,7 +6,6 @@ export class User {
   lastName: string;
   active: boolean;
   email: string;
-  phone: string;
 
   get fullName(): string {
     return `${this.firstName} ${this.lastName}`;

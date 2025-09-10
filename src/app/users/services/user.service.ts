@@ -26,7 +26,7 @@ export class UserService {
   }
 
   update(user: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${ROOT}/${user.id}`, user);
+    return this.http.patch<User>(`${ROOT}/${user.id}`, user);
   }
 
   delete(user: User): Observable<void> {

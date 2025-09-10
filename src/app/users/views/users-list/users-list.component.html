@@ -7,6 +7,8 @@
   [lazy]="true"
   (onLazyLoad)="lazyLoadTable($event)"
   [canSearch]="true"
-  [canView]="true"
   [canUpdate]="true"
+  (onCreate)="create()"
+  (onUpdate)="update($event)"
+  (onDelete)="delete($event)"
 ></app-custom-table-data>

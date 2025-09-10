@@ -1,4 +1,5 @@
 @use './assets/theme/theme.scss';
+@use './assets/theme/overrides.scss';
 @import '../node_modules/primeflex/primeflex.css';
 @import 'primeicons/primeicons.css';
 @import '../node_modules/ngx-toastr/toastr.css';
@@ -6,50 +7,6 @@
 
 * {
   box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-size: 15px;
-  font-family: 'Inter', sans-serif;
-  color: var(--text-color);
-  background: var(--background);
-}
-
-h1,
-h2,
-h3,
-h4 {
-  color: var(--heading-color);
-  margin-bottom: 0.5rem;
-}
-
-h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-}
-h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-h4 {
-  font-size: 1.125rem;
-  font-weight: 500;
-}
-
-a {
-  color: var(--primary-color);
-  text-decoration: none;
-
-  &:hover {
-    color: var(--primary-color-hover);
-  }
 }
 
 li {
@@ -152,19 +109,18 @@ label {
   border: 1px solid var(--table-border-color);
 }
 
-button,
+:root button,
 .p-button {
   font-size: 0.875rem;
-  padding: 0.45rem 0.9rem;
   border-radius: 6px;
   font-weight: 500;
-  background-color: var(--button-background-color);
-  color: var(--button-text-color);
+  color: var(--text-color);
   border: none;
   transition: background-color 0.2s;
 
   &:hover {
     background-color: var(--button-hover-background-color);
+    border: none;
   }
 
   &:disabled {
@@ -174,7 +130,7 @@ button,
   }
 }
 
-.p-inputtext,
+:root.p-inputtext,
 input,
 textarea {
   font-size: 0.875rem;
@@ -631,44 +587,6 @@ textarea {
     border-right: 1px solid rgba(255, 255, 255, 0.315);
   }
 }
-
-input[type='text'],
-input[type='email'],
-input[type='number'],
-input[type='password'],
-textarea,
-.p-inputtext {
-  flex: 1;
-  width: 100%;
-  max-width: 100%;
-  padding: 0.55rem 0.75rem;
-  background-color: var(--input-bg);
-  color: var(--input-text);
-  font-size: 0.875rem;
-  border: none;
-  border-radius: var(--input-border-radius);
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-speed),
-    box-shadow var(--transition-speed);
-
-  &::placeholder {
-    color: var(--input-placeholder);
-    opacity: 0.8;
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: none;
-  }
-
-  &:disabled {
-    background-color: var(--button-disabled-background);
-    color: var(--button-disabled-text);
-    cursor: not-allowed;
-  }
-}
-
 .action-btn {
   background: transparent;
   border: none;
@@ -769,4 +687,58 @@ textarea,
       }
     }
   }
+}
+
+:root .p-iftalabel label,
+.p-iftalabel:has(input:-webkit-autofill) label,
+.p-iftalabel:has(textarea:focus) label,
+.p-iftalabel:has(.p-inputwrapper-focus) label {
+  color: var(--text-color);
+}
+
+:root .p-iftalabel .p-inputtext,
+input {
+  padding-top: 1rem;
+}
+
+:root .p-iftalabel {
+  margin-bottom: 1rem;
+}
+.p-inputgroup {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-border-radius);
+  background-color: var(--input-bg);
+  padding: 0.5rem;
+  transition:
+    border-color var(--transition-speed),
+    box-shadow var(--transition-speed);
+
+  &:focus-within {
+    border-color: var(--input-border-focus);
+    box-shadow: var(--focus-shadow);
+  }
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: var(--surface-50);
+  border: 1px solid var(--surface-200);
+}
+
+.toggle-group label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
 }

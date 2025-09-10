@@ -1,0 +1,58 @@
+<app-back-button (click)="close()"></app-back-button>
+
+<div class="card">
+  @if (!userId) {
+    <h2>Crear Usuario</h2>
+  } @else {
+    <h2>Editar Usuario {{ user.username }}</h2>
+  }
+</div>
+
+<form [formGroup]="userForm">
+  <div class="grid">
+    <div class="col-12 lg:col-6">
+      <div class="card">
+        <h3 class="text-800">Información básica</h3>
+        <p-divider></p-divider>
+        <p-iftalabel>
+          <input id="firstName" type="text" pInputText formControlName="firstName" />
+          <label for="firstName">Nombre</label>
+        </p-iftalabel>
+        <p-iftalabel>
+          <input id="lastName" type="text" pInputText formControlName="lastName" />
+          <label for="lastName">Apellido</label>
+        </p-iftalabel>
+        <p-iftalabel>
+          <input id="email" type="text" pInputText formControlName="email" />
+          <label for="email">Email</label>
+        </p-iftalabel>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6">
+      <div class="card">
+        <h3 class="text-800">Información de acceso</h3>
+        <p-divider></p-divider>
+        <p-iftalabel>
+          <input id="username" type="text" pInputText formControlName="username" />
+          <label for="username">Nombre de usuario</label>
+        </p-iftalabel>
+        <p-iftalabel>
+          <input id="password" type="password" pInputText formControlName="password" />
+          <label for="password">Contraseña</label>
+        </p-iftalabel>
+      </div>
+
+      <div class="card">
+        <h3 class="text-800">Estado</h3>
+        <p-divider></p-divider>
+        <div class="toggle-group">
+          <label for="active">Activo</label>
+          <p-toggleSwitch formControlName="active"></p-toggleSwitch>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btn-container">
+    <p-button label="Guardar" (onClick)="submit()"></p-button>
+  </div>
+</form>

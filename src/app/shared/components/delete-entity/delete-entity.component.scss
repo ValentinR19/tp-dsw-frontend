@@ -1,0 +1,64 @@
+::ng-deep .dialog-borrar.p-dialog {
+  max-width: 350px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-secondary-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  border: none;
+
+  ::ng-deep .modal-body {
+    font-size: 16px;
+    color: var(--text-color);
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  ::ng-deep .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  ::ng-deep .p-button {
+    border-radius: 4px;
+    padding: 10px 20px;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease;
+  }
+
+  ::ng-deep .p-button-secondary {
+    background-color: #e0e0e0;
+    border: none;
+    color: #333;
+  }
+
+  ::ng-deep .p-button-secondary:hover {
+    background-color: #c2c2c2;
+    transform: translateY(-2px);
+  }
+
+  ::ng-deep .p-button-success {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+  }
+
+  ::ng-deep .p-button-success:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+
+  ::ng-deep .p-progressBar {
+    height: 6px;
+    margin-bottom: 15px;
+  }
+
+  ::ng-deep .p-progressBar .p-progressBar-value {
+    background-color: #007bff;
+  }
+}

@@ -6,7 +6,7 @@ import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { routes } from '@main-module/app/app.routes';
 import { ErrorInterceptor } from '@main-module/app/core/interceptors/error.interceptor';
 import { JwtInterceptor } from '@main-module/app/core/interceptors/jwt.interceptor';
-import Material from '@primeng/themes/material';
+import { MyPreset } from '@main-module/assets/theme/preset.const';
 import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
 
@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       ripple: true,
       theme: {
-        preset: Material,
+        preset: MyPreset,
         options: {
           darkModeSelector: '.dark-mode',
           prefix: 'p',
