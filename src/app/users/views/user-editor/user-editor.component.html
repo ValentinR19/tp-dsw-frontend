@@ -4,7 +4,7 @@
   @if (!userId) {
     <h2>Crear Usuario</h2>
   } @else {
-    <h2>Editar Usuario {{ user.username }}</h2>
+    <h2>Editar Usuario {{ user?.username }}</h2>
   }
 </div>
 
@@ -26,6 +26,24 @@
           <input id="email" type="text" pInputText formControlName="email" />
           <label for="email">Email</label>
         </p-iftalabel>
+      </div>
+      <div class="card">
+        <h3 class="text-800">Roles</h3>
+        <p-multiselect
+          appendTo="body"
+          dataKey="id"
+          [lazy]="true"
+          optionLabel="name"
+          [options]="roles"
+          formControlName="roles"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="40"
+          [filter]="true"
+          [showClear]="true"
+          filterBy="name"
+          placeholder="Select Roles"
+          styleClass="w-full"
+        ></p-multiselect>
       </div>
     </div>
     <div class="col-12 lg:col-6">
