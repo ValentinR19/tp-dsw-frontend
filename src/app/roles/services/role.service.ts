@@ -14,4 +14,16 @@ export class RoleService {
   findAll(): Observable<Role[]> {
     return this.http.get<Role[]>(ROOT);
   }
+
+  getById(id: number): Observable<Role> {
+    return this.http.get<Role>(`${ROOT}/${id}`);
+  }
+
+  create(role: Partial<Role>): Observable<Role> {
+    return this.http.post<Role>(ROOT, role);
+  }
+
+  update(id: number, role: Partial<Role>): Observable<Role> {
+    return this.http.put<Role>(`${ROOT}/${id}`, role);
+  }
 }
