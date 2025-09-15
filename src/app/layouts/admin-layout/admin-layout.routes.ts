@@ -15,4 +15,9 @@ export const AdminLayoutRoutes: Routes = [
     path: 'users',
     loadChildren: () => import('@main-module/app/users/users.routes').then((m) => m.routes),
   },
+  {
+    path: 'customers',
+    loadChildren: () => import('@main-module/app/customer/customer.routes').then((m) => m.routes),
+
+  }
 ];
