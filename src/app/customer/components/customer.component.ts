@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Customer } from 'src/app/models/customer';
-import { CustomerService } from 'src/app/services/customer.service';
+import { Customer } from '@main-module/app/customer/models/classes/customer.entity';
+import { CustomerService } from 'src/app/customer/services/customer.service';
 
 @Component({
   selector: 'app-customers',
@@ -32,6 +32,7 @@ export class CustomersComponent implements OnInit {
       document: '12345678',
       internalCode: 'C-001',
       active: true,
+      fullName: 'Juan Perez'
     };
 
     this.customerService.createCustomer(nuevo).subscribe((res) => {

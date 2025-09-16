@@ -1,1 +1,14 @@
-<p>customer-list works!</p>
+<app-custom-table-data 
+title="Clientes" 
+[totalRecords]="customersCount" 
+[rowsPerPage]="rowsPerPage"
+ [columns]="tableColumns"
+  [data]="customer$ | async" 
+  [lazy]="true" 
+  (onLazyLoad)="lazyLoadTable($event)" 
+  [canSearch]="true"
+   [canUpdate]="true"
+  (onCreate)="create()" 
+  (onUpdate)="update($event)"
+   (onDelete)="delete($event)">
+  </app-custom-table-data>

@@ -1,4 +1,4 @@
-export interface Customer {
+export class Customer {
   id?: number; // opcional cuando creás un nuevo customer
   firstName: string;
   lastName: string;
@@ -11,4 +11,8 @@ export interface Customer {
   internalCode: string;
   active: boolean;
   // relación con otra entidad
+
+  get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }
