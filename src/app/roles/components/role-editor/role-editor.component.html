@@ -1,0 +1,39 @@
+<form [formGroup]="roleForm" (ngSubmit)="submit()" class="p-fluid">
+  <!-- Nombre del rol -->
+  <div class="field">
+    <label for="name">Nombre del rol</label>
+    <input id="name" type="text" pInputText formControlName="name" placeholder="Ingrese el nombre del rol" />
+    <small *ngIf="roleForm.get('name').invalid && roleForm.get('name').touched" class="p-error"> El nombre es obligatorio (mín. 4 - máx. 30 caracteres). </small>
+  </div>
+
+  <!-- Informes agrupados -->
+  <div class="field">
+    <label>Menu</label>
+
+    <div class="informe-groups">
+      <ng-container *ngFor="let grupo of groupedInformes">
+        <div class="informe-group">
+          <h4 class="group-title">
+            <i class="{{ grupo.icon || 'pi pi-folder' }}"></i>
+            {{ grupo.label }}
+          </h4>
+
+          <div class="group-items">
+            <div class="informe-item" *ngFor="let item of grupo.items">
+              <p-checkbox [value]="item.id" formControlName="informes" binary="false"></p-checkbox>
+              <label [for]="'informe-' + item.id">{{ item.description }}</label>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <small *ngIf="roleForm.get('informes').invalid && roleForm.get('informes').touched" class="p-error"> Debe seleccionar al menos un informe. </small>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-content-end gap-2 mt-4">
+    <p-button type="button" severity="danger" label="Cancelar" icon="pi pi-times" (click)="close()"></p-button>
+    <p-button type="submit" label="Guardar" icon="pi pi-check" [disabled]="roleForm.invalid"></p-button>
+  </div>
+</form>

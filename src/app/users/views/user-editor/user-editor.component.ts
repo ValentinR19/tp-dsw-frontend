@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Role } from '@main-module/app/roles/models/classes/role.entity';
+import { RoleService } from '@main-module/app/roles/services/role.service';
 import { BackButtonComponent } from '@main-module/app/shared/components/back-button/back-button.component';
 import { MessageService } from '@main-module/app/shared/services/message.service';
 import { User } from '@main-module/app/users/models/classes/user.entity';
@@ -9,12 +11,13 @@ import { UserService } from '@main-module/app/users/services/user.service';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { IftaLabelModule } from 'primeng/iftalabel';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { lastValueFrom, take } from 'rxjs';
 
 @Component({
   selector: 'app-user-editor',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ButtonModule, BackButtonComponent, DividerModule, IftaLabelModule, ToggleSwitchModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ButtonModule, BackButtonComponent, DividerModule, IftaLabelModule, ToggleSwitchModule, MultiSelectModule],
   templateUrl: './user-editor.component.html',
   styleUrl: './user-editor.component.scss',
 })
@@ -23,19 +26,19 @@ export class UserEditorComponent implements OnInit {
   userForm: FormGroup;
   userId: number;
 
-  roles: any[] = [];
+  roles: Role[] = [];
 
   private readonly userService: UserService = inject(UserService);
+  private readonly roleService: RoleService = inject(RoleService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly messageService: MessageService = inject(MessageService);
 
   async ngOnInit(): Promise<void> {
     this.buildForm();
+    this.getAllRole();
     const params = await lastValueFrom(this.route.params.pipe(take(1)));
-    console.log(params);
     this.userId = Number(params['id']);
-
     if (this.userId) {
       this.userService.getById(this.userId).subscribe({
         next: (user: User) => {
@@ -58,6 +61,7 @@ export class UserEditorComponent implements OnInit {
       lastName: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
       email: new FormControl<string>('', [Validators.required, Validators.email, Validators.minLength(3), Validators.maxLength(30)]),
       active: new FormControl<boolean>(true, [Validators.required]),
+      roles: new FormControl<Partial<Role[]>>([], [Validators.required]),
     });
   }
 
@@ -66,6 +70,12 @@ export class UserEditorComponent implements OnInit {
     if (this.userForm.invalid) return;
 
     this.userId ? this.update() : this.create();
+  }
+
+  getAllRole() {
+    this.roleService.findAll().subscribe((roles) => {
+      this.roles = roles;
+    });
   }
 
   create() {

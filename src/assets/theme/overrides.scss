@@ -10,7 +10,6 @@ h2,
 h3,
 h4 {
   color: var(--heading-color);
-  margin-bottom: 0.5rem;
 }
 
 h1 {
@@ -156,7 +155,7 @@ textarea {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer {
-    padding: 1rem;
+    padding-top: 0 !important;
   }
 
   .p-dialog-header {

@@ -742,3 +742,12 @@ input {
   justify-content: flex-end;
   margin-top: 2rem;
 }
+
+.modal-body {
+  background-color: var(--background-card);
+  border: none;
+  max-width: 900px;
+  width: 100%;
+  color: var(--text-color);
+  margin: 0;
+}
