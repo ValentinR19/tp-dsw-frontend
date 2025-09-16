@@ -1,1 +1,15 @@
-<p>product-list works!</p>
+<app-custom-table-data 
+title="Productos" 
+[totalRecords]="productsCount" 
+[rowsPerPage]="rowsPerPage"
+ [columns]="tableColumns"
+  [data]="product$ | async" 
+  [lazy]="true" 
+  (onLazyLoad)="lazyLoadTable($event)" 
+  [canSearch]="true"
+   [canUpdate]="true"
+   [canDelete]="true"
+  (onCreate)="create()" 
+  (onUpdate)="update($event)"
+   (onDelete)="delete($event)">
+  </app-custom-table-data>
