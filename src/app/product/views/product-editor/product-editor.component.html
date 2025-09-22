@@ -1,0 +1,50 @@
+<app-back-button (click)="close()"></app-back-button>
+
+<div class="card">
+  @if (!productId) {
+    <h2>Crear Producto</h2>
+  } @else {
+    <h2>Editar Producto{{ product?.name }}</h2>
+  }
+</div>
+
+<form [formGroup]="productForm">
+  <div class="grid">
+    <div class="col-12 lg:col-6">
+      <div class="card">
+        <h3 class="text-800">Información básica</h3>
+        <p-divider></p-divider>
+        <p-iftalabel>
+          <input id="name" type="text" pInputText formControlName="name" />
+          <label for="name">Nombre</label>
+        </p-iftalabel>
+        <p-iftalabel>
+          <input id="description" type="text" pInputText formControlName="description" />
+          <label for="lastName">Descripción</label>
+        </p-iftalabel>
+      </div>
+      <div class="card">
+        <h3 class="text-800">Categoria</h3>
+        <p-multiselect
+          appendTo="body"
+          dataKey="id"
+          [lazy]="true"
+          optionLabel="name"
+          [options]="productCategories"
+          formControlName="categories"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="40"
+          [filter]="true"
+          [showClear]="true"
+          filterBy="name"
+          placeholder="Select Categories"
+          styleClass="w-full"
+        ></p-multiselect>
+      </div>
+    </div>
+
+  </div>
+  <div class="btn-container">
+    <p-button label="Guardar" (onClick)="submit()"></p-button>
+  </div>
+</form>
