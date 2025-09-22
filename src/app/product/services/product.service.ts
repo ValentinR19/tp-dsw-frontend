@@ -14,9 +14,19 @@ export class ProductService {
   
   constructor(private http: HttpClient) {}
   
-  search(page: number, resultSize?: number, filters?: Partial<Product>): Observable<IPaginated<Product>> {
-    return this.http.get<IPaginated<Product>>(`${ROOT}/page/${page}`, { params: { results: resultSize, ...filters } });
-  }
+  // search(page: number, resultSize?: number, filters?: Partial<Product>): Observable<IPaginated<Product>> {
+  //   return this.http.get<IPaginated<Product>>(`${ROOT}/page/${page}`, { params: { results: resultSize, ...filters } });
+  // }
+  search(page: number, resultSize?: number, filters?: Partial<Product>) {
+  const safeFilters = filters ?? {};
+  const params: Record<string, string | number | boolean | string[]> = {
+    ...(resultSize != null ? { results: resultSize } : {}),...Object.fromEntries(
+Object.entries(safeFilters).map(([k, v]) => [k, Array.isArray(v) ? v.join(',') : typeof v === 'object' ? JSON.stringify(v) : (v as any)])
+    ),
+  };
+
+  return this.http.get<IPaginated<Product>>(`${ROOT}/page/${page}`, { params });
+}
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(ROOT);
