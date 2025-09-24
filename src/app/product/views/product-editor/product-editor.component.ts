@@ -13,14 +13,16 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { lastValueFrom, take } from 'rxjs';
 import { ProductCategory } from '@main-module/app/product/models/classes/product-category.entity';
+import { ProductCategoryService } from '@main-module/app/product/services/product-category.service';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-product-editor',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ButtonModule, BackButtonComponent, DividerModule, IftaLabelModule, ToggleSwitchModule, MultiSelectModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ButtonModule, BackButtonComponent, DividerModule, IftaLabelModule, ToggleSwitchModule, SelectModule],
   templateUrl: './product-editor.component.html',
   styleUrl: './product-editor.component.scss',
 })
-export class productEditorComponent implements OnInit {
+export class ProductEditorComponent implements OnInit {
   product: Product;
   productForm: FormGroup;
   productId: number;
@@ -28,11 +30,13 @@ export class productEditorComponent implements OnInit {
 
 
   private readonly productService: ProductService = inject(ProductService);
+  private readonly porductCategoryService: ProductCategoryService = inject(ProductCategoryService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly messageService: MessageService = inject(MessageService);
 
   async ngOnInit(): Promise<void> {
+    this.loadCategories();
     this.buildForm();
     const params = await lastValueFrom(this.route.params.pipe(take(1)));
     this.productId = Number(params['id']);
@@ -91,5 +95,17 @@ export class productEditorComponent implements OnInit {
 
   close(): void {
     this.router.navigate(['products']);
+  
+  }
+
+  loadCategories(): void {
+    this.porductCategoryService.getCategories().subscribe({
+      next: (categories: ProductCategory[]) => {
+        this.productCategories = categories;
+      },
+      error: (error) => {
+        this.messageService.showErrorFromDTO(`Error al obtener las categorias de productos ${error}`);
+      },
+    });
   }
 }

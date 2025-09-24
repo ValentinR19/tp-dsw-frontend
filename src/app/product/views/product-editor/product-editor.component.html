@@ -25,10 +25,9 @@
       </div>
       <div class="card">
         <h3 class="text-800">Categoria</h3>
-        <p-multiselect
+        <p-select
           appendTo="body"
           dataKey="id"
-          [lazy]="true"
           optionLabel="name"
           [options]="productCategories"
           formControlName="categories"
@@ -39,7 +38,7 @@
           filterBy="name"
           placeholder="Select Categories"
           styleClass="w-full"
-        ></p-multiselect>
+        ></p-select>
       </div>
     </div>
 

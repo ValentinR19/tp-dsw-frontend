@@ -7,7 +7,7 @@ import { environment } from '@main-module/environments/environment';
 import { Observable } from 'rxjs';
 
 const ROOT = `${environment.SERVER_URL}/products`;
-const CATEGORIES_ROOT = `${environment.SERVER_URL}/product-categories`;
+
 export type ProductFilters = {
   name?: string;
   description?: string;
@@ -66,7 +66,5 @@ export class ProductService {
   delete(product: Product): Observable<void> {
     return this.http.delete<void>(`${ROOT}/${product.id}`);
   }
-    getCategories(): Observable<ProductCategory[]> {
-    return this.http.get<ProductCategory[]>(CATEGORIES_ROOT);
-  }
+    
 }
