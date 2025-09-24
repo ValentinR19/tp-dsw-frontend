@@ -44,7 +44,7 @@ export class productEditorComponent implements OnInit {
           this.productForm.get('name').disable();
         },
         error: (error) => {
-          this.messageService.showErrorFromDTO(`Error al obtener el usuario ${error}`);
+          this.messageService.showErrorFromDTO(`Error al obtener el producto ${error}`);
         },
       });
     }

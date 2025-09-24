@@ -25,8 +25,12 @@ export const AdminLayoutRoutes: Routes = [
     path: 'roles',
     loadChildren: () => import('@main-module/app/roles/roles.routes').then((m) => m.routes),
   },
-    {
+  {
     path: 'products',
     loadChildren: () => import('@main-module/app/product/product.routes').then((m) => m.routes),
   },
+  // {
+  //    path: 'product-categories', 
+  //   loadChildren: () => import('@main-module/app/product-category/product-category.routes').then(m => m.routes)
+  //  },
 ];
