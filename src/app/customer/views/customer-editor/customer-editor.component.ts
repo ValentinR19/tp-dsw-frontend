@@ -14,10 +14,13 @@ import { IftaLabelModule } from 'primeng/iftalabel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { lastValueFrom, take } from 'rxjs';
+import { CustomerCategoryService } from '@main-module/app/customer/services/customer-category.service';
+import { SelectModule } from 'primeng/select';
+import { CustomerCategory } from '../../models/classes/customer-category.entity';
 
 @Component({
   selector: 'app-customer-editor',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, BackButtonComponent , ButtonModule, DividerModule, IftaLabelModule, ToggleSwitchModule, MultiSelectModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, BackButtonComponent , ButtonModule, DividerModule, IftaLabelModule, ToggleSwitchModule, SelectModule],
   templateUrl: './customer-editor.component.html',
   styleUrl: './customer-editor.component.scss',
 })
@@ -26,17 +29,19 @@ export class CustomerEditorComponent implements OnInit {
   customer: Customer;
   customerForm: FormGroup;
   customerId: number;
-
-   roles: Role[] = [];
+  customerCategories: CustomerCategory[] = [];
+  roles: Role[] = [];
 
   private readonly customerService: CustomerService = inject(CustomerService);
   private readonly router: Router = inject(Router);
+  private readonly customerCategoryService: CustomerCategoryService = inject(CustomerCategoryService);
   private readonly roleService: RoleService = inject(RoleService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly messageService: MessageService = inject(MessageService);
 
 
   async ngOnInit(): Promise<void> {
+    this.loadCategories();
     this.buildForm();
     const params = await lastValueFrom(this.route.params.pipe(take(1)));
     this.customerId = Number(params['id']);
@@ -102,4 +107,16 @@ export class CustomerEditorComponent implements OnInit {
   close(): void {
     this.router.navigate(['customers']);
   }
+  
+
+  loadCategories(): void {
+    this.customerCategoryService.getCategories().subscribe({
+      next: (categories: CustomerCategory[]) => {
+        this.customerCategories = categories;
+      },
+      error: (error) => {
+        this.messageService.showErrorFromDTO(`Error al obtener las categorias de clientes ${error}`);
+      },
+    });
+}
 }

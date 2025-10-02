@@ -2,9 +2,9 @@
 
 <div class="card">
   @if (!customerId) {
-  <h2>Crear Usuario</h2>
+  <h2>Crear Cliente</h2>
   } @else {
-  <h2>Editar Usuario {{ user?.username }}</h2>
+  <h2>Editar Cliente{{ customer?.name }}</h2>
   }
 </div>
 
@@ -15,42 +15,26 @@
         <h3 class="text-800">Información básica</h3>
         <p-divider></p-divider>
         <p-iftalabel>
-          <input id="firstName" type="text" pInputText formControlName="firstName" />
-          <label for="firstName">Nombre</label>
+          <input id="name" type="text" pInputText formControlName="name" />
+          <label for="name">Nombre</label>
         </p-iftalabel>
-        <p-iftalabel>
-          <input id="lastName" type="text" pInputText formControlName="lastName" />
-          <label for="lastName">Apellido</label>
-        </p-iftalabel>
+      </div>
+      <div class="card">
+        <h3 class="text-800">Categoria</h3>
+        <p-select appendTo="body" dataKey="id" optionLabel="name" 
+        [options]="customerCategories"
+        formControlName="categories" 
+        [virtualScroll]="true" 
+        [virtualScrollItemSize]="40" 
+        [filter]="true"
+        [showClear]="true" 
+        filterBy="name" 
+        placeholder="Select Categories" 
+        styleClass="w-full">
+        </p-select>
       </div>
     </div>
-    <div class="col-12 lg:col-6">
-      <div class="card">
-        <h3 class="text-800">Información de acceso</h3>
-        <p-divider></p-divider>
-        <p-iftalabel>
-          <input id="fullName" type="text" pInputText formControlName="fullName" />
-          <label for="fullName">Nombre del cliente</label>
-        </p-iftalabel>
-        <p-iftalabel>
-          <input id="company_name" type="company_name" pInputText formControlName="company_name" />
-          <label for="company_name">Nombre de la compania</label>
-        </p-iftalabel>
-        <p-iftalabel>
-          <input id="internal_code" type="internal_code" pInputText formControlName="internal_code" />
-          <label for="internal_code">Codigo Interno</label>
-        </p-iftalabel>
-      </div>
 
-      <div class="card">
-        <h3 class="text-800">Estado</h3>
-        <p-divider></p-divider>
-        <div class="toggle-group">
-          <label for="active">Activo</label>
-          <p-toggleSwitch formControlName="active"></p-toggleSwitch>
-        </div>
-      </div>
-    </div>
   </div>
   <div class="btn-container">
     <p-button label="Guardar" (onClick)="submit()"></p-button>
