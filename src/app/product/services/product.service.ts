@@ -14,17 +14,16 @@ export type ProductFilters = {
   productCategoryId?: number;
   priceMin?: number;
   priceMax?: number;
-  currency?: string; 
+  currency?: string;
 };
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  
   constructor(private http: HttpClient) {}
-  
+
   search(page: number, resultSize?: number, filters?: Partial<Product>): Observable<IPaginated<Product>> {
-    return this.http.get<IPaginated<Product>>(`${ROOT}/page/${page}`, { params: { results: resultSize, ...filters as any } });
+    return this.http.get<IPaginated<Product>>(`${ROOT}/page/${page}`, { params: { results: resultSize, ...(filters as any) } });
   }
   // search(
   //   page: number,
@@ -46,7 +45,6 @@ export class ProductService {
   //   return this.http.get<IPaginated<Product>>(`${ROOT}/page/${page}`, { params });
   // }
 
-
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(ROOT);
   }
@@ -66,5 +64,4 @@ export class ProductService {
   delete(product: Product): Observable<void> {
     return this.http.delete<void>(`${ROOT}/${product.id}`);
   }
-    
 }

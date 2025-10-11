@@ -6,4 +6,4 @@ export class Product {
   description: string;
   productCategory?: ProductCategory;
   //price: ProductPrice;
-  }
+}

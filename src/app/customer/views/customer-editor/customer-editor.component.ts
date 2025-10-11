@@ -20,11 +20,10 @@ import { CustomerCategory } from '../../models/classes/customer-category.entity'
 
 @Component({
   selector: 'app-customer-editor',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, BackButtonComponent , ButtonModule, DividerModule, IftaLabelModule, ToggleSwitchModule, SelectModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, BackButtonComponent, ButtonModule, DividerModule, IftaLabelModule, ToggleSwitchModule, SelectModule],
   templateUrl: './customer-editor.component.html',
   styleUrl: './customer-editor.component.scss',
 })
-
 export class CustomerEditorComponent implements OnInit {
   customer: Customer;
   customerForm: FormGroup;
@@ -39,13 +38,12 @@ export class CustomerEditorComponent implements OnInit {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly messageService: MessageService = inject(MessageService);
 
-
   async ngOnInit(): Promise<void> {
     this.loadCategories();
     this.buildForm();
     const params = await lastValueFrom(this.route.params.pipe(take(1)));
     this.customerId = Number(params['id']);
-    if (this.customerId) { 
+    if (this.customerId) {
       this.customerService.getCustomerById(this.customerId).subscribe({
         next: (customer: Customer) => {
           this.customer = customer;
@@ -65,16 +63,15 @@ export class CustomerEditorComponent implements OnInit {
       companyName: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
       active: new FormControl<boolean>(true, [Validators.required]),
       roles: new FormControl<Partial<Role[]>>([], [Validators.required]),
-
     });
   }
- submit(): void {
+  submit(): void {
     this.customerForm.markAllAsTouched();
     if (this.customerForm.invalid) return;
 
     this.customerId ? this.update() : this.create();
   }
- create() {
+  create() {
     this.customerService.createCustomer(this.customerForm.value).subscribe({
       next: (customer: Customer) => {
         this.messageService.showSuccessMessage('Cliente creado correctamente');
@@ -86,7 +83,7 @@ export class CustomerEditorComponent implements OnInit {
     });
   }
 
-    getAllRole() {
+  getAllRole() {
     this.roleService.findAll().subscribe((roles) => {
       this.roles = roles;
     });
@@ -107,7 +104,6 @@ export class CustomerEditorComponent implements OnInit {
   close(): void {
     this.router.navigate(['customers']);
   }
-  
 
   loadCategories(): void {
     this.customerCategoryService.getCategories().subscribe({
@@ -118,5 +114,5 @@ export class CustomerEditorComponent implements OnInit {
         this.messageService.showErrorFromDTO(`Error al obtener las categorias de clientes ${error}`);
       },
     });
-}
+  }
 }

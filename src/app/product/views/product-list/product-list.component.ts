@@ -6,7 +6,7 @@ import { IPaginated } from '@main-module/app/core/interfaces/paginated.interface
 import { CustomTableDataComponent } from '@main-module/app/shared/components/custom-table/custom-table.component';
 import { DeleteEntityComponent } from '@main-module/app/shared/components/delete-entity/delete-entity.component';
 import { ITableColumn } from '@main-module/app/shared/interfaces/table-column.interface';
-import { Product } from '@main-module/app/product/models/classes/product.entity';  
+import { Product } from '@main-module/app/product/models/classes/product.entity';
 import { ProductService } from '@main-module/app/product/services/product.service';
 import { LazyLoadEvent } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';

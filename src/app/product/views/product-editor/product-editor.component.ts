@@ -28,7 +28,6 @@ export class ProductEditorComponent implements OnInit {
   productId: number;
   productCategories: ProductCategory[] = [];
 
-
   private readonly productService: ProductService = inject(ProductService);
   private readonly porductCategoryService: ProductCategoryService = inject(ProductCategoryService);
   private readonly router: Router = inject(Router);
@@ -68,7 +67,6 @@ export class ProductEditorComponent implements OnInit {
     this.productId ? this.update() : this.create();
   }
 
-
   create() {
     this.productService.createProduct(this.productForm.value).subscribe({
       next: (product: Product) => {
@@ -95,7 +93,6 @@ export class ProductEditorComponent implements OnInit {
 
   close(): void {
     this.router.navigate(['products']);
-  
   }
 
   loadCategories(): void {

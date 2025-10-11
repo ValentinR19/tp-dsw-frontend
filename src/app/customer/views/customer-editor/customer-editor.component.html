@@ -2,9 +2,9 @@
 
 <div class="card">
   @if (!customerId) {
-  <h2>Crear Cliente</h2>
+    <h2>Crear Cliente</h2>
   } @else {
-  <h2>Editar Cliente{{ customer?.name }}</h2>
+    <h2>Editar Cliente{{ customer?.name }}</h2>
   }
 </div>
 
@@ -21,20 +21,23 @@
       </div>
       <div class="card">
         <h3 class="text-800">Categoria</h3>
-        <p-select appendTo="body" dataKey="id" optionLabel="name" 
-        [options]="customerCategories"
-        formControlName="categories" 
-        [virtualScroll]="true" 
-        [virtualScrollItemSize]="40" 
-        [filter]="true"
-        [showClear]="true" 
-        filterBy="name" 
-        placeholder="Select Categories" 
-        styleClass="w-full">
+        <p-select
+          appendTo="body"
+          dataKey="id"
+          optionLabel="name"
+          [options]="customerCategories"
+          formControlName="categories"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="40"
+          [filter]="true"
+          [showClear]="true"
+          filterBy="name"
+          placeholder="Select Categories"
+          styleClass="w-full"
+        >
         </p-select>
       </div>
     </div>
-
   </div>
   <div class="btn-container">
     <p-button label="Guardar" (onClick)="submit()"></p-button>

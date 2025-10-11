@@ -32,7 +32,7 @@ export class CustomersComponent implements OnInit {
       document: '12345678',
       internalCode: 'C-001',
       active: true,
-      fullName: 'Juan Perez'
+      fullName: 'Juan Perez',
     };
 
     this.customerService.createCustomer(nuevo).subscribe((res) => {

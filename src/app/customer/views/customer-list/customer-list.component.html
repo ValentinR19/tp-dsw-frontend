@@ -1,15 +1,16 @@
-<app-custom-table-data 
-title="Clientes" 
-[totalRecords]="customersCount" 
-[rowsPerPage]="rowsPerPage"
- [columns]="tableColumns"
-  [data]="customer$ | async" 
-  [lazy]="true" 
-  (onLazyLoad)="lazyLoadTable($event)" 
+<app-custom-table-data
+  title="Clientes"
+  [totalRecords]="customersCount"
+  [rowsPerPage]="rowsPerPage"
+  [columns]="tableColumns"
+  [data]="customer$ | async"
+  [lazy]="true"
+  (onLazyLoad)="lazyLoadTable($event)"
   [canSearch]="true"
-   [canUpdate]="true"
-   [canDelete]="true"
-  (onCreate)="create()" 
+  [canUpdate]="true"
+  [canDelete]="true"
+  (onCreate)="create()"
   (onUpdate)="update($event)"
-   (onDelete)="delete($event)">
-  </app-custom-table-data>
+  (onDelete)="delete($event)"
+>
+</app-custom-table-data>

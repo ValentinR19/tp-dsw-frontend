@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
 
 const CATEGORIES_ROOT = `${environment.SERVER_URL}/customer/categories`;
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class CustomerCategoryService {
-constructor(private http: HttpClient) {}
-getCategories(): Observable<CustomerCategory[]> {
+  constructor(private http: HttpClient) {}
+  getCategories(): Observable<CustomerCategory[]> {
     return this.http.get<CustomerCategory[]>(`${CATEGORIES_ROOT}/all`);
   }
 }

@@ -11,9 +11,8 @@ const ROOT = `${environment.SERVER_URL}/customers`;
   providedIn: 'root',
 })
 export class CustomerService {
-  
   constructor(private http: HttpClient) {}
-  
+
   search(page: number, resultSize?: number, filters?: Partial<Customer>): Observable<IPaginated<Customer>> {
     return this.http.get<IPaginated<Customer>>(`${ROOT}/page/${page}`, { params: { results: resultSize, ...filters } });
   }
