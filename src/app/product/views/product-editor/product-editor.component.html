@@ -41,6 +41,21 @@
         ></p-select>
       </div>
     </div>
+
+    <div class="col-12 lg:col-6">
+      <div class="card">
+        <h3 class="text-800">Precios</h3>
+        <p-divider></p-divider>
+        <p-iftalabel>
+          <input id="price" type="number" pInputText formControlName="price" />
+          <label for="price">Monto</label>
+        </p-iftalabel>
+        <p-iftalabel>
+          <input id="currency" type="string" pInputText formControlName="currency" />
+          <label for="currency">Moneda</label>
+        </p-iftalabel>
+      </div>
+    </div>
   </div>
   <div class="btn-container">
     <p-button label="Guardar" (onClick)="submit()"></p-button>
