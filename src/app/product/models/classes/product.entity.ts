@@ -6,10 +6,5 @@ export class Product {
   name: string;
   description: string;
   productCategory?: ProductCategory;
-<<<<<<< HEAD
-  //price: ProductPrice;
+  prices?: ProductPrice[];
 }
-=======
-  productPrice: ProductPrice;
-  }
->>>>>>> 17380f2c40f12f407c6ed8e9dfe8c7f62153be11

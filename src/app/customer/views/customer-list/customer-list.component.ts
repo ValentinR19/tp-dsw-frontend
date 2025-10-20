@@ -3,11 +3,11 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFilters } from '@main-module/app/core/interfaces/filters-primeng.interface';
 import { IPaginated } from '@main-module/app/core/interfaces/paginated.interface';
+import { Customer } from '@main-module/app/customer/models/classes/customer.entity';
+import { CustomerService } from '@main-module/app/customer/services/customer.service';
 import { CustomTableDataComponent } from '@main-module/app/shared/components/custom-table/custom-table.component';
 import { DeleteEntityComponent } from '@main-module/app/shared/components/delete-entity/delete-entity.component';
 import { ITableColumn } from '@main-module/app/shared/interfaces/table-column.interface';
-import { Customer } from '@main-module/app/customer/models/classes/customer.entity';
-import { CustomerService } from '@main-module/app/customer/services/customer.service';
 import { LazyLoadEvent } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { catchError, map, Observable, of, tap } from 'rxjs';
@@ -33,7 +33,7 @@ export class CustomersListComponent {
     { name: 'FirstName', attribute: 'firstName' },
     { name: 'LastName', attribute: 'lastName' },
     { name: 'Document', attribute: 'document' },
-    { name: 'Company Name', attribute: 'company_name' },
+    { name: 'Company Name', attribute: 'companyName' },
   ];
 
   private readonly customerService: CustomerService = inject(CustomerService);
