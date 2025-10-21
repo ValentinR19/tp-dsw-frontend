@@ -79,7 +79,7 @@ export class ProductEditorComponent implements OnInit {
     this.productService.createProduct(this.productForm.value).subscribe({
       next: (product: Product) => {
         this.messageService.showSuccessMessage('Producto creado correctamente');
-        this.router.navigate(['products']);
+        this.close();
       },
       error: (error) => {
         this.messageService.showErrorFromDTO(`Error al crear el producto${error}`);
@@ -91,7 +91,7 @@ export class ProductEditorComponent implements OnInit {
     this.productService.updateProduct({ id: this.productId, ...this.productForm.value }).subscribe({
       next: (product: Product) => {
         this.messageService.showSuccessMessage('Producto actualizado correctamente');
-        this.router.navigate(['products']);
+        this.close();
       },
       error: (error) => {
         this.messageService.showErrorFromDTO(`Error al actualizar el producto ${error}`);
@@ -100,7 +100,7 @@ export class ProductEditorComponent implements OnInit {
   }
 
   close(): void {
-    this.router.navigate(['products']);
+    this.router.navigate(['products/catalog']);
   }
 
   loadCategories(): void {
