@@ -59,11 +59,12 @@ export class ProductEditorComponent implements OnInit {
 
   buildForm() {
     this.productForm = new FormGroup({
-      name: new FormControl<string>('', [Validators.required, Validators.minLength(4), Validators.maxLength(30)]),
-      description: new FormControl<string>('', [Validators.minLength(4), Validators.maxLength(30)]),
-      productCategoryId: new FormControl<number>(null, [Validators.required]),
-      price: new FormControl<number>(null, [Validators.required]),
-      currency: new FormControl < string | null > (null, [Validators.required]),
+    name: new FormControl<string | null>(null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+    description: new FormControl<string | null>(null, [Validators.minLength(4), Validators.maxLength(255)]),
+    productCategoryId: new FormControl<number | null>(null, [Validators.required]),
+    price: new FormControl<number | null>(null, [Validators.required, Validators.min(0.01)]),
+    currency: new FormControl<string | null>(null, [Validators.required]),
+    isActive: new FormControl<boolean>(true),
     });
   }
 
