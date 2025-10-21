@@ -16,10 +16,11 @@ import { ProductCategory } from '@main-module/app/product/models/classes/product
 import { ProductCategoryService } from '@main-module/app/product/services/product-category.service';
 import { ProductPriceService } from '../../services/product-price.service';
 import { SelectModule } from 'primeng/select';
+import { Currency } from 'src/app/shared/enums/currency.enum';
 
 @Component({
   selector: 'app-product-editor',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ButtonModule, BackButtonComponent, DividerModule, IftaLabelModule, ToggleSwitchModule, SelectModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ButtonModule, DividerModule, IftaLabelModule, ToggleSwitchModule, SelectModule],
   templateUrl: './product-editor.component.html',
   styleUrl: './product-editor.component.scss',
 })
@@ -28,6 +29,7 @@ export class ProductEditorComponent implements OnInit {
   productForm: FormGroup;
   productId: number;
   productCategories: ProductCategory[] = [];
+  currencies = Object.values(Currency);
 
   private readonly productService: ProductService = inject(ProductService);
   private readonly porductCategoryService: ProductCategoryService = inject(ProductCategoryService);
@@ -59,6 +61,9 @@ export class ProductEditorComponent implements OnInit {
     this.productForm = new FormGroup({
       name: new FormControl<string>('', [Validators.required, Validators.minLength(4), Validators.maxLength(30)]),
       description: new FormControl<string>('', [Validators.minLength(4), Validators.maxLength(30)]),
+      productCategoryId: new FormControl<number>(null, [Validators.required]),
+      price: new FormControl<number>(null, [Validators.required]),
+      currency: new FormControl < string | null > (null, [Validators.required]),
     });
   }
 
