@@ -1,0 +1,30 @@
+h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+:host ::ng-deep {
+  .p-error {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+  }
+
+  .p-input-icon-right {
+    position: relative;
+  }
+
+  .p-input-icon-right input.p-invalid {
+    border-color: #e24c4c;
+  }
+
+  .p-input-icon-right i.pi {
+    color: #e24c4c;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

@@ -1,0 +1,200 @@
+<app-back-button (click)="close()"></app-back-button>
+
+<div class="card">
+  @if (!customerId) {
+    <h2>Crear Cliente</h2>
+  } @else {
+    <h2>Editar Cliente {{ customer?.firstName }} {{ customer?.lastName }}</h2>
+  }
+</div>
+
+<form [formGroup]="customerForm" novalidate>
+  <div class="grid">
+    <!-- Columna izquierda -->
+    <div class="col-12 lg:col-6">
+      <!-- Información básica -->
+      <div class="card">
+        <h3 class="text-800 mb-2">Información básica</h3>
+        <p-divider></p-divider>
+
+        <p-iftalabel>
+          <input id="firstName" type="text" pInputText formControlName="firstName" />
+          <label for="firstName">Nombre</label>
+        </p-iftalabel>
+
+        <p-iftalabel>
+          <input id="lastName" type="text" pInputText formControlName="lastName" />
+          <label for="lastName">Apellido</label>
+        </p-iftalabel>
+
+        <p-iftalabel>
+          <input id="companyName" type="text" pInputText formControlName="companyName" />
+          <label for="companyName">Razón Social</label>
+        </p-iftalabel>
+
+        <p-iftalabel>
+          <p-select
+            id="gender"
+            formControlName="gender"
+            [options]="[
+              { label: 'Hombre', value: 'Hombre' },
+              { label: 'Mujer', value: 'Mujer' },
+              { label: 'Otro', value: 'Otro' },
+            ]"
+            placeholder="Seleccionar género"
+            styleClass="w-full"
+            [showClear]="true"
+          ></p-select>
+          <label for="gender">Género</label>
+        </p-iftalabel>
+
+        <p-iftalabel>
+          <input id="birthdate" type="date" pInputText formControlName="birthdate" />
+          <label for="birthdate">Fecha de Nacimiento</label>
+        </p-iftalabel>
+      </div>
+
+      <!-- Documentación -->
+      <div class="card">
+        <h3 class="text-800 mb-2">Documentación</h3>
+        <p-divider></p-divider>
+
+        <p-iftalabel>
+          <p-select
+            id="typeOfDocument"
+            formControlName="typeOfDocument"
+            [options]="[
+              { label: 'DNI', value: 'DNI' },
+              { label: 'CUIT', value: 'CUIT' },
+            ]"
+            placeholder="Tipo de documento"
+            styleClass="w-full"
+          ></p-select>
+          <label for="typeOfDocument">Tipo de Documento</label>
+        </p-iftalabel>
+
+        <p-iftalabel>
+          <input id="document" type="text" pInputText formControlName="document" />
+          <label for="document">Documento</label>
+        </p-iftalabel>
+
+        <p-iftalabel>
+          <input id="internalCode" type="text" pInputText formControlName="internalCode" />
+          <label for="internalCode">Código Interno</label>
+        </p-iftalabel>
+      </div>
+    </div>
+
+    <!-- Columna derecha -->
+    <div class="col-12 lg:col-6">
+      <!-- Categoría -->
+      <div class="card">
+        <h3 class="text-800 mb-2">Categoría</h3>
+        <p-divider></p-divider>
+
+        <p-select
+          appendTo="body"
+          dataKey="id"
+          optionLabel="name"
+          optionValue="id"
+          [options]="customerCategories"
+          formControlName="categoryId"
+          [filter]="true"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="40"
+          placeholder="Seleccionar Categoría"
+          [showClear]="true"
+          styleClass="w-full"
+        ></p-select>
+      </div>
+
+      <div class="card" formGroupName="customerShipping">
+        <h3 class="text-800 mb-2">Datos de Envío</h3>
+        <p-divider></p-divider>
+
+        <div class="grid">
+          <div class="col-12 md:col-6">
+            <p-iftalabel>
+              <input id="recipientFirstName" type="text" pInputText formControlName="recipientFirstName" />
+              <label for="recipientFirstName">Nombre del destinatario</label>
+            </p-iftalabel>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <p-iftalabel>
+              <input id="recipientLastName" type="text" pInputText formControlName="recipientLastName" />
+              <label for="recipientLastName">Apellido del destinatario</label>
+            </p-iftalabel>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <p-iftalabel>
+              <input id="recipientEmail" type="email" pInputText formControlName="recipientEmail" />
+              <label for="recipientEmail">Email del destinatario</label>
+            </p-iftalabel>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <div class="flex gap-2 align-items-center">
+              <p-iftalabel class="w-4">
+                <input id="phoneAreaCode" type="text" pInputText formControlName="phoneAreaCode" />
+                <label for="phoneAreaCode">Cod. Área</label>
+              </p-iftalabel>
+              <p-iftalabel class="w-8">
+                <input id="phoneNumber" type="text" pInputText formControlName="phoneNumber" />
+                <label for="phoneNumber">Teléfono</label>
+              </p-iftalabel>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <p-iftalabel>
+              <input id="alias" type="text" pInputText formControlName="alias" />
+              <label for="alias">Alias de dirección</label>
+            </p-iftalabel>
+          </div>
+
+          <div class="col-12 md:col-8">
+            <p-iftalabel>
+              <input id="adress" type="text" pInputText formControlName="adress" />
+              <label for="adress">Dirección</label>
+            </p-iftalabel>
+          </div>
+
+          <div class="col-12 md:col-4">
+            <p-iftalabel>
+              <input id="number" type="text" pInputText formControlName="number" />
+              <label for="number">Número</label>
+            </p-iftalabel>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <p-iftalabel>
+              <input id="complement" type="text" pInputText formControlName="complement" />
+              <label for="complement">Complemento</label>
+            </p-iftalabel>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <p-iftalabel>
+              <input id="postalCode" type="text" pInputText formControlName="postalCode" />
+              <label for="postalCode">Código Postal</label>
+            </p-iftalabel>
+          </div>
+
+          <div class="col-12">
+            <p-iftalabel>
+              <textarea id="deliveryInstructions" rows="2" pInputTextarea formControlName="deliveryInstructions"></textarea>
+              <label for="deliveryInstructions">Instrucciones de entrega</label>
+            </p-iftalabel>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón de acción -->
+  <div class="btn-container mt-4 text-right">
+    <p-button label="Guardar" (onClick)="submit()"></p-button>
+  </div>
+</form>
