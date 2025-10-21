@@ -12,7 +12,7 @@ export const routes: Routes = [
     component: CustomerEditorComponent,
   },
   {
-    path: ':id',
+    path: ':id/edit',
     component: CustomerEditorComponent,
   },
 ];

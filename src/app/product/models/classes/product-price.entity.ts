@@ -1,7 +1,5 @@
-
 export class ProductPrice {
-    id: number;
-    price: number;
-    currency: string;
-
+  id: number;
+  price: number;
+  currency: string;
 }

@@ -8,3 +8,4 @@ export class Product {
   productCategory?: ProductCategory;
   productPrice: ProductPrice;
   }
+
