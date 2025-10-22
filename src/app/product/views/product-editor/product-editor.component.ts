@@ -47,13 +47,7 @@ export class ProductEditorComponent implements OnInit {
       this.productService.getProductById(this.productId).subscribe({
         next: (product: Product) => {
           this.product = product;
-          this.productForm.patchValue({
-            name: product.name,
-            description: product.description,
-            productCategoryId: product.productCategoryId,
-            price: Number(product.productPrice.price ?? 0),
-            currency: product.productPrice.currency ?? null,
-      })
+          this.productForm.patchValue(product);
         },
         error: (error) => {
           this.messageService.showErrorFromDTO(`Error al obtener el producto ${error}`);
