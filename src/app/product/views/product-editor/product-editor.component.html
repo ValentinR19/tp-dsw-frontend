@@ -1,8 +1,8 @@
 <div class="card">
   @if (!productId) {
-    <h2>Crear Usuario</h2>
+    <h2>Crear Producto</h2>
   } @else {
-    <h2>Editar Usuario {{ product?.name }}</h2>
+    <h2>Editar Producto {{ product?.name }}</h2>
   }
 </div>
 <form [formGroup]="productForm" (ngSubmit)="submit()">
