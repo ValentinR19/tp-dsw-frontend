@@ -1,5 +1,10 @@
-<h2 class="mb-4 text-2xl text-800">Creación del Producto</h2>
-
+<div class="card">
+  @if (!productId) {
+    <h2>Crear Usuario</h2>
+  } @else {
+    <h2>Editar Usuario {{ product?.name }}</h2>
+  }
+</div>
 <form [formGroup]="productForm" (ngSubmit)="submit()">
   <div class="grid">
     <div class="col-12 lg:col-8">
