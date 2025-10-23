@@ -46,7 +46,7 @@ export class ProductEditorComponent implements OnInit {
       this.productService.getProductById(this.productId).subscribe({
         next: (product: Product) => {
           this.product = product;
-          this.productForm.patchValue({ ...product, price: product.price.price, currency: product.price.currency });;
+          this.productForm.patchValue({ ...product, price: product.price.price, currency: product.price.currency });
         },
         error: (error) => {
           this.messageService.showErrorFromDTO(`Error al obtener el producto ${error}`);
@@ -57,12 +57,12 @@ export class ProductEditorComponent implements OnInit {
 
   buildForm() {
     this.productForm = new FormGroup({
-    name: new FormControl<string | null>(null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
-    description: new FormControl<string | null>(null, [Validators.minLength(4), Validators.maxLength(255)]),
-    productCategoryId: new FormControl<number | null>(null, [Validators.required]),
-    price: new FormControl<number | null>(null, [Validators.required, Validators.min(0.01)]),
-    currency: new FormControl<string | null>(null, [Validators.required]),
-    isActive: new FormControl<boolean>(true),
+      name: new FormControl<string | null>(null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      description: new FormControl<string | null>(null, [Validators.minLength(4), Validators.maxLength(255)]),
+      productCategoryId: new FormControl<number | null>(null, [Validators.required]),
+      price: new FormControl<number | null>(null, [Validators.required, Validators.min(0.01)]),
+      currency: new FormControl<string | null>(null, [Validators.required]),
+      isActive: new FormControl<boolean>(true),
     });
   }
 
@@ -111,6 +111,4 @@ export class ProductEditorComponent implements OnInit {
       },
     });
   }
-
-
 }

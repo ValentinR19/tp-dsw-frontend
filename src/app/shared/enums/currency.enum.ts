@@ -3,5 +3,5 @@ export enum Currency {
   EUR = 'EUR',
   GBP = 'GBP',
   JPY = 'JPY',
-  ARS = 'ARS'
+  ARS = 'ARS',
 }

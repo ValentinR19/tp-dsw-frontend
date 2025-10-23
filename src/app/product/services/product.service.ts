@@ -26,7 +26,6 @@ export class ProductService {
     return this.http.get<IPaginated<Product>>(`${ROOT}/page/${page}`, { params: { results: resultSize, ...(filters as any) } });
   }
 
-
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(ROOT);
   }

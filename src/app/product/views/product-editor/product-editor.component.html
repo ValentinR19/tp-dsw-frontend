@@ -12,30 +12,26 @@
         <h3 class="text-800 mb-3">Información básica</h3>
         <p-divider></p-divider>
 
-      <div class="field mb-3">
-        <label for="name">Nombre</label>
-        <div class="p-input-icon-right w-full">
-          <input id="name" type="text" pInputText formControlName="name" class="w-full"
-            [ngClass]="{ 'p-invalid': productForm.get('name')?.invalid && productForm.get('name')?.touched }" />
-          <i class="pi pi-exclamation-circle"
-            *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"></i>
-        </div>
+        <div class="field mb-3">
+          <label for="name">Nombre</label>
+          <div class="p-input-icon-right w-full">
+            <input
+              id="name"
+              type="text"
+              pInputText
+              formControlName="name"
+              class="w-full"
+              [ngClass]="{ 'p-invalid': productForm.get('name')?.invalid && productForm.get('name')?.touched }"
+            />
+            <i class="pi pi-exclamation-circle" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"></i>
+          </div>
 
-        <div *ngIf="
-            productForm.get('name')?.invalid &&
-            productForm.get('name')?.touched
-          ">
-          <small class="p-error" *ngIf="productForm.get('name')?.errors?.['required']">
-            El nombre es obligatorio.
-          </small>
-          <small class="p-error" *ngIf="productForm.get('name')?.errors?.['minlength']">
-            El nombre debe tener al menos 4 caracteres.
-          </small>
-          <small class="p-error" *ngIf="productForm.get('name')?.errors?.['maxlength']">
-            El nombre no puede superar los 30 caracteres.
-          </small>
+          <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+            <small class="p-error" *ngIf="productForm.get('name')?.errors?.['required']"> El nombre es obligatorio. </small>
+            <small class="p-error" *ngIf="productForm.get('name')?.errors?.['minlength']"> El nombre debe tener al menos 4 caracteres. </small>
+            <small class="p-error" *ngIf="productForm.get('name')?.errors?.['maxlength']"> El nombre no puede superar los 30 caracteres. </small>
+          </div>
         </div>
-      </div>
 
         <div class="field mb-3">
           <label for="description">Descripción</label>
@@ -45,54 +41,51 @@
         <div class="field mb-3">
           <label for="productCategoryId">Categoría</label>
           <p-select
-          id="productCategoryId"
-          appendTo="body"
-          dataKey="id"
-          optionLabel="name"
-          optionValue="id"
-          [options]="productCategories"
-          formControlName="productCategoryId"
-          [virtualScroll]="true"
-          [virtualScrollItemSize]="40"
-          [filter]="true"
-          [showClear]="true"
-          filterBy="name"
-          placeholder="Selecciona una categoría"
-          styleClass="w-full">
-         </p-select>
+            id="productCategoryId"
+            appendTo="body"
+            dataKey="id"
+            optionLabel="name"
+            optionValue="id"
+            [options]="productCategories"
+            formControlName="productCategoryId"
+            [virtualScroll]="true"
+            [virtualScrollItemSize]="40"
+            [filter]="true"
+            [showClear]="true"
+            filterBy="name"
+            placeholder="Selecciona una categoría"
+            styleClass="w-full"
+          >
+          </p-select>
         </div>
       </div>
     </div>
-
 
     <div class="col-12 lg:col-4">
       <div class="card p-fluid">
         <h3 class="text-800 mb-3">Precios</h3>
         <p-divider></p-divider>
 
-
         <div class="field mb-3">
           <label for="price">Monto</label>
           <div class="p-input-icon-right w-full">
-            <input id="price" type="number" pInputText inputmode="decimal" formControlName="price" class="w-full"
-              [ngClass]="{ 'p-invalid': productForm.get('price')?.invalid && productForm.get('price')?.touched }" />
-            <i class="pi pi-exclamation-circle"
-              *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"></i>
+            <input
+              id="price"
+              type="number"
+              pInputText
+              inputmode="decimal"
+              formControlName="price"
+              class="w-full"
+              [ngClass]="{ 'p-invalid': productForm.get('price')?.invalid && productForm.get('price')?.touched }"
+            />
+            <i class="pi pi-exclamation-circle" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"></i>
           </div>
 
-          <div *ngIf="
-              productForm.get('price')?.invalid &&
-              productForm.get('price')?.touched
-            ">
-            <small class="p-error" *ngIf="productForm.get('price')?.errors?.['required']">
-              El monto es obligatorio.
-            </small>
-            <small class="p-error" *ngIf="productForm.get('price')?.errors?.['min']">
-              El monto debe ser mayor que 0.
-            </small>
+          <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+            <small class="p-error" *ngIf="productForm.get('price')?.errors?.['required']"> El monto es obligatorio. </small>
+            <small class="p-error" *ngIf="productForm.get('price')?.errors?.['min']"> El monto debe ser mayor que 0. </small>
           </div>
         </div>
-
 
         <div class="field mb-3">
           <label for="currency">Moneda</label>
@@ -102,19 +95,13 @@
               {{ curr }}
             </option>
           </select>
-          <div *ngIf="
-              productForm.get('currency')?.errors?.['invalidCurrency'] &&
-              productForm.get('currency')?.touched
-            ">
-            <small class="p-error">
-              Moneda inválida. Seleccione una de la lista por favor
-            </small>
+          <div *ngIf="productForm.get('currency')?.errors?.['invalidCurrency'] && productForm.get('currency')?.touched">
+            <small class="p-error"> Moneda inválida. Seleccione una de la lista por favor </small>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 
   <div class="flex justify-content-end mt-3 gap-2">
     <p-button label="Cancelar" severity="secondary" (onClick)="close()" type="button"></p-button>
