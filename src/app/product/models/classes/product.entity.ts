@@ -6,6 +6,6 @@ export class Product {
   name: string;
   description: string;
   productCategory?: ProductCategory;
-  productPrice: ProductPrice;
+  price: ProductPrice;
   }
 

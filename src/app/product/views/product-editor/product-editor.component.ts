@@ -15,7 +15,6 @@ import { lastValueFrom, take } from 'rxjs';
 import { ProductCategory } from '@main-module/app/product/models/classes/product-category.entity';
 import { ProductCategoryService } from '@main-module/app/product/services/product-category.service';
 import { ProductPrice } from '@main-module/app/product/models/classes/product-price.entity';
-import { ProductPriceService } from '../../services/product-price.service';
 import { SelectModule } from 'primeng/select';
 import { Currency } from 'src/app/shared/enums/currency.enum';
 
@@ -30,19 +29,16 @@ export class ProductEditorComponent implements OnInit {
   productForm: FormGroup;
   productId: number;
   productCategories: ProductCategory[] = [];
-  productPrices: ProductPrice[] = [];
   currencies = Object.values(Currency);
 
   private readonly productService: ProductService = inject(ProductService);
   private readonly porductCategoryService: ProductCategoryService = inject(ProductCategoryService);
-  private readonly productPriceService: ProductPriceService = inject(ProductPriceService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly messageService: MessageService = inject(MessageService);
 
   async ngOnInit(): Promise<void> {
     this.loadCategories();
-    this.loadPrices();
     this.buildForm();
     const params = await lastValueFrom(this.route.params.pipe(take(1)));
     this.productId = Number(params['id']);
@@ -50,7 +46,7 @@ export class ProductEditorComponent implements OnInit {
       this.productService.getProductById(this.productId).subscribe({
         next: (product: Product) => {
           this.product = product;
-          this.productForm.patchValue(product);
+          this.productForm.patchValue({ ...product, price: product.price.price, currency: product.price.currency });;
         },
         error: (error) => {
           this.messageService.showErrorFromDTO(`Error al obtener el producto ${error}`);
@@ -116,14 +112,5 @@ export class ProductEditorComponent implements OnInit {
     });
   }
 
-  loadPrices(): void {
-    this.productPriceService.getPrices().subscribe({
-      next: (prices: ProductPrice[]) => {
-        this.productPrices = prices;
-      },
-      error: (error) => {
-        this.messageService.showErrorFromDTO(`Error al obtener los precios de los productos ${error}`);
-      },
-    });
-  }
+
 }
