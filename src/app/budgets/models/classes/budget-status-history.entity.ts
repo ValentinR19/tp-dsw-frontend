@@ -1,4 +1,4 @@
-import { BudgetStatus } from '../enums/budget-status.enum';
+import { BudgetStatus } from './budget-status.entity';
 import { Budget } from './budget.entity';
 export class BudgetStatusHistory {
     id: number;

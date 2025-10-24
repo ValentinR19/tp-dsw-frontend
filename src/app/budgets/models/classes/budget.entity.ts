@@ -1,9 +1,9 @@
 import { User } from '@main-module/app/users/models/classes/user.entity';
-import { BudgetStatus } from '../enums/budget-status.enum';
+import { BudgetStatus } from './budget-status.entity';
 import { BudgetItem } from './budget-item.entity';
 import { BudgetStatusHistory } from './budget-status-history.entity';
-import { Customer } from 'src/app/customers/models/classes/customer.entity';
-import { Currency } from 'src/app/financial/models/classes/currency.entity';
+import { Customer } from '../../customers/models/classes/customer.entity';
+import { Currency } from '../../shared/enums/currency.enum';
 import { BudgetShipping } from './budget-shipping.entity';
 import { BudgetBilling } from './budget-billing.entity';
 export class Budget {
