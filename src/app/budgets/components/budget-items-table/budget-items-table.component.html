@@ -1,0 +1,38 @@
+<div class="card">
+  <div class="flex justify-content-between align-items-center mb-2">
+    <h3 class="text-800">Items del presupuesto</h3>
+    <p-button label="Agregar producto" icon="pi pi-plus" (onClick)="openSearch.emit()"></p-button>
+  </div>
+
+  <p-table [value]="items.controls" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Descuento</th>
+        <th>Subtotal</th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+      <tr [formGroup]="row">
+        <td>{{ row.value.productId }}</td>
+        <td>
+          <p-inputNumber formControlName="quantity" (onInput)="updateItemTotal(row)"></p-inputNumber>
+        </td>
+        <td>
+          <p-inputNumber formControlName="unitPrice" mode="currency" currency="ARS" (onInput)="updateItemTotal(row)">
+          </p-inputNumber>
+        </td>
+        <td>
+          <p-inputNumber formControlName="discount" mode="currency" currency="ARS" (onInput)="updateItemTotal(row)">
+          </p-inputNumber>
+        </td>
+        <td>{{ row.value.totalLine | currency: 'ARS' }}</td>
+        <td><p-button icon="pi pi-trash" severity="danger" (onClick)="removeItem(rowIndex)"></p-button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

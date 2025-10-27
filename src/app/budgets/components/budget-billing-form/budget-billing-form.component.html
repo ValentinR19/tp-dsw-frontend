@@ -1,0 +1,46 @@
+<div class="card" [formGroup]="form">
+  <h3 class="text-800 mb-2">Datos de facturación</h3>
+  <p-divider></p-divider>
+
+  <div class="grid">
+    <div class="col-12 md:col-6">
+      <label for="buyerCompany">Empresa compradora</label>
+      <input id="buyerCompany" pInputText formControlName="buyerCompany" class="w-full" />
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="buyerAddress">Dirección compradora</label>
+      <input id="buyerAddress" pInputText formControlName="buyerAddress" class="w-full" />
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="buyerTaxId">CUIT / Tax ID</label>
+      <input id="buyerTaxId" pInputText formControlName="buyerTaxId" class="w-full" />
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="shippingCountry">País de envío</label>
+      <input id="shippingCountry" pInputText formControlName="shippingCountry" class="w-full" />
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="consigneeCompany">Empresa consignataria</label>
+      <input id="consigneeCompany" pInputText formControlName="consigneeCompany" class="w-full" />
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="consigneeAddress">Dirección consignataria</label>
+      <input id="consigneeAddress" pInputText formControlName="consigneeAddress" class="w-full" />
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="portDestination">Puerto de destino</label>
+      <input id="portDestination" pInputText formControlName="portDestination" class="w-full" />
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="paymentDescription">Condición de pago</label>
+      <input id="paymentDescription" pInputText formControlName="paymentDescription" class="w-full" />
+    </div>
+  </div>
+</div>

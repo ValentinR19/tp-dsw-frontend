@@ -1,1 +1,45 @@
-<p>budget-editor works!</p>
+<app-back-button (click)="close()"></app-back-button>
+
+<div class="card mb-3">
+  <h2>{{ budgetId ? 'Editar Presupuesto' : 'Crear Presupuesto' }}</h2>
+</div>
+
+<form [formGroup]="budgetForm" novalidate>
+  <div class="grid">
+    <div class="col-12 lg:col-6">
+      <app-budget-client-selector
+        [customerId]="budgetForm.get('customerId')?.value"
+        (customerSelected)="onCustomerSelected($event)"
+      ></app-budget-client-selector>
+    </div>
+
+    <div class="col-12 lg:col-6">
+      <app-budget-summary [form]="budgetForm"></app-budget-summary>
+    </div>
+
+    <div class="col-12">
+      <app-budget-items-table
+        [items]="budgetForm.get('items')"
+        (itemsChanged)="onItemsChanged()"
+        (openSearch)="showProductSearch = true"
+      ></app-budget-items-table>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <app-budget-shipping-form [form]="budgetForm.get('budgetShipping')"></app-budget-shipping-form>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <app-budget-billing-form [form]="budgetForm.get('budgetBilling')"></app-budget-billing-form>
+    </div>
+  </div>
+
+  <div class="text-right mt-4">
+    <p-button label="Guardar" icon="pi pi-check" (onClick)="submit()"></p-button>
+  </div>
+</form>
+
+<app-budget-product-search
+  [(visible)]="showProductSearch"
+  (productSelected)="onAddProduct($event)"
+></app-budget-product-search>

@@ -2,21 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BackButtonComponent } from '@main-module/app/shared/components/back-button/back-button.component';
+import { ProductCategory } from '@main-module/app/product/models/classes/product-category.entity';
+import { ProductCategoryService } from '@main-module/app/product/services/product-category.service';
 import { MessageService } from '@main-module/app/shared/services/message.service';
-import { Product } from '../../models/classes/product.entity';
-import { ProductService } from '../../services/product.service';
+import { Product } from '@products-module/models/classes/product.entity';
+import { ProductService } from '@products-module/services/product.service';
+import { Currency } from '@shared-module/enums/currency.enum';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { IftaLabelModule } from 'primeng/iftalabel';
-import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { lastValueFrom, take } from 'rxjs';
-import { ProductCategory } from '@main-module/app/product/models/classes/product-category.entity';
-import { ProductCategoryService } from '@main-module/app/product/services/product-category.service';
-import { ProductPrice } from '@main-module/app/product/models/classes/product-price.entity';
-import { SelectModule } from 'primeng/select';
-import { Currency } from 'src/app/shared/enums/currency.enum';
 
 @Component({
   selector: 'app-product-editor',

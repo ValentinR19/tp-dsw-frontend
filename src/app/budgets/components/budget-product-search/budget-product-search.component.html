@@ -1,0 +1,24 @@
+<p-dialog [(visible)]="visible" modal header="Buscar productos" [style]="{ width: '60vw' }">
+  <div class="p-inputgroup mb-3">
+    <!-- <input pInputText [(ngModel)]="searchTerm" (keydown.enter)="search()" placeholder="Buscar producto..." /> -->
+    <p-button icon="pi pi-search" (onClick)="search()"></p-button>
+  </div>
+
+  <p-table [value]="products">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price | currency: 'USD' }}</td>
+        <td><p-button label="Agregar" icon="pi pi-plus" (onClick)="selectProduct(product)"></p-button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>

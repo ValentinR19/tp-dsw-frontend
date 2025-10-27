@@ -5,8 +5,8 @@
       <p class="subtitle">{{ subtitle || 'Gestiona y visualiza ' + title + ' de tu sistema' }}</p>
     </header>
 
-    <section class="toolbar" *ngIf="canSearch">
-      <div class="search">
+    <section class="toolbar" >
+      <div class="search" *ngIf="canSearch">
         <input
           pInputText
           type="text"

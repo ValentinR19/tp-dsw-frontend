@@ -1,0 +1,15 @@
+<div class="card">
+  <h3 class="text-800 mb-2">Resumen</h3>
+  <p-divider></p-divider>
+  <div class="flex flex-column gap-2">
+    <div>
+      Subtotal: <strong>{{ form.get('subtotal')?.value | currency: 'ARS' }}</strong>
+    </div>
+    <div>
+      Descuento: <strong>{{ form.get('totalDiscount')?.value | currency: 'ARS' }}</strong>
+    </div>
+    <div>
+      Total: <strong>{{ form.get('total')?.value | currency: 'ARS' }}</strong>
+    </div>
+  </div>
+</div>
