@@ -1,0 +1,26 @@
+<div class="card" [formGroup]="form">
+  <h3 class="text-800 mb-2">Datos de envío</h3>
+  <p-divider></p-divider>
+
+  <div class="grid">
+    <div class="col-12 md:col-6">
+      <label for="address">Dirección</label>
+      <input id="address" pInputText formControlName="address" placeholder="Dirección de envío" class="w-full" />
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="cityId">ID Ciudad</label>
+      <p-inputNumber inputId="cityId" formControlName="cityId" class="w-full"></p-inputNumber>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="stateId">ID Provincia</label>
+      <p-inputNumber inputId="stateId" formControlName="stateId" class="w-full"></p-inputNumber>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="countryId">ID País</label>
+      <p-inputNumber inputId="countryId" formControlName="countryId" class="w-full"></p-inputNumber>
+    </div>
+  </div>
+</div>

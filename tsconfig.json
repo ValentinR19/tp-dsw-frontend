@@ -19,6 +19,8 @@
     "paths": {
       "@admin-layout-module/*": ["src/app/layouts/*"],
       "@auth-module/*": ["src/app/auth/*"],
+      "@products-module/*": ["src/app/product/*"],
+      "@shared-module/*": ["src/app/shared/*"],
       "@main-module/*": ["src/*"]
     }
   }
