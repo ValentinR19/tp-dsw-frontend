@@ -1,14 +1,21 @@
 <app-custom-table-data
   title="Presupuestos"
   [totalRecords]="count"
+  [rowsPerPage]="rowsPerPage"
   [columns]="budgetColumns"
   [data]="budget$ | async"
   [lazy]="true"
   (onLazyLoad)="lazyLoadTable($event)"
   [canSearch]="true"
-  [canUpdate]="true"
+  [canUpdate]="false"
   [canDelete]="false"
+  [selectableRow]="true"
+  (onRowSelect)="openActionPanel($event)"
+  (onRowUnselect)="closeActionPanelNoAction()"
   (onCreate)="onCreateBudget()"
-  (onUpdate)="onEdit($event)"
-  [totalRecords]="count"
+  (onDoubleClick)="onEdit($event)"
 ></app-custom-table-data>
+
+@if (selectedBudget) {
+  <app-action-panel [budget]="selectedBudget" class="action-panel-overlay" (close)="closeActionPanel()"> </app-action-panel>
+}

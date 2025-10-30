@@ -25,4 +25,6 @@ export class Budget {
   currency: Currency;
   budgetShipping: BudgetShipping;
   budgetBilling: BudgetBilling;
+  updatedAt: Date;
+  createdAt: Date;
 }

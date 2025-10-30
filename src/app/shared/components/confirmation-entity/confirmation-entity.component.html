@@ -1,0 +1,28 @@
+<div class="dialog-content">
+  <h3 *ngIf="titulo" class="dialog-titulo">{{ titulo }}</h3>
+
+  <div *ngIf="mensajeAlerta || accionIrreversible" class="mensaje-alerta" [ngClass]="getAlertClass()">
+    <i
+      class="pi"
+      [ngClass]="{
+        'pi-exclamation-triangle': tipoAlerta === 'warning' || accionIrreversible,
+        'pi-times-circle': tipoAlerta === 'danger',
+        'pi-info-circle': tipoAlerta === 'info',
+      }"
+    ></i>
+    <span>{{ mensajeAlerta || '⚠️ Esta acción es irreversible' }}</span>
+  </div>
+
+  <div class="mensaje-confirmacion">
+    {{ mensajeConfirmacion }}
+  </div>
+
+  <div *ngIf="detalles" class="mensaje-detalles">
+    {{ detalles }}
+  </div>
+</div>
+
+<div class="modal-footer">
+  <p-button *ngIf="mostrarBotonCancelar" [label]="labelCancelar" [icon]="iconoCancelar" styleClass="p-button-secondary" (onClick)="cancelar()"> </p-button>
+  <p-button [label]="labelConfirmar" [icon]="iconoConfirmar" [styleClass]="getConfirmButtonClass()" (onClick)="confirmar()"> </p-button>
+</div>

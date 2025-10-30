@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+import { ActionPanelComponent } from '@main-module/app/budgets/components/action-panel/action-panel.component';
 import { Budget } from '@main-module/app/budgets/models/classes/budget.entity';
 import { BudgetService } from '@main-module/app/budgets/services/budget.service';
 import { IFilters } from '@main-module/app/core/interfaces/filters-primeng.interface';
@@ -12,10 +13,10 @@ import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-budget-list',
-  standalone: true,
-  imports: [CommonModule, CustomTableDataComponent],
+  imports: [CommonModule, CustomTableDataComponent, ActionPanelComponent],
   templateUrl: './budget-list.component.html',
   styleUrl: './budget-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetListComponent {
   budget$: Observable<Budget[]>;
@@ -26,15 +27,19 @@ export class BudgetListComponent {
   loading: boolean = false;
   filters: Partial<Budget>;
   selectedFilters: IFilters;
+  selectedBudget: Budget | null = null;
 
   budgetColumns: ITableColumn[] = [
+    { name: 'Estado', attribute: 'status', isBadge: true, valueMapper: (row) => row.status },
+    { name: 'Código', attribute: 'code' },
     { name: 'Cliente', attribute: `customer.fullName` },
-    { name: 'Fecha de Creación', attribute: 'createdAt' },
-    { name: 'Estado', attribute: 'status.name' },
+    { name: 'Fecha de Creación', attribute: 'createdAt', isDate: true },
   ];
 
   private readonly router: Router = inject(Router);
   private readonly budgetService: BudgetService = inject(BudgetService);
+  private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly ngZone: NgZone = inject(NgZone);
 
   lazyLoadTable(event: LazyLoadEvent) {
     this.loading = true;
@@ -73,5 +78,24 @@ export class BudgetListComponent {
 
   onEdit(budget: Budget) {
     this.router.navigate([`/budgets/${budget.id}`]);
+  }
+
+  openActionPanel(event: Budget): void {
+    this.selectedBudget = event;
+    this.changeDetector.detectChanges();
+  }
+
+  closeActionPanel(): void {
+    this.selectedBudget = null;
+    this.lazyLoadTable({
+      rows: this.rowsPerPage,
+      filters: {},
+    });
+    this.changeDetector.markForCheck();
+  }
+
+  closeActionPanelNoAction(): void {
+    this.selectedBudget = null;
+    this.changeDetector.markForCheck();
   }
 }

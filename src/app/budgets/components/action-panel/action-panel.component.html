@@ -1,0 +1,24 @@
+<div class="action-panel-bar">
+  <div class="action-panel-header">
+    <span class="title">Acciones para: {{ budgetCode() }}</span>
+    <button class="close-btn" (click)="onClosePanel()">×</button>
+  </div>
+  <div class="action-panel-content">
+    <div class="action-panel-p-buttons">
+      <p-button class="action-btn" type="button" (onClick)="verCliente()">Ver Cliente</p-button>
+      <p-button class="action-btn" type="button" [loading]="voucherLoading()" (onClick)="generatePdfVoucher()">Comprobante</p-button>
+
+      @for (transition of availableTransitions(); track $index) {
+        <p-button class="action-btn" [loading]="transitionLoading() === transition.transitionName" (onClick)="executeTransition(transition?.transitionName)">
+          {{ transition?.transitionName }}
+        </p-button>
+      }
+      <p-button class="action-btn" (onClick)="update(budget())">Editar</p-button>
+    </div>
+    <div class="action-panel-info">
+      <p class="info-text">Modificado: {{ budget().updatedAt | date: 'dd-MM-yyyy' }}</p>
+      <p class="info-text">Vendedor: {{ sellerName() }}</p>
+      <p class="info-text">Creado: {{ budget().createdAt | date: 'dd-MM-yyyy' }}</p>
+    </div>
+  </div>
+</div>

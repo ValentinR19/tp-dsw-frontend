@@ -141,7 +141,6 @@ export class BudgetEditorComponent implements OnInit {
     if (this.budgetForm.invalid) {
       console.log('Invalid Form:', this.budgetForm);
       return;
-      
     }
 
     const payload = this.budgetForm.value;

@@ -1,6 +1,12 @@
 export interface ITableColumn {
   name: string;
   attribute?: string | number | boolean;
+
+  filterable?: boolean;
+  filterType?: 'text' | 'select' | 'multiselect';
+  filterOptions?: { label: string; value: any }[];
+  matchMode?: 'contains' | 'equals' | 'in';
+  filterField?: string;
   description?: string;
   isQuill?: boolean;
   jsonParse?: boolean;
@@ -8,4 +14,6 @@ export interface ITableColumn {
   isStatus?: boolean;
   isDate?: boolean;
   isBadge?: boolean;
+
+  valueMapper?: (row: any) => any;
 }

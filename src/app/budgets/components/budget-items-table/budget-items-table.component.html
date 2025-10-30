@@ -28,7 +28,7 @@
         <td>
           <p-inputNumber formControlName="discount" mode="currency" currency="ARS" (onInput)="updateItemTotal(row)"> </p-inputNumber>
         </td>
-        <td>{{ row.value.totalLine  }}</td>
+        <td>{{ row.value.totalLine }}</td>
         <td><p-button icon="pi pi-trash" severity="danger" (onClick)="removeItem(rowIndex)"></p-button></td>
       </tr>
     </ng-template>

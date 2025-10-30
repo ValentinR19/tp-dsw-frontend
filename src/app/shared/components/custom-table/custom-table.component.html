@@ -1,30 +1,34 @@
-@if (canDivider) {
-  <div class="">
-    <header class="header">
-      <h1>{{ title }}</h1>
-      <p class="subtitle">{{ subtitle || 'Gestiona y visualiza ' + title + ' de tu sistema' }}</p>
-    </header>
+<p-menu #rowActionMenu [popup]="true" [model]="currentRowMenu" appendTo="body"></p-menu>
 
-    <section class="toolbar">
-      <div class="search" *ngIf="canSearch">
-        <input
-          pInputText
-          type="text"
-          placeholder="🔍 Buscar"
-          class="search-input p-inputtext"
-          (input)="applyGlobalFilter($event, false)"
-          (keydown.enter)="applyGlobalFilter($event, true)"
-        />
-      </div>
-      <div class="actions">
-        <p-button type="button" *ngIf="canCreate" (onClick)="create($event)">Nuevo</p-button>
-      </div>
-    </section>
-  </div>
+@if (canDivider) {
+  <header class="header flex justify-content-between">
+    <div>
+      <h1>{{ title }}</h1>
+
+      <p class="subtitle" *ngIf="canSubtitle">{{ subtitle || 'Gestiona y visualiza ' + title.toLowerCase() + ' de tu sistema' }}</p>
+    </div>
+    <div class="actions">
+      <p-button type="button" *ngIf="canCreate" (onClick)="create($event)">{{ createButtonLabel }}</p-button>
+      <p-splitbutton *ngIf="canSplitButton" [model]="splitButtonOptions" (onClick)="splitButtonAction($event)" [label]="createButtonLabel"></p-splitbutton>
+    </div>
+  </header>
+
+  <section class="toolbar" *ngIf="canSearch">
+    <div class="search">
+      <input
+        pInputText
+        type="text"
+        placeholder="🔍 Buscar"
+        class="search-input p-inputtext"
+        (input)="applyGlobalFilter($event, false)"
+        (keydown.enter)="applyGlobalFilter($event, true)"
+      />
+    </div>
+  </section>
 }
-<div class="table-card p-3">
+
+<div class="p-3" [ngClass]="{ 'table-card': tableCard }">
   <p-table
-    class="custom-table"
     [value]="data"
     [columns]="columns"
     [lazy]="lazy"
@@ -36,60 +40,107 @@
     styleClass="p-datatable-gridlines"
     selectionMode="single"
     [rowsPerPageOptions]="rowsPerPageOptions"
+    [resizableColumns]="true"
     (onLazyLoad)="loadLazyData($event)"
     (onRowSelect)="rowSelected($event)"
+    (onRowUnselect)="rowUnselected($event)"
   >
     <ng-template pTemplate="header">
       <tr>
-        <th *ngFor="let column of columns">{{ column.name }}</th>
-        @if (actions) {
-          <th><span class="filter-icon pi pi-sliders-h"></span> Actions</th>
-        }
+        <th *ngFor="let column of columns">
+          <div class="header-cell" [ngClass]="{ 'with-filters': hasColumnFilters }">
+            <span class="header-title">{{ column.name }}</span>
+            <div class="header-filter" *ngIf="hasColumnFilters && column.filterable">
+              <ng-container class="column-filter">
+                <input
+                  *ngIf="column.filterType === 'text'"
+                  type="text"
+                  pInputText
+                  (input)="applyColumnFilter($event, column.attribute, column.matchMode || 'contains')"
+                  placeholder="Filtrar..."
+                />
+
+                <p-select
+                  *ngIf="column.filterType === 'select'"
+                  [options]="column.filterOptions || []"
+                  (onChange)="applyColumnFilter($event, column.attribute, 'equals')"
+                  (onClear)="loadLazyData($event)"
+                  showClear="true"
+                  appendTo="body"
+                  placeholder="Seleccionar"
+                ></p-select>
+
+                <p-multiSelect
+                  *ngIf="column.filterType === 'multiselect'"
+                  [options]="column.filterOptions || []"
+                  (onChange)="applyColumnFilter($event, column.attribute, 'in')"
+                  (onClear)="loadLazyData($event)"
+                  showClear="true"
+                  appendTo="body"
+                  placeholder="Seleccionar"
+                ></p-multiSelect>
+              </ng-container>
+            </div>
+          </div>
+        </th>
+
+        <th *ngIf="actions || showRowActions"><span class="filter-icon pi pi-sliders-h"></span> {{ actionsColumnHeader }}</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-item>
       @if (selectableRow) {
-        <tr [pSelectableRow]="item">
+        <tr [pSelectableRow]="item" (dblclick)="doubleClick(item)">
           @for (column of columns; track column.name) {
             @if (column.isStatus) {
-              <td class="center-align status-cell" [style.background-color]="getNestedValue(item, column.attribute)">
+              <td class="center-align status-cell" [style.background-color]="getCellValue(item, column)">
                 <i class="pi pi-inbox"></i>
               </td>
             }
             @if (!column.isStatus) {
               <td>
                 @if (column.isQuill) {
-                  <span [innerHTML]="sanitizeContent(getNestedValue(item, column.attribute))"></span>
+                  <span [innerHTML]="sanitizeContent(getCellValue(item, column))"></span>
                 } @else if (column.jsonParse) {
-                  <span>{{ jsonParse(getNestedValue(item, column.attribute)) }}</span>
+                  <span>{{ jsonParse(getCellValue(item, column)) }}</span>
                 } @else if (column.isProminent) {
-                  <span style="font-weight: bold">{{ getNestedValue(item, column.attribute) }}</span>
+                  <span style="font-weight: bold">{{ getCellValue(item, column) }}</span>
                 } @else if (column.isDate) {
-                  <span>{{ jsonParse(getNestedValue(item, column.attribute)) | date: 'dd/mm/yyyy' }}</span>
+                  <span>{{ getCellValue(item, column) | date: 'dd/MM/yyyy' }}</span>
                 } @else if (column.isBadge) {
-                  <span class="badge" [style.backgroundColor]="getNestedValue(item, column.attribute)?.color">
-                    {{ getNestedValue(item, column.attribute)?.name }}
+                  <span class="badge" [style.backgroundColor]="getCellValue(item, column)?.color">
+                    {{ getCellValue(item, column)?.name }}
                   </span>
                 } @else {
-                  <span>{{ getNestedValue(item, column.attribute) }}</span>
+                  <span>{{ getCellValue(item, column) }}</span>
                 }
               </td>
             }
           }
-          @if (actions) {
+          @if (actions || showRowActions) {
             <td>
-              @if (canView) {
-                <button class="action-btn pi pi-eye" style="font-size: 1.1rem" (click)="view(item)"></button>
+              @if (actions) {
+                @if (canView) {
+                  <button class="action-btn pi pi-eye" style="font-size: 1.1rem" (click)="view(item)"></button>
+                }
+                @if (canTree) {
+                  <button class="action-btn pi pi-sitemap" style="font-size: 1.1rem" (click)="tree(item)"></button>
+                }
+                @if (canUpdate) {
+                  <button class="action-btn pi pi-pen-to-square" style="font-size: 1.1rem" (click)="update(item)"></button>
+                }
+                @if (canDelete) {
+                  <button class="action-btn pi pi-trash" style="font-size: 1.1rem" (click)="delete(item)"></button>
+                }
               }
-              @if (canTree) {
-                <button class="action-btn pi pi-sitemap" style="font-size: 1.1rem" (click)="tree(item)"></button>
-              }
-              @if (canUpdate) {
-                <button class="action-btn pi pi-pen-to-square" style="font-size: 1.1rem" (click)="update(item)"></button>
-              }
-              @if (canDelete) {
-                <button class="action-btn pi pi-trash" style="font-size: 1.1rem" (click)="delete(item)"></button>
+              @if (showRowActions && rowActionsBuilder) {
+                <button
+                  class="action-btn"
+                  [ngClass]="actionsIcon"
+                  [attr.aria-label]="actionsLabel || 'Acciones'"
+                  (click)="openRowActionMenu($event, item)"
+                  style="font-size: 1.1rem"
+                ></button>
               }
             </td>
           }
@@ -98,43 +149,54 @@
         <tr>
           @for (column of columns; track column.name) {
             @if (column.isStatus) {
-              <td class="center-align status-cell" [style.background-color]="getNestedValue(item, column.attribute)">
+              <td class="center-align status-cell" [style.background-color]="getCellValue(item, column)">
                 <i class="pi pi-inbox"></i>
               </td>
             }
             @if (!column.isStatus) {
               <td>
                 @if (column.isQuill) {
-                  <span [innerHTML]="sanitizeContent(getNestedValue(item, column.attribute))"></span>
+                  <span [innerHTML]="sanitizeContent(getCellValue(item, column))"></span>
                 } @else if (column.jsonParse) {
-                  <span>{{ jsonParse(getNestedValue(item, column.attribute)) }}</span>
+                  <span>{{ jsonParse(getCellValue(item, column)) }}</span>
                 } @else if (column.isProminent) {
-                  <span style="font-weight: bold">{{ getNestedValue(item, column.attribute) }}</span>
+                  <span style="font-weight: bold">{{ getCellValue(item, column) }}</span>
                 } @else if (column.isDate) {
-                  <span>{{ getNestedValue(item, column.attribute) | date: 'dd-MM-yyyy' }}</span>
+                  <span>{{ getCellValue(item, column) | date: 'dd-MM-yyyy' }}</span>
                 } @else if (column.isBadge) {
-                  <span class="badge" [style.backgroundColor]="getNestedValue(item, column.attribute)?.color">
-                    {{ getNestedValue(item, column.attribute)?.name }}
+                  <span class="badge" [style.backgroundColor]="getCellValue(item, column)?.color">
+                    {{ getCellValue(item, column)?.name }}
                   </span>
                 } @else {
-                  <span>{{ getNestedValue(item, column.attribute) }}</span>
+                  <span>{{ getCellValue(item, column) }}</span>
                 }
               </td>
             }
           }
-          @if (actions) {
+          @if (actions || showRowActions) {
             <td class="flex align-items-between gap-2">
-              @if (canView) {
-                <button class="action-btn pi pi-eye" style="font-size: 1.1rem" (click)="view(item)"></button>
+              @if (actions) {
+                @if (canView) {
+                  <button class="action-btn pi pi-eye" style="font-size: 1.1rem" (click)="view(item)"></button>
+                }
+                @if (canTree) {
+                  <button class="action-btn pi pi-sitemap" style="font-size: 1.1rem" (click)="tree(item)"></button>
+                }
+                @if (canUpdate) {
+                  <button class="action-btn pi pi-pen-to-square" style="font-size: 1.1rem" (click)="update(item)"></button>
+                }
+                @if (canDelete) {
+                  <button class="action-btn pi pi-trash" style="font-size: 1.1rem" (click)="delete(item)"></button>
+                }
               }
-              @if (canTree) {
-                <button class="action-btn pi pi-sitemap" style="font-size: 1.1rem" (click)="tree(item)"></button>
-              }
-              @if (canUpdate) {
-                <button class="action-btn pi pi-pen-to-square" style="font-size: 1.1rem" (click)="update(item)"></button>
-              }
-              @if (canDelete) {
-                <button class="action-btn pi pi-trash" style="font-size: 1.1rem" (click)="delete(item)"></button>
+              @if (showRowActions && rowActionsBuilder) {
+                <button
+                  class="action-btn"
+                  [ngClass]="actionsIcon"
+                  [attr.aria-label]="actionsLabel || 'Acciones'"
+                  (click)="openRowActionMenu($event, item)"
+                  style="font-size: 1.1rem"
+                ></button>
               }
             </td>
           }

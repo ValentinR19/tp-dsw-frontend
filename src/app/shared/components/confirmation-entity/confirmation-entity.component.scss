@@ -1,0 +1,147 @@
+::ng-deep .dialog-confirm.p-dialog {
+  max-width: 450px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-secondary-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  border: none;
+
+  .dialog-content {
+    padding: 10px 0;
+  }
+
+  .dialog-titulo {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    color: var(--text-color);
+  }
+
+  .mensaje-alerta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    font-size: 14px;
+
+    span {
+      color: var(--disabled-text-color);
+    }
+
+    i {
+      font-size: 18px;
+    }
+
+    &.alert-warning {
+      background-color: #fff3cd;
+      color: #856404;
+      border-left: 4px solid #ffc107;
+    }
+
+    &.alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-left: 4px solid #dc3545;
+    }
+
+    &.alert-info {
+      background-color: #d1ecf1;
+      color: #0c5460;
+      border-left: 4px solid #17a2b8;
+    }
+  }
+
+  .mensaje-confirmacion {
+    white-space: pre-line;
+    font-size: 16px;
+    color: var(--text-color);
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 10px 0;
+  }
+
+  .mensaje-detalles {
+    font-size: 14px;
+    color: var(--text-color, #666);
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+    white-space: pre-line;
+  }
+
+  ::ng-deep .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  ::ng-deep .p-button {
+    border-radius: 4px;
+    padding: 10px 20px;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease;
+  }
+
+  ::ng-deep .p-button-secondary {
+    background-color: #e0e0e0;
+    border: none;
+    color: #333;
+  }
+
+  ::ng-deep .p-button-secondary:hover {
+    background-color: #c2c2c2;
+    transform: translateY(-2px);
+  }
+
+  ::ng-deep .p-button-success {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+  }
+
+  ::ng-deep .p-button-success:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+
+  ::ng-deep .p-button-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+  }
+
+  ::ng-deep .p-button-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+  }
+
+  ::ng-deep .p-button-warning {
+    background-color: #ffc107;
+    border: none;
+    color: #333;
+  }
+
+  ::ng-deep .p-button-warning:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+  }
+
+  ::ng-deep .p-button-info {
+    background-color: #17a2b8;
+    border: none;
+    color: white;
+  }
+
+  ::ng-deep .p-button-info:hover {
+    background-color: #138496;
+    transform: translateY(-2px);
+  }
+}
