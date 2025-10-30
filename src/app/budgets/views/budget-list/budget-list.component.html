@@ -8,4 +8,7 @@
   [canSearch]="true"
   [canUpdate]="true"
   [canDelete]="false"
+  (onCreate)="onCreateBudget()"
+  (onUpdate)="onEdit($event)"
+  [totalRecords]="count"
 ></app-custom-table-data>

@@ -7,10 +7,7 @@
 <form [formGroup]="budgetForm" novalidate>
   <div class="grid">
     <div class="col-12 lg:col-6">
-      <app-budget-client-selector
-        [customerId]="budgetForm.get('customerId')?.value"
-        (customerSelected)="onCustomerSelected($event)"
-      ></app-budget-client-selector>
+      <app-budget-client-selector [customerId]="budgetForm.get('customerId')?.value" (customerSelected)="onCustomerSelected($event)"></app-budget-client-selector>
     </div>
 
     <div class="col-12 lg:col-6">
@@ -18,11 +15,7 @@
     </div>
 
     <div class="col-12">
-      <app-budget-items-table
-        [items]="budgetForm.get('items')"
-        (itemsChanged)="onItemsChanged()"
-        (openSearch)="showProductSearch = true"
-      ></app-budget-items-table>
+      <app-budget-items-table [items]="budgetForm.get('items')" (itemsChanged)="onItemsChanged()" (openSearch)="showProductSearch = true"></app-budget-items-table>
     </div>
 
     <div class="col-12 md:col-6">
@@ -39,7 +32,4 @@
   </div>
 </form>
 
-<app-budget-product-search
-  [(visible)]="showProductSearch"
-  (productSelected)="onAddProduct($event)"
-></app-budget-product-search>
+<app-budget-product-search [(visible)]="showProductSearch" (productSelected)="onAddProduct($event)"></app-budget-product-search>

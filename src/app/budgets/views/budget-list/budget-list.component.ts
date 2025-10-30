@@ -66,4 +66,12 @@ export class BudgetListComponent {
       }),
     );
   }
+
+  onCreateBudget() {
+    this.router.navigate(['/budgets/new']);
+  }
+
+  onEdit(budget: Budget) {
+    this.router.navigate([`/budgets/${budget.id}`]);
+  }
 }
