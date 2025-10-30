@@ -7,20 +7,38 @@
       <label for="address">Dirección</label>
       <input id="address" pInputText formControlName="address" placeholder="Dirección de envío" class="w-full" />
     </div>
-
     <div class="col-12 md:col-6">
-      <label for="cityId">ID Ciudad</label>
-      <p-inputNumber inputId="cityId" formControlName="cityId" class="w-full"></p-inputNumber>
+      <label for="countryId">País</label>
+      <select id="countryId" formControlName="countryId" class="w-full p-inputtext">
+        <option [ngValue]="null" disabled>Seleccioná un país</option>
+        <option *ngFor="let c of countries" [ngValue]="c.id">{{ c.name }}</option>
+      </select>
     </div>
 
+    <!-- Provincia / Estado -->
     <div class="col-12 md:col-6">
-      <label for="stateId">ID Provincia</label>
-      <p-inputNumber inputId="stateId" formControlName="stateId" class="w-full"></p-inputNumber>
+      <label for="stateId">Provincia / Estado</label>
+      <select
+        id="stateId"
+        formControlName="stateId"
+        class="w-full p-inputtext"
+        [disabled]="form.get('stateId')?.disabled">
+        <option [ngValue]="null" disabled>Seleccioná una provincia</option>
+        <option *ngFor="let s of states" [ngValue]="s.id">{{ s.name }}</option>
+      </select>
     </div>
 
+    <!-- Ciudad -->
     <div class="col-12 md:col-6">
-      <label for="countryId">ID País</label>
-      <p-inputNumber inputId="countryId" formControlName="countryId" class="w-full"></p-inputNumber>
+      <label for="cityId">Ciudad</label>
+      <select
+        id="cityId"
+        formControlName="cityId"
+        class="w-full p-inputtext"
+        [disabled]="form.get('cityId')?.disabled">
+        <option [ngValue]="null" disabled>Seleccioná una ciudad</option>
+        <option *ngFor="let ct of cities" [ngValue]="ct.id">{{ ct.name }}</option>
+      </select>
     </div>
   </div>
 </div>
