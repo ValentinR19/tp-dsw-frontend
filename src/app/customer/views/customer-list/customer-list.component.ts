@@ -30,6 +30,7 @@ export class CustomersListComponent {
   selectedFilters: IFilters;
 
   tableColumns: ITableColumn[] = [
+    { name: 'Codigo', attribute: 'code' },
     { name: 'FirstName', attribute: 'firstName' },
     { name: 'LastName', attribute: 'lastName' },
     { name: 'Document', attribute: 'document' },
