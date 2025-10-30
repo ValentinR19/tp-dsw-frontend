@@ -1,110 +1,72 @@
-<div class="card">
+<app-back-button (click)="close()"></app-back-button>
+
+<div class="card mb-3">
   @if (!productId) {
     <h2>Crear Producto</h2>
   } @else {
     <h2>Editar Producto {{ product?.name }}</h2>
   }
 </div>
-<form [formGroup]="productForm" (ngSubmit)="submit()">
+
+<form [formGroup]="productForm" novalidate>
   <div class="grid">
+    <!-- Columna izquierda -->
     <div class="col-12 lg:col-8">
-      <div class="card p-fluid">
-        <h3 class="text-800 mb-3">Información básica</h3>
+      <div class="card">
+        <h3 class="text-800 mb-2">Información básica</h3>
         <p-divider></p-divider>
 
-        <div class="field mb-3">
+        <p-iftalabel>
+          <input id="name" type="text" pInputText formControlName="name" />
           <label for="name">Nombre</label>
-          <div class="p-input-icon-right w-full">
-            <input
-              id="name"
-              type="text"
-              pInputText
-              formControlName="name"
-              class="w-full"
-              [ngClass]="{ 'p-invalid': productForm.get('name')?.invalid && productForm.get('name')?.touched }"
-            />
-            <i class="pi pi-exclamation-circle" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"></i>
-          </div>
+        </p-iftalabel>
 
-          <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
-            <small class="p-error" *ngIf="productForm.get('name')?.errors?.['required']"> El nombre es obligatorio. </small>
-            <small class="p-error" *ngIf="productForm.get('name')?.errors?.['minlength']"> El nombre debe tener al menos 4 caracteres. </small>
-            <small class="p-error" *ngIf="productForm.get('name')?.errors?.['maxlength']"> El nombre no puede superar los 30 caracteres. </small>
-          </div>
-        </div>
-
-        <div class="field mb-3">
+        <p-iftalabel>
+          <textarea id="description" pInputTextarea rows="3" formControlName="description" class="p-inputtext w-full h-6rem"></textarea>
           <label for="description">Descripción</label>
-          <textarea id="description" pInputTextarea rows="3" formControlName="description" class="w-full"></textarea>
-        </div>
+        </p-iftalabel>
 
-        <div class="field mb-3">
-          <label for="productCategoryId">Categoría</label>
+        <p-iftalabel>
           <p-select
             id="productCategoryId"
+            formControlName="productCategoryId"
             appendTo="body"
             dataKey="id"
             optionLabel="name"
             optionValue="id"
             [options]="productCategories"
-            formControlName="productCategoryId"
+            [filter]="true"
             [virtualScroll]="true"
             [virtualScrollItemSize]="40"
-            [filter]="true"
-            [showClear]="true"
-            filterBy="name"
-            placeholder="Selecciona una categoría"
+            placeholder="Seleccionar categoría"
             styleClass="w-full"
-          >
-          </p-select>
-        </div>
+            [showClear]="true"
+          ></p-select>
+          <label for="productCategoryId">Categoría</label>
+        </p-iftalabel>
       </div>
     </div>
 
+    <!-- Columna derecha -->
     <div class="col-12 lg:col-4">
-      <div class="card p-fluid">
-        <h3 class="text-800 mb-3">Precios</h3>
+      <div class="card">
+        <h3 class="text-800 mb-2">Precios</h3>
         <p-divider></p-divider>
 
-        <div class="field mb-3">
-          <label for="price">Monto</label>
-          <div class="p-input-icon-right w-full">
-            <input
-              id="price"
-              type="number"
-              pInputText
-              inputmode="decimal"
-              formControlName="price"
-              class="w-full"
-              [ngClass]="{ 'p-invalid': productForm.get('price')?.invalid && productForm.get('price')?.touched }"
-            />
-            <i class="pi pi-exclamation-circle" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"></i>
-          </div>
+        <p-iftalabel>
+          <input id="price" type="number" pInputText formControlName="price" />
+          <label for="price">Precio</label>
+        </p-iftalabel>
 
-          <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
-            <small class="p-error" *ngIf="productForm.get('price')?.errors?.['required']"> El monto es obligatorio. </small>
-            <small class="p-error" *ngIf="productForm.get('price')?.errors?.['min']"> El monto debe ser mayor que 0. </small>
-          </div>
-        </div>
-
-        <div class="field mb-3">
+        <p-iftalabel>
+          <p-select id="currency" formControlName="currency" [options]="currencies" placeholder="Seleccionar moneda" styleClass="w-full" [showClear]="true"></p-select>
           <label for="currency">Moneda</label>
-          <select id="currency" class="p-inputtext p-component w-full" formControlName="currency">
-            <option value="" disabled selected>Selecciona una moneda</option>
-            <option *ngFor="let curr of currencies" [value]="curr">
-              {{ curr }}
-            </option>
-          </select>
-          <div *ngIf="productForm.get('currency')?.errors?.['invalidCurrency'] && productForm.get('currency')?.touched">
-            <small class="p-error"> Moneda inválida. Seleccione una de la lista por favor </small>
-          </div>
-        </div>
+        </p-iftalabel>
       </div>
     </div>
   </div>
 
-  <div class="flex justify-content-end mt-3 gap-2">
-    <p-button label="Cancelar" severity="secondary" (onClick)="close()" type="button"></p-button>
-    <p-button label="Guardar" icon="pi pi-check" type="submit"></p-button>
+  <div class="text-right mt-4">
+    <p-button label="Guardar" icon="pi pi-check" (onClick)="submit()"></p-button>
   </div>
 </form>

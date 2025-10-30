@@ -28,7 +28,7 @@ export class BudgetListComponent {
   selectedFilters: IFilters;
 
   budgetColumns: ITableColumn[] = [
-    { name: 'Cliente', attribute: 'customer.name' },
+    { name: 'Cliente', attribute: `customer.fullName` },
     { name: 'Fecha de Creación', attribute: 'createdAt' },
     { name: 'Estado', attribute: 'status.name' },
   ];
