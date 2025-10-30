@@ -30,6 +30,7 @@ export class CustomersListComponent {
   selectedFilters: IFilters;
 
   tableColumns: ITableColumn[] = [
+    { name: 'Codigo', attribute: 'code' },
     { name: 'FirstName', attribute: 'firstName' },
     { name: 'LastName', attribute: 'lastName' },
     { name: 'Document', attribute: 'document' },
@@ -81,6 +82,8 @@ export class CustomersListComponent {
   }
 
   delete(customer: Customer) {
+    console.log('Customer: ', customer);
+
     const dialogRef = this.dialogService.open(DeleteEntityComponent, {
       header: 'Eliminar Cliente',
       width: '80%',
@@ -91,7 +94,7 @@ export class CustomersListComponent {
       data: {
         object: customer,
         objectService: this.customerService,
-        confirmationMessage: `Are you sure to delete the Customer ${customer.fullName}`,
+        confirmationMessage: `Are you sure to delete the Customer ${customer.firstName} ${customer.lastName}`,
         waitMessage: 'Wait for deleting',
         successMessage: 'Customer deleted successfully',
         errorMessage: 'Error deleting Customer',

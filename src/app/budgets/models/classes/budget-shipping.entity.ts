@@ -6,5 +6,4 @@ export class BudgetShipping {
   stateId: number;
   countryId: number;
   email: string;
-  //no se si agregar el budget o no
 }

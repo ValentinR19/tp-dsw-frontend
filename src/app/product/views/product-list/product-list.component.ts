@@ -3,11 +3,11 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFilters } from '@main-module/app/core/interfaces/filters-primeng.interface';
 import { IPaginated } from '@main-module/app/core/interfaces/paginated.interface';
+import { Product } from '@main-module/app/product/models/classes/product.entity';
+import { ProductService } from '@main-module/app/product/services/product.service';
 import { CustomTableDataComponent } from '@main-module/app/shared/components/custom-table/custom-table.component';
 import { DeleteEntityComponent } from '@main-module/app/shared/components/delete-entity/delete-entity.component';
 import { ITableColumn } from '@main-module/app/shared/interfaces/table-column.interface';
-import { Product } from '@main-module/app/product/models/classes/product.entity';
-import { ProductService } from '@main-module/app/product/services/product.service';
 import { LazyLoadEvent } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { catchError, map, Observable, of, tap } from 'rxjs';
@@ -75,7 +75,7 @@ export class ProductsListComponent {
   }
 
   update(product: Product) {
-    this.router.navigate([`products/${product.id}/edit`]);
+    this.router.navigate([`products/${product.id}`]);
   }
 
   delete(product: Product) {

@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { FormsModule } from "@angular/forms";
 import { CustomerService } from '@main-module/app/customer/services/customer.service';
 import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-budget-client-selector',
   standalone: true,
-  imports: [CommonModule, SelectModule],
+  imports: [CommonModule, SelectModule, FormsModule],
   templateUrl: './budget-client-selector.component.html',
 })
 export class BudgetClientSelectorComponent implements OnInit {
@@ -26,6 +27,7 @@ export class BudgetClientSelectorComponent implements OnInit {
   }
 
   onSelect(customerId: number) {
+    console.log('Selected customer ID:', customerId);
     this.customerSelected.emit(customerId);
   }
 }

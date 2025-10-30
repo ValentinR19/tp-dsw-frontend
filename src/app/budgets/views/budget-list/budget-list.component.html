@@ -1,27 +1,14 @@
 <app-custom-table-data
   title="Presupuestos"
-  [totalRecords]="budgetCounts"
-  [columns]="tableColumns"
-  [data]="budgets"
-  [lazy]="true"
-  [canSearch]="false"
-  [canUpdate]="true"
-  [canDelete]="true"
-  (onCreate)="create()"
->
-  <!-- <app-custom-table-data
-  title="Productos"
-  [totalRecords]="productsCount"
-  [rowsPerPage]="rowsPerPage"
-  [columns]="tableColumns"
-  [data]="product$ | async"
+  [totalRecords]="count"
+  [columns]="budgetColumns"
+  [data]="budget$ | async"
   [lazy]="true"
   (onLazyLoad)="lazyLoadTable($event)"
   [canSearch]="true"
   [canUpdate]="true"
-  [canDelete]="true"
-  (onUpdate)="update($event)"
-  (onDelete)="delete($event)"
->
-</app-custom-table-data> -->
-</app-custom-table-data>
+  [canDelete]="false"
+  (onCreate)="onCreateBudget()"
+  (onUpdate)="onEdit($event)"
+  [totalRecords]="count"
+></app-custom-table-data>

@@ -102,19 +102,21 @@ export class BudgetEditorComponent implements OnInit {
   }
 
   onCustomerSelected(customerId: number) {
+    console.log('Customer selected:', customerId);
     this.budgetForm.patchValue({ customerId });
   }
 
   onAddProduct(product: any) {
+    console.log('Adding product to budget:', product);
     const items = this.budgetForm.get('items') as FormArray;
     items.push(
       new FormGroup({
         productId: new FormControl(product.id),
         quantity: new FormControl(1),
-        unitPrice: new FormControl(product.price),
+        unitPrice: new FormControl(product.price.price),
         discount: new FormControl(0),
         tax: new FormControl(0),
-        totalLine: new FormControl(product.price),
+        totalLine: new FormControl(product.price.price),
       }),
     );
     this.recalculateTotals();
@@ -134,7 +136,13 @@ export class BudgetEditorComponent implements OnInit {
 
   submit() {
     this.budgetForm.markAllAsTouched();
-    if (this.budgetForm.invalid) return;
+
+    console.log('Submitting budget form:', this.budgetForm.value);
+    if (this.budgetForm.invalid) {
+      console.log('Invalid Form:', this.budgetForm);
+      return;
+      
+    }
 
     const payload = this.budgetForm.value;
     const action = this.budgetId ? this.budgetService.udpate(this.budgetId, payload) : this.budgetService.create(payload);

@@ -8,5 +8,4 @@ export class BudgetBilling {
   shippingCountry: string;
   portDestination: string;
   paymentDescription: string;
-  // no se si agregar el budget o no
 }

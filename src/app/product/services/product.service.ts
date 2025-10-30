@@ -1,8 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { IPaginated } from '@main-module/app/core/interfaces/paginated.interface';
 import { Product } from '@main-module/app/product/models/classes/product.entity';
-import { ProductCategory } from '@main-module/app/product/models/classes/product-category.entity';
 import { environment } from '@main-module/environments/environment';
 import { Observable } from 'rxjs';
 
