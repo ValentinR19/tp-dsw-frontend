@@ -84,6 +84,6 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach(s => s.unsubscribe());
+    this.subs.forEach((s) => s.unsubscribe());
   }
 }

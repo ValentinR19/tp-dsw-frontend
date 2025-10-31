@@ -1,24 +1,53 @@
-<p-dialog [(visible)]="visible" modal header="Buscar productos" [style]="{ width: '60vw' }">
-  <div class="p-inputgroup mb-3">
-    <!-- <input pInputText [(ngModel)]="searchTerm" (keydown.enter)="search()" placeholder="Buscar producto..." /> -->
-    <p-button icon="pi pi-search" (onClick)="search()"></p-button>
+<div class="p-fluid">
+  <!-- 🔹 Header con búsqueda -->
+  <div class="flex justify-content-between align-items-center mb-3 gap-2">
+    <input pInputText [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Buscar producto..." class="w-full" />
+    <button pButton label="Buscar" icon="pi pi-search" (click)="search()"></button>
   </div>
 
-  <p-table [value]="products">
+  <!-- 🔹 Tabla de productos -->
+  <p-table [value]="products" [loading]="loading" responsiveLayout="scroll">
     <ng-template pTemplate="header">
       <tr>
-        <th>Producto</th>
+        <th>Código</th>
+        <th>Nombre</th>
         <th>Precio</th>
         <th></th>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="body" let-product>
       <tr>
+        <td>{{ product.id }}</td>
         <td>{{ product.name }}</td>
-        <td>{{ product?.price?.price + ' ' + product?.price?.currency }}</td>
-        <td><p-button label="Agregar" icon="pi pi-plus" (onClick)="selectProduct(product)"></p-button></td>
+        <td>{{ product.price?.price | currency: 'ARS' }}</td>
+        <td class="text-right">
+          <button pButton icon="pi pi-plus" label="Agregar" class="p-button-sm p-button-success" (click)="addProduct(product)"></button>
+        </td>
       </tr>
     </ng-template>
   </p-table>
-</p-dialog>
+
+  <p-divider></p-divider>
+
+  <!-- 🔹 Productos seleccionados -->
+  <div *ngIf="selectedProducts.length > 0">
+    <div class="flex justify-content-between align-items-center mb-2">
+      <h4 class="m-0">
+        Productos seleccionados
+        <span class="text-600 text-sm">({{ selectedProducts.length }})</span>
+      </h4>
+    </div>
+
+    <ul class="pl-3">
+      <li *ngFor="let p of selectedProducts; trackBy: trackByTempId" class="flex justify-content-between align-items-center mb-1">
+        <span>{{ p.name }} — {{ p.price?.price | currency: 'ARS' }}</span>
+        <button pButton icon="pi pi-times" class="p-button-text p-button-danger p-button-sm" (click)="removeProduct(p)"></button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="flex justify-content-end gap-2 mt-4">
+    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="close()"></button>
+    <button pButton label="Aceptar" icon="pi pi-check" [disabled]="selectedProducts.length === 0" (click)="confirmSelection()"></button>
+  </div>
+</div>

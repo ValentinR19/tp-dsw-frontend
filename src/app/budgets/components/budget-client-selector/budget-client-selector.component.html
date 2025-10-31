@@ -1,4 +1,17 @@
-<div class="card">
-  <h3 class="text-800 mb-2">Cliente</h3>
-  <p-select [options]="customers" (onChange)="onSelect($event.value)" placeholder="Seleccionar cliente" styleClass="w-full"></p-select>
-</div>
+@if (form) {
+  <div class="card" [formGroup]="form">
+    <h3 class="text-800 mb-2">Cliente</h3>
+    <p-select
+      [options]="customers"
+      optionLabel="companyName"
+      optionValue="id"
+      formControlName="customerId"
+      [filter]="true"
+      filterBy="fullName"
+      [showClear]="true"
+      placeholder="Seleccionar cliente"
+      appendTo="body"
+      styleClass="w-full"
+    ></p-select>
+  </div>
+}
