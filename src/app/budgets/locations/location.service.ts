@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { IPaginated } from '@main-module/app/core/interfaces/paginated.interface';
 import { environment } from '@main-module/environments/environment';
 import { Observable } from 'rxjs';
 
@@ -17,8 +18,7 @@ export interface City {
   name: string;
 }
 
-const ROOT_COUNTRIES = `${environment.SERVER_URL}/countries`;
-const ROOT_STATES = `${environment.SERVER_URL}/states`;
+const ROOT = `${environment.SERVER_URL}/locations`;
 
 @Injectable({
   providedIn: 'root',
@@ -26,18 +26,17 @@ const ROOT_STATES = `${environment.SERVER_URL}/states`;
 export class LocationService {
   private readonly http: HttpClient = inject(HttpClient);
 
-  /** Lista de países */
-  getCountries(): Observable<Country[]> {
-    return this.http.get<Country[]>(ROOT_COUNTRIES);
+  getCountries(page: number): Observable<IPaginated<Country>> {
+    return this.http.get<IPaginated<Country>>(`${ROOT}/countries/page/${page}`);
   }
 
-  /** Provincias/estados por país */
-  getStatesByCountry(countryId: number): Observable<State[]> {
-    return this.http.get<State[]>(`${ROOT_COUNTRIES}/${countryId}/states`);
+  // Provincias por país
+  getStatesByCountry(countryId: number, page: number): Observable<IPaginated<State>> {
+    return this.http.get<IPaginated<State>>(`${ROOT}/states/${countryId}/page/${page}`);
   }
 
-  /** Ciudades por provincia/estado */
-  getCitiesByState(stateId: number): Observable<City[]> {
-    return this.http.get<City[]>(`${ROOT_STATES}/${stateId}/cities`);
+  // Ciudades por provincia
+  getCitiesByState(stateId: number, page: number): Observable<IPaginated<City>> {
+    return this.http.get<IPaginated<City>>(`${ROOT}/cities/${stateId}/page/${page}`);
   }
 }

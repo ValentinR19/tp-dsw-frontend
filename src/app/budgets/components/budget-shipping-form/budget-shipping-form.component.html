@@ -3,54 +3,71 @@
   <p-divider></p-divider>
 
   <div class="grid">
+    <!-- Dirección -->
     <div class="col-12 md:col-6">
       <label for="address">Dirección</label>
       <input id="address" pInputText formControlName="address" placeholder="Dirección de envío" class="w-full" />
     </div>
+
+    <!-- País -->
     <div class="col-12 md:col-6">
       <label for="countryId">País</label>
-          <p-select
-          id="countryId"
-          formControlName="countryId"
-          [options]="countries"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Seleccioná un país"
-          appendTo="body"
-          styleClass="w-full"
-        ></p-select>
+      <p-select
+        id="countryId"
+        formControlName="countryId"
+        [options]="countries"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Seleccioná un país"
+        appendTo="body"
+        styleClass="w-full"
+        [lazy]="true"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="30"
+        (onLazyLoad)="loadCountriesLazy($event)"
+        (onChange)="onCountryChange()"
+      ></p-select>
     </div>
 
     <!-- Provincia / Estado -->
     <div class="col-12 md:col-6">
       <label for="stateId">Provincia / Estado</label>
-          <p-select
-          id="stateId"
-          formControlName="stateId"
-          [options]="states"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Seleccioná una provincia"
-          appendTo="body"
-          styleClass="w-full"
-          [disabled]="form.get('stateId')?.disabled"
-        ></p-select>
+      <p-select
+        id="stateId"
+        formControlName="stateId"
+        [options]="states"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Seleccioná una provincia"
+        appendTo="body"
+        styleClass="w-full"
+        [disabled]="form.get('stateId')?.disabled"
+        [lazy]="true"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="30"
+        (onLazyLoad)="loadStatesLazy($event)"
+        (onChange)="onStateChange()"
+      ></p-select>
     </div>
 
     <!-- Ciudad -->
     <div class="col-12 md:col-6">
       <label for="cityId">Ciudad</label>
-          <p-select
-          id="cityId"
-          formControlName="cityId"
-          [options]="cities"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Seleccioná una ciudad"
-          appendTo="body"
-          styleClass="w-full"
-          [disabled]="form.get('cityId')?.disabled"
-        ></p-select>
+      <p-select
+        id="cityId"
+        formControlName="cityId"
+        [options]="cities"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Seleccioná una ciudad"
+        appendTo="body"
+        styleClass="w-full"
+        [disabled]="form.get('cityId')?.disabled"
+        [lazy]="true"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="30"
+        (onLazyLoad)="loadCitiesLazy($event)"
+      ></p-select>
     </div>
   </div>
 </div>
