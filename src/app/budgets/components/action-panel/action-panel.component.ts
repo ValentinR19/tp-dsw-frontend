@@ -153,7 +153,7 @@ export class ActionPanelComponent {
   }
 
   verCliente() {
-    this.router.navigate([`/customers/${this.budget().customerId}/detail`]);
+    this.router.navigate([`/customers/${this.budget().customerId}/edit`]);
   }
 
   update(budget: Budget) {

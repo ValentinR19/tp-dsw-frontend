@@ -9,48 +9,48 @@
     </div>
     <div class="col-12 md:col-6">
       <label for="countryId">País</label>
-          <p-select
-          id="countryId"
-          formControlName="countryId"
-          [options]="countries"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Seleccioná un país"
-          appendTo="body"
-          styleClass="w-full"
-        ></p-select>
+      <p-select
+        id="countryId"
+        formControlName="countryId"
+        [options]="countries"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Seleccioná un país"
+        appendTo="body"
+        styleClass="w-full"
+      ></p-select>
     </div>
 
     <!-- Provincia / Estado -->
     <div class="col-12 md:col-6">
       <label for="stateId">Provincia / Estado</label>
-          <p-select
-          id="stateId"
-          formControlName="stateId"
-          [options]="states"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Seleccioná una provincia"
-          appendTo="body"
-          styleClass="w-full"
-          [disabled]="form.get('stateId')?.disabled"
-        ></p-select>
+      <p-select
+        id="stateId"
+        formControlName="stateId"
+        [options]="states"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Seleccioná una provincia"
+        appendTo="body"
+        styleClass="w-full"
+        [disabled]="form.get('stateId')?.disabled"
+      ></p-select>
     </div>
 
     <!-- Ciudad -->
     <div class="col-12 md:col-6">
       <label for="cityId">Ciudad</label>
-          <p-select
-          id="cityId"
-          formControlName="cityId"
-          [options]="cities"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Seleccioná una ciudad"
-          appendTo="body"
-          styleClass="w-full"
-          [disabled]="form.get('cityId')?.disabled"
-        ></p-select>
+      <p-select
+        id="cityId"
+        formControlName="cityId"
+        [options]="cities"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Seleccioná una ciudad"
+        appendTo="body"
+        styleClass="w-full"
+        [disabled]="form.get('cityId')?.disabled"
+      ></p-select>
     </div>
   </div>
 </div>

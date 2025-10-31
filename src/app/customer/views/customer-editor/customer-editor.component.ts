@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,6 +37,7 @@ export class CustomerEditorComponent implements OnInit {
   private readonly roleService: RoleService = inject(RoleService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly messageService: MessageService = inject(MessageService);
+  private readonly location = inject(Location);
 
   async ngOnInit(): Promise<void> {
     this.loadCategories();
@@ -121,7 +122,7 @@ export class CustomerEditorComponent implements OnInit {
   }
 
   close(): void {
-    this.router.navigate(['customers']);
+    this.location.back();
   }
 
   loadCategories(): void {

@@ -12,7 +12,7 @@ import { switchMap, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-budget-shipping-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, DividerModule,SelectModule,FloatLabelModule],
+  imports: [CommonModule, ReactiveFormsModule, InputTextModule, DividerModule, SelectModule, FloatLabelModule],
   templateUrl: './budget-shipping-form.component.html',
 })
 export class BudgetShippingFormComponent implements OnInit, OnDestroy {
@@ -35,11 +35,11 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
       this.form.get('cityId')?.disable({ emitEvent: false });
     }
 
-    const subCountries = this.loc.getCountries()
-      .subscribe(list => (this.countries = list ?? [])); 
+    const subCountries = this.loc.getCountries().subscribe((list) => (this.countries = list ?? []));
 
-    const subCountry = this.form.get('countryId')!.valueChanges
-      .pipe(
+    const subCountry = this.form
+      .get('countryId')!
+      .valueChanges.pipe(
         tap(() => {
           this.form.patchValue({ stateId: null, cityId: null }, { emitEvent: false });
           this.form.get('stateId')!.disable({ emitEvent: false });
@@ -47,33 +47,34 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
           this.states = [];
           this.cities = [];
         }),
-        switchMap(countryId => {
+        switchMap((countryId) => {
           const cid = countryId != null ? Number(countryId) : null;
           if (!cid) return of([] as State[]);
-          return this.loc.getStatesByCountry(cid); 
-        })
+          return this.loc.getStatesByCountry(cid);
+        }),
       )
-      .subscribe(states => {
+      .subscribe((states) => {
         this.states = states ?? [];
         if (this.states.length) {
           this.form.get('stateId')!.enable({ emitEvent: false });
         }
       });
 
-    const subState = this.form.get('stateId')!.valueChanges
-      .pipe(
+    const subState = this.form
+      .get('stateId')!
+      .valueChanges.pipe(
         tap(() => {
           this.form.patchValue({ cityId: null }, { emitEvent: false });
           this.form.get('cityId')!.disable({ emitEvent: false });
           this.cities = [];
         }),
-        switchMap(stateId => {
+        switchMap((stateId) => {
           const sid = stateId != null ? Number(stateId) : null;
           if (!sid) return of([] as City[]);
-          return this.loc.getCitiesByState(sid); 
-        })
+          return this.loc.getCitiesByState(sid);
+        }),
       )
-      .subscribe(cities => {
+      .subscribe((cities) => {
         this.cities = cities ?? [];
         if (this.cities.length) {
           this.form.get('cityId')!.enable({ emitEvent: false });
