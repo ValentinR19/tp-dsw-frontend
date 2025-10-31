@@ -32,7 +32,8 @@ export class BudgetListComponent {
   budgetColumns: ITableColumn[] = [
     { name: 'Estado', attribute: 'status', isBadge: true, valueMapper: (row) => row.status },
     { name: 'Código', attribute: 'code' },
-    { name: 'Cliente', attribute: `customer.fullName` },
+    { name: 'Cliente', attribute: `customer.companyName` },
+    { name: 'Vendedor', attribute: `seller.fullName` },
     { name: 'Fecha de Creación', attribute: 'createdAt', isDate: true },
   ];
 

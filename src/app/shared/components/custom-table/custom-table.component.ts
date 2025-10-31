@@ -47,7 +47,6 @@ export class CustomTableDataComponent implements OnInit {
   @Input() canSplitButton: boolean = false;
   @Input() splitButtonOptions: any[] = [];
 
-  // 🔹 Nuevos inputs para acciones por fila
   @Input() showRowActions: boolean = false;
   @Input() rowActionsBuilder?: (row: any) => MenuItem[];
   @Input() actionsIcon: string = 'pi pi-ellipsis-v';
@@ -178,7 +177,6 @@ export class CustomTableDataComponent implements OnInit {
     this.onSplitButtonAction.emit(event);
   }
 
-  // 🔹 Abrir menú contextual por fila
   openRowActionMenu(event: MouseEvent, row: any) {
     if (!this.rowActionsBuilder) return;
     this.currentRow = row;

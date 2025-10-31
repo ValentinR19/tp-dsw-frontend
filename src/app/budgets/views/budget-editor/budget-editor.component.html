@@ -2,12 +2,18 @@
 
 <div class="card mb-3">
   <h2>{{ budgetId ? 'Editar Presupuesto' : 'Crear Presupuesto' }}</h2>
+  @if (budgetId) {
+    <div><strong>Vendedor: </strong>{{ budget?.seller?.fullName }}</div>
+    <div><strong>Codigo: </strong>{{ budget?.code }}</div>
+    <div><strong>Estado: </strong>{{ budget?.status?.name }}</div>
+    <div><strong>Fecha de Creacion: </strong>{{ budget?.createdAt | date: 'dd/MM/yyy' }}</div>
+  }
 </div>
 
 <form [formGroup]="budgetForm" novalidate>
   <div class="grid">
     <div class="col-12 lg:col-6">
-      <app-budget-client-selector [customerId]="budgetForm.get('customerId')?.value" (customerSelected)="onCustomerSelected($event)"></app-budget-client-selector>
+      <app-budget-client-selector [form]="budgetForm"></app-budget-client-selector>
     </div>
 
     <div class="col-12 lg:col-6">
@@ -15,7 +21,7 @@
     </div>
 
     <div class="col-12">
-      <app-budget-items-table [items]="budgetForm.get('items')" (itemsChanged)="onItemsChanged()" (openSearch)="showProductSearch = true"></app-budget-items-table>
+      <app-budget-items-table [items]="budgetForm.get('items')" (itemsChanged)="onItemsChanged()" (openSearch)="openProductSearch()"></app-budget-items-table>
     </div>
 
     <div class="col-12 md:col-6">
@@ -31,5 +37,3 @@
     <p-button label="Guardar" icon="pi pi-check" (onClick)="submit()"></p-button>
   </div>
 </form>
-
-<app-budget-product-search [(visible)]="showProductSearch" (productSelected)="onAddProduct($event)"></app-budget-product-search>

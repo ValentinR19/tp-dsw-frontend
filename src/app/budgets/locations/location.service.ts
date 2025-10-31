@@ -1,15 +1,24 @@
-// src/app/shared/services/location.service.ts
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@main-module/environments/environment';
 import { Observable } from 'rxjs';
 
-export interface Country { id: number; name: string; iso3?: string; }
-export interface State   { id: number; name: string; }
-export interface City    { id: number; name: string; }
+export interface Country {
+  id: number;
+  name: string;
+  iso3?: string;
+}
+export interface State {
+  id: number;
+  name: string;
+}
+export interface City {
+  id: number;
+  name: string;
+}
 
 const ROOT_COUNTRIES = `${environment.SERVER_URL}/countries`;
-const ROOT_STATES    = `${environment.SERVER_URL}/states`;
+const ROOT_STATES = `${environment.SERVER_URL}/states`;
 
 @Injectable({
   providedIn: 'root',
@@ -32,4 +41,3 @@ export class LocationService {
     return this.http.get<City[]>(`${ROOT_STATES}/${stateId}/cities`);
   }
 }
-

@@ -16,21 +16,22 @@ export class BudgetItemsTableComponent {
   @Output() itemsChanged = new EventEmitter<void>();
   @Output() openSearch = new EventEmitter<void>();
 
-  ngOnInit() {
-    console.log('Items received:', this.items);
-  }
-
   removeItem(index: number) {
     this.items.removeAt(index);
     this.itemsChanged.emit();
   }
 
   updateItemTotal(itemGroup: FormGroup) {
-    console.log('Updating item total for', itemGroup.value);
-    const { quantity, unitPrice, discount } = itemGroup.value;
-    console.log('Unit price:', unitPrice);
-    const totalLine = quantity * unitPrice - (discount || 0);
-    itemGroup.patchValue({ totalLine }, { emitEvent: false });
+    let { quantity, unitPrice, discountPercent } = itemGroup.getRawValue();
+    const subtotal = quantity * unitPrice;
+
+    if (discountPercent < 0) discountPercent = 0;
+    if (discountPercent > 100) discountPercent = 100;
+
+    const discount = (subtotal * discountPercent) / 100;
+    const totalLine = subtotal - discount;
+
+    itemGroup.patchValue({ discount, totalLine, discountPercent }, { emitEvent: false });
     this.itemsChanged.emit();
   }
 }

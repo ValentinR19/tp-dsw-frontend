@@ -1,17 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackButtonComponent } from '@main-module/app/shared/components/back-button/back-button.component';
 import { MessageService } from '@main-module/app/shared/services/message.service';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
+import { DialogService } from 'primeng/dynamicdialog';
 import { lastValueFrom, take } from 'rxjs';
 import { BudgetBillingFormComponent } from '../../components/budget-billing-form/budget-billing-form.component';
 import { BudgetItemsTableComponent } from '../../components/budget-items-table/budget-items-table.component';
 import { BudgetProductSearchComponent } from '../../components/budget-product-search/budget-product-search.component';
 import { BudgetShippingFormComponent } from '../../components/budget-shipping-form/budget-shipping-form.component';
 import { BudgetSummaryComponent } from '../../components/budget-summary/budget-summary.component';
+import { Budget } from '../../models/classes/budget.entity';
 import { BudgetService } from '../../services/budget.service';
 import { BudgetClientSelectorComponent } from './../../components/budget-client-selector/budget-client-selector.component';
 
@@ -26,27 +28,34 @@ import { BudgetClientSelectorComponent } from './../../components/budget-client-
     BackButtonComponent,
     BudgetClientSelectorComponent,
     BudgetItemsTableComponent,
-    BudgetProductSearchComponent,
     BudgetSummaryComponent,
     BudgetBillingFormComponent,
     BudgetShippingFormComponent,
   ],
   templateUrl: './budget-editor.component.html',
   styleUrl: './budget-editor.component.scss',
+  providers: [DialogService],
 })
 export class BudgetEditorComponent implements OnInit {
   budgetForm: FormGroup;
   showProductSearch = false;
   budgetId: number | null = null;
 
+  budget: Budget;
+
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly budgetService = inject(BudgetService);
   private readonly messageService = inject(MessageService);
+  private readonly changeDetector: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly dialogService: DialogService = inject(DialogService);
 
   ngOnInit() {
     this.buildForm();
     this.loadIfEditing();
+
+    const itemsArray = this.budgetForm.get('items') as FormArray;
+    itemsArray.valueChanges.subscribe(() => this.recalculateTotals());
   }
 
   private buildForm() {
@@ -81,44 +90,66 @@ export class BudgetEditorComponent implements OnInit {
   private async loadIfEditing() {
     const params = await lastValueFrom(this.route.params.pipe(take(1)));
     this.budgetId = Number(params['id']);
-    if (this.budgetId) {
-      this.budgetService.getById(this.budgetId).subscribe((budget) => {
-        this.budgetForm.patchValue(budget);
-        const itemsArray = this.budgetForm.get('items') as FormArray;
-        (budget.items || []).forEach((i) =>
-          itemsArray.push(
-            new FormGroup({
-              productId: new FormControl(i.productId),
-              quantity: new FormControl(i.quantity),
-              unitPrice: new FormControl(i.unitPrice),
-              discount: new FormControl(i.discount),
-              tax: new FormControl(i.tax),
-              totalLine: new FormControl(i.totalLine),
-            }),
-          ),
-        );
-      });
-    }
-  }
+    if (!this.budgetId) return;
 
-  onCustomerSelected(customerId: number) {
-    console.log('Customer selected:', customerId);
-    this.budgetForm.patchValue({ customerId });
+    this.budgetService.getById(this.budgetId).subscribe((budget) => {
+      this.budget = budget;
+      this.budgetForm.patchValue({
+        customerId: budget.customerId,
+        sellerId: budget.sellerId,
+        currencyId: budget.currencyId,
+        subtotal: budget.subtotal,
+        totalDiscount: budget.totalDiscount,
+        totalTax: budget.totalTax,
+        total: budget.total,
+        budgetShipping: budget.budgetShipping,
+        budgetBilling: budget.budgetBilling,
+      });
+      const itemsArray = this.budgetForm.get('items') as FormArray;
+      itemsArray.clear();
+
+      (budget.items || []).forEach((i) => {
+        const unitPrice = Number(i.unitPrice) || 0;
+        const quantity = Number(i.quantity) || 0;
+        const discountPercent = Number(i.discountPercent) || 0;
+
+        const discount = (unitPrice * quantity * discountPercent) / 100;
+        const totalLine = unitPrice * quantity - discount;
+
+        const itemGroup = new FormGroup({
+          productId: new FormControl(i.productId),
+          productName: new FormControl(i.productName),
+          quantity: new FormControl(quantity),
+          unitPrice: new FormControl({ value: unitPrice, disabled: true }),
+          discountPercent: new FormControl(discountPercent),
+          discount: new FormControl(discount),
+          tax: new FormControl(i.tax ?? 0),
+          totalLine: new FormControl(totalLine),
+        });
+
+        itemsArray.push(itemGroup);
+      });
+      this.recalculateTotals();
+      this.changeDetector.detectChanges();
+    });
   }
 
   onAddProduct(product: any) {
-    console.log('Adding product to budget:', product);
     const items = this.budgetForm.get('items') as FormArray;
-    items.push(
-      new FormGroup({
-        productId: new FormControl(product.id),
-        quantity: new FormControl(1),
-        unitPrice: new FormControl(product.price.price),
-        discount: new FormControl(0),
-        tax: new FormControl(0),
-        totalLine: new FormControl(product.price.price),
-      }),
-    );
+    const unitPrice = product.price?.price ?? 0;
+
+    const newItem = new FormGroup({
+      productId: new FormControl(product.id),
+      productName: new FormControl(product.name),
+      quantity: new FormControl(1),
+      unitPrice: new FormControl({ value: unitPrice, disabled: true }),
+      discountPercent: new FormControl(0),
+      discount: new FormControl(0),
+      tax: new FormControl(0),
+      totalLine: new FormControl(unitPrice),
+    });
+
+    items.push(newItem);
     this.recalculateTotals();
   }
 
@@ -127,23 +158,67 @@ export class BudgetEditorComponent implements OnInit {
   }
 
   recalculateTotals() {
-    const items = (this.budgetForm.get('items') as FormArray).value;
-    const subtotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
-    const discount = items.reduce((sum, i) => sum + (i.discount || 0), 0);
-    const total = subtotal - discount;
-    this.budgetForm.patchValue({ subtotal, totalDiscount: discount, total });
+    const itemsArray = this.budgetForm.get('items') as FormArray;
+    const items = itemsArray.getRawValue();
+
+    let subtotal = 0;
+    let totalDiscount = 0;
+    let total = 0;
+
+    items.forEach((item, index) => {
+      const lineSubtotal = item.unitPrice * item.quantity;
+      const discount = (lineSubtotal * (item.discountPercent || 0)) / 100;
+      const totalLine = lineSubtotal - discount;
+
+      subtotal += lineSubtotal;
+      totalDiscount += discount;
+      total += totalLine;
+
+      const group = itemsArray.at(index) as FormGroup;
+      group.patchValue(
+        {
+          discount,
+          totalLine,
+        },
+        { emitEvent: false },
+      );
+    });
+
+    this.budgetForm.patchValue(
+      {
+        subtotal,
+        totalDiscount,
+        total,
+      },
+      { emitEvent: false },
+    );
   }
 
+  openProductSearch() {
+    const ref = this.dialogService.open(BudgetProductSearchComponent, {
+      header: 'Buscar producto',
+      width: '80%',
+      styleClass: 'modal-body',
+
+      closable: false,
+      dismissableMask: true,
+      modal: true,
+    });
+
+    ref.onClose.subscribe((products) => {
+      if (products && products.length > 0) {
+        products.forEach((p) => this.onAddProduct(p));
+      }
+    });
+  }
   submit() {
     this.budgetForm.markAllAsTouched();
 
-    console.log('Submitting budget form:', this.budgetForm.value);
     if (this.budgetForm.invalid) {
-      console.log('Invalid Form:', this.budgetForm);
       return;
     }
 
-    const payload = this.budgetForm.value;
+    const payload = this.budgetForm.getRawValue();
     const action = this.budgetId ? this.budgetService.udpate(this.budgetId, payload) : this.budgetService.create(payload);
 
     action.subscribe({

@@ -24,9 +24,9 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
   constructor(private loc: LocationService) {}
 
   ngOnInit(): void {
-    this.loc.getCountries().subscribe(list => this.countries = list ?? []);
+    this.loc.getCountries().subscribe((list) => (this.countries = list ?? []));
 
-    const sub1 = this.form.get('countryId')!.valueChanges.subscribe(countryId => {
+    const sub1 = this.form.get('countryId')!.valueChanges.subscribe((countryId) => {
       const cid = countryId != null ? Number(countryId) : null;
 
       this.form.patchValue({ stateId: null, cityId: null }, { emitEvent: false });
@@ -37,7 +37,7 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
         this.form.get('stateId')!.enable({ emitEvent: false });
         this.form.get('cityId')!.disable({ emitEvent: false });
 
-        this.loc.getStatesByCountry(cid).subscribe(list => {
+        this.loc.getStatesByCountry(cid).subscribe((list) => {
           this.states = list ?? [];
           if (this.states.length === 0) {
             this.form.get('stateId')!.disable({ emitEvent: false });
@@ -50,7 +50,7 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    const sub2 = this.form.get('stateId')!.valueChanges.subscribe(stateId => {
+    const sub2 = this.form.get('stateId')!.valueChanges.subscribe((stateId) => {
       const sid = stateId != null ? Number(stateId) : null;
 
       this.form.patchValue({ cityId: null }, { emitEvent: false });
@@ -59,7 +59,7 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
       if (sid) {
         this.form.get('cityId')!.enable({ emitEvent: false });
 
-        this.loc.getCitiesByState(sid).subscribe(list => {
+        this.loc.getCitiesByState(sid).subscribe((list) => {
           this.cities = list ?? [];
           if (this.cities.length === 0) {
             this.form.get('cityId')!.disable({ emitEvent: false });
@@ -74,6 +74,6 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach(s => s.unsubscribe());
+    this.subs.forEach((s) => s.unsubscribe());
   }
 }
