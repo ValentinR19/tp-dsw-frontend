@@ -30,11 +30,13 @@ export class CustomersListComponent {
   selectedFilters: IFilters;
 
   tableColumns: ITableColumn[] = [
-    { name: 'Codigo', attribute: 'code' },
-    { name: 'FirstName', attribute: 'firstName' },
-    { name: 'LastName', attribute: 'lastName' },
-    { name: 'Document', attribute: 'document' },
-    { name: 'Company Name', attribute: 'companyName' },
+    { name: '', attribute: 'status.name', isBadge: true, valueMapper: (v) => v.status },
+    { name: 'Código Interno', attribute: 'internalCode' },
+    { name: 'Nombre', attribute: 'firstName' },
+    { name: 'Apellido', attribute: 'lastName' },
+    { name: 'Documento', attribute: 'document' },
+    { name: 'Empresa', attribute: 'companyName' },
+    { name: 'Categoría', attribute: 'customerCategory.name' },
   ];
 
   private readonly customerService: CustomerService = inject(CustomerService);
