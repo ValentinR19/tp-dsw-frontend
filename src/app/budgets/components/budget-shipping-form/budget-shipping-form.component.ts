@@ -3,13 +3,16 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { LocationService, Country, State, City } from '../../locations/location.service';
+import { SelectModule } from 'primeng/select';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-budget-shipping-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, DividerModule],
+  imports: [CommonModule, ReactiveFormsModule, InputTextModule, DividerModule,SelectModule,FloatLabelModule],
   templateUrl: './budget-shipping-form.component.html',
 })
 export class BudgetShippingFormComponent implements OnInit, OnDestroy {
@@ -24,53 +27,60 @@ export class BudgetShippingFormComponent implements OnInit, OnDestroy {
   constructor(private loc: LocationService) {}
 
   ngOnInit(): void {
-    this.loc.getCountries().subscribe(list => this.countries = list ?? []);
+    if (!this.form.get('countryId')?.value) {
+      this.form.get('stateId')?.disable({ emitEvent: false });
+      this.form.get('cityId')?.disable({ emitEvent: false });
+    }
+    if (!this.form.get('stateId')?.value) {
+      this.form.get('cityId')?.disable({ emitEvent: false });
+    }
 
-    const sub1 = this.form.get('countryId')!.valueChanges.subscribe(countryId => {
-      const cid = countryId != null ? Number(countryId) : null;
+    const subCountries = this.loc.getCountries()
+      .subscribe(list => (this.countries = list ?? [])); 
 
-      this.form.patchValue({ stateId: null, cityId: null }, { emitEvent: false });
-      this.states = [];
-      this.cities = [];
+    const subCountry = this.form.get('countryId')!.valueChanges
+      .pipe(
+        tap(() => {
+          this.form.patchValue({ stateId: null, cityId: null }, { emitEvent: false });
+          this.form.get('stateId')!.disable({ emitEvent: false });
+          this.form.get('cityId')!.disable({ emitEvent: false });
+          this.states = [];
+          this.cities = [];
+        }),
+        switchMap(countryId => {
+          const cid = countryId != null ? Number(countryId) : null;
+          if (!cid) return of([] as State[]);
+          return this.loc.getStatesByCountry(cid); 
+        })
+      )
+      .subscribe(states => {
+        this.states = states ?? [];
+        if (this.states.length) {
+          this.form.get('stateId')!.enable({ emitEvent: false });
+        }
+      });
 
-      if (cid) {
-        this.form.get('stateId')!.enable({ emitEvent: false });
-        this.form.get('cityId')!.disable({ emitEvent: false });
+    const subState = this.form.get('stateId')!.valueChanges
+      .pipe(
+        tap(() => {
+          this.form.patchValue({ cityId: null }, { emitEvent: false });
+          this.form.get('cityId')!.disable({ emitEvent: false });
+          this.cities = [];
+        }),
+        switchMap(stateId => {
+          const sid = stateId != null ? Number(stateId) : null;
+          if (!sid) return of([] as City[]);
+          return this.loc.getCitiesByState(sid); 
+        })
+      )
+      .subscribe(cities => {
+        this.cities = cities ?? [];
+        if (this.cities.length) {
+          this.form.get('cityId')!.enable({ emitEvent: false });
+        }
+      });
 
-        this.loc.getStatesByCountry(cid).subscribe(list => {
-          this.states = list ?? [];
-          if (this.states.length === 0) {
-            this.form.get('stateId')!.disable({ emitEvent: false });
-            this.form.get('cityId')!.disable({ emitEvent: false });
-          }
-        });
-      } else {
-        this.form.get('stateId')!.disable({ emitEvent: false });
-        this.form.get('cityId')!.disable({ emitEvent: false });
-      }
-    });
-
-    const sub2 = this.form.get('stateId')!.valueChanges.subscribe(stateId => {
-      const sid = stateId != null ? Number(stateId) : null;
-
-      this.form.patchValue({ cityId: null }, { emitEvent: false });
-      this.cities = [];
-
-      if (sid) {
-        this.form.get('cityId')!.enable({ emitEvent: false });
-
-        this.loc.getCitiesByState(sid).subscribe(list => {
-          this.cities = list ?? [];
-          if (this.cities.length === 0) {
-            this.form.get('cityId')!.disable({ emitEvent: false });
-          }
-        });
-      } else {
-        this.form.get('cityId')!.disable({ emitEvent: false });
-      }
-    });
-
-    this.subs.push(sub1, sub2);
+    this.subs.push(subCountries, subCountry, subState);
   }
 
   ngOnDestroy(): void {
