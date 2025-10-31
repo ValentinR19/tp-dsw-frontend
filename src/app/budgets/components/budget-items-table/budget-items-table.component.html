@@ -9,8 +9,8 @@
       <tr>
         <th>Producto</th>
         <th>Cantidad</th>
-        <th>Precio</th>
-        <th>Descuento</th>
+        <th>Precio Unitario</th>
+        <th>Descuento (%)</th>
         <th>Subtotal</th>
         <th></th>
       </tr>
@@ -18,18 +18,27 @@
 
     <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
       <tr [formGroup]="row">
-        <td>{{ row.value.productId }}</td>
+        <!-- ✅ Muestra el nombre en vez del ID -->
+        <td>{{ row.value.productName }}</td>
+
         <td>
-          <p-inputNumber formControlName="quantity" (onInput)="updateItemTotal(row)"></p-inputNumber>
+          <p-inputNumber formControlName="quantity" (onInput)="updateItemTotal(row)" [min]="1" inputId="quantity-{{ rowIndex }}" class="w-6rem"></p-inputNumber>
         </td>
+
         <td>
-          <p-inputNumber formControlName="unitPrice" mode="currency" currency="ARS" (onInput)="updateItemTotal(row)"> </p-inputNumber>
+          <p-inputNumber formControlName="unitPrice" mode="currency" currency="ARS" [disabled]="true" class="w-8rem"></p-inputNumber>
         </td>
+
+        <!-- ✅ Descuento en porcentaje -->
         <td>
-          <p-inputNumber formControlName="discount" mode="currency" currency="ARS" (onInput)="updateItemTotal(row)"> </p-inputNumber>
+          <p-inputNumber formControlName="discountPercent" suffix="%" [min]="0" [max]="100" (onInput)="updateItemTotal(row)" class="w-6rem"></p-inputNumber>
         </td>
-        <td>{{ row.value.totalLine }}</td>
-        <td><p-button icon="pi pi-trash" severity="danger" (onClick)="removeItem(rowIndex)"></p-button></td>
+
+        <td>{{ row.value.totalLine | currency: 'ARS' }}</td>
+
+        <td>
+          <p-button icon="pi pi-trash" severity="danger" (onClick)="removeItem(rowIndex)"></p-button>
+        </td>
       </tr>
     </ng-template>
   </p-table>

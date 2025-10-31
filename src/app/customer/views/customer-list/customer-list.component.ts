@@ -82,8 +82,6 @@ export class CustomersListComponent {
   }
 
   delete(customer: Customer) {
-    console.log('Customer: ', customer);
-
     const dialogRef = this.dialogService.open(DeleteEntityComponent, {
       header: 'Eliminar Cliente',
       width: '80%',

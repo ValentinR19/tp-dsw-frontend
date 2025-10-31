@@ -18,11 +18,7 @@
     <!-- Provincia / Estado -->
     <div class="col-12 md:col-6">
       <label for="stateId">Provincia / Estado</label>
-      <select
-        id="stateId"
-        formControlName="stateId"
-        class="w-full p-inputtext"
-        [disabled]="form.get('stateId')?.disabled">
+      <select id="stateId" formControlName="stateId" class="w-full p-inputtext" [disabled]="form.get('stateId')?.disabled">
         <option [ngValue]="null" disabled>Seleccioná una provincia</option>
         <option *ngFor="let s of states" [ngValue]="s.id">{{ s.name }}</option>
       </select>
@@ -31,11 +27,7 @@
     <!-- Ciudad -->
     <div class="col-12 md:col-6">
       <label for="cityId">Ciudad</label>
-      <select
-        id="cityId"
-        formControlName="cityId"
-        class="w-full p-inputtext"
-        [disabled]="form.get('cityId')?.disabled">
+      <select id="cityId" formControlName="cityId" class="w-full p-inputtext" [disabled]="form.get('cityId')?.disabled">
         <option [ngValue]="null" disabled>Seleccioná una ciudad</option>
         <option *ngFor="let ct of cities" [ngValue]="ct.id">{{ ct.name }}</option>
       </select>

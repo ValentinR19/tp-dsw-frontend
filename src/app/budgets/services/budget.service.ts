@@ -20,8 +20,8 @@ export class BudgetService {
   /**
    * Obtener un presupuesto por ID
    */
-  getById(id: number): Observable<Budget> {
-    return this.http.get<Budget>(`${ROOT}/${id}`);
+  getById(id: number): Observable<any> {
+    return this.http.get<any>(`${ROOT}/${id}`);
   }
 
   /**
