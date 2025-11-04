@@ -16,9 +16,9 @@
       <button class="action-btn" aria-label="Settings" (click)="toggleSettingsDropdown()">
         <i class="pi pi-cog" style="font-size: 1rem"></i>
       </button>
-      <div *ngIf="isSettingsDropdownOpen" class="dropdown-menu">
+      <div *ngIf="isSettingsDropdownOpen" class="dropdown-menu" #dropdownMenu>
         <div class="dropdown-header">
-          <!-- <div class="user-avatar-wrapper">
+          <!--<div class="user-avatar-wrapper">
             <img class="user-avatar" [src]="user?.image?.imageUrl" alt="{{ usuario.fullName }}" />
           </div> -->
           <div class="user-info">
@@ -29,13 +29,13 @@
 
         <hr class="dropdown-divider" />
 
-        <!-- <button class="dropdown-item"><i class="pi pi-bolt"></i> Mejora</button> -->
+         <button class="dropdown-item"><i class="pi pi-bolt"></i> Mejora</button>
 
         <button class="dropdown-item" (click)="updateProfile()"><i class="pi pi-user-edit"></i> Configuraciones de la cuenta</button>
 
         <hr class="dropdown-divider" />
 
-        <!-- <button class="dropdown-item"><i class="pi pi-comments"></i> Chatea con nosotros</button> -->
+        <button class="dropdown-item"><i class="pi pi-comments"></i> Chatea con nosotros</button>
 
         <button class="dropdown-item" (click)="logout()"><i class="pi pi-sign-out"></i> Finalizar la sesión</button>
       </div>

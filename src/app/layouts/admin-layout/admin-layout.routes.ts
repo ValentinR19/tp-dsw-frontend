@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from '@main-module/app/dashboard/views/dashboard/dashboard.component';
+import { DashboardComponent } from 'src/app/layouts/dashboard/dashboard.component';
 
 export const AdminLayoutRoutes: Routes = [
   {
