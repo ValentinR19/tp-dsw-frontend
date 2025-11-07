@@ -18,9 +18,12 @@
       </button>
       <div *ngIf="isSettingsDropdownOpen" class="dropdown-menu" #dropdownMenu>
         <div class="dropdown-header">
-          <!--<div class="user-avatar-wrapper">
-            <img class="user-avatar" [src]="user?.image?.imageUrl" alt="{{ usuario.fullName }}" />
-          </div> -->
+          <div class="user-avatar-wrapper">
+            <img *ngIf="user?.image?.imageUrl" class="user-avatar" [src]="user?.image?.imageUrl" alt="{{ usuario.fullName }}" />
+            <div *ngIf="!user?.image?.imageUrl" class="avatar-initials" [style.background]="getAvatarColor(usuario.fullName)">
+              {{ getInitials(usuario.fullName) }}
+            </div>
+          </div>
           <div class="user-info">
             <div class="user-name">{{ usuario.fullName }}</div>
             <div class="user-email">{{ user.email }}</div>
@@ -29,13 +32,13 @@
 
         <hr class="dropdown-divider" />
 
-         <button class="dropdown-item"><i class="pi pi-bolt"></i> Mejora</button>
+         <!-- <button class="dropdown-item"><i class="pi pi-bolt"></i> Mejora</button> (Para hacer despues en AD)-->
 
         <button class="dropdown-item" (click)="updateProfile()"><i class="pi pi-user-edit"></i> Configuraciones de la cuenta</button>
 
         <hr class="dropdown-divider" />
 
-        <button class="dropdown-item"><i class="pi pi-comments"></i> Chatea con nosotros</button>
+        <!-- <button class="dropdown-item"><i class="pi pi-comments"></i> Chatea con nosotros</button> (Para hacer despues en AD)-->
 
         <button class="dropdown-item" (click)="logout()"><i class="pi pi-sign-out"></i> Finalizar la sesión</button>
       </div>

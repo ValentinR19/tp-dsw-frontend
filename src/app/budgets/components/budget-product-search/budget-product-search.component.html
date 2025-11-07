@@ -1,11 +1,11 @@
 <div class="p-fluid">
-  <!-- 🔹 Header con búsqueda -->
+  <!--  Header con búsqueda -->
   <div class="flex justify-content-between align-items-center mb-3 gap-2">
     <input pInputText [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Buscar producto..." class="w-full" />
     <button pButton label="Buscar" icon="pi pi-search" (click)="search()"></button>
   </div>
 
-  <!-- 🔹 Tabla de productos -->
+  <!-- Tabla de productos -->
   <p-table [value]="products" [loading]="loading" responsiveLayout="scroll">
     <ng-template pTemplate="header">
       <tr>
@@ -29,7 +29,7 @@
 
   <p-divider></p-divider>
 
-  <!-- 🔹 Productos seleccionados -->
+  <!-- Productos seleccionados -->
   <div *ngIf="selectedProducts.length > 0">
     <div class="flex justify-content-between align-items-center mb-2">
       <h4 class="m-0">

@@ -199,7 +199,6 @@ export class BudgetEditorComponent implements OnInit {
       header: 'Buscar producto',
       width: '80%',
       styleClass: 'modal-body',
-
       closable: false,
       dismissableMask: true,
       modal: true,

@@ -43,7 +43,7 @@ export class CustomTableDataComponent implements OnInit {
   @Input() canDivider: boolean = true;
   @Input() IsProminent: boolean = false;
   @Input() tableCard: boolean = true;
-  @Input() createButtonLabel: string = 'Create';
+  @Input() createButtonLabel: string = 'Crear';
   @Input() canSplitButton: boolean = false;
   @Input() splitButtonOptions: any[] = [];
 

@@ -62,7 +62,7 @@ export class BudgetShippingFormComponent implements OnInit {
     }
   }
 
-  // 🔹 Lazy load de países
+  // Lazy load de países
   loadCountriesLazy(event: SelectLazyLoadEvent): void {
     const page = Math.floor((event.last ?? 0) / 10) + 1;
     if (page <= this.countryPage) return;
@@ -77,7 +77,7 @@ export class BudgetShippingFormComponent implements OnInit {
       });
   }
 
-  // 🔹 Lazy load de provincias
+  // Lazy load de provincias
   loadStatesLazy(event: SelectLazyLoadEvent): void {
     const page = Math.floor((event.last ?? 0) / 10) + 1;
     if (page <= this.statePage) return;

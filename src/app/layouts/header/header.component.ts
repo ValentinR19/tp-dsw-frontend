@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
             this.detector.detectChanges();
           },
           error: (error) => {
-            console.error('Error fetching user:', error);
+            console.error('Error encontrando el usuario:', error);
           },
         });
       }
@@ -62,7 +62,29 @@ export class HeaderComponent implements OnInit {
   }
 
   updateProfile() {
-    this.router.navigate(['users/my-account']);
-    this.isSettingsDropdownOpen = false;
+  // Podriamos crear una seccion sobre mi cuenta aparte, para AD
+  if (this.user?.id) {
+    this.router.navigate([`users/${this.user.id}/edit`]);
+  }
+  this.isSettingsDropdownOpen = false;
+}
+
+  getInitials(fullName: string): string {
+    if (!fullName) return '?';
+    return fullName
+      .split(' ')
+      .map(name => name[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  }
+
+  getAvatarColor(fullName: string): string {
+    const colors = [
+      '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+      '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'
+    ];
+    const index = fullName?.length % colors.length || 0;
+    return colors[index];
   }
 }

@@ -69,7 +69,7 @@ export class ActionPanelComponent {
         this.messageService.showErrorMessage(e);
       },
       complete: () => {
-        this.messageService.showSuccessMessage('Budget authorized');
+        this.messageService.showSuccessMessage('Presupuesto Autorizado');
         this.onClosePanel();
       },
     });
@@ -82,7 +82,7 @@ export class ActionPanelComponent {
         this.messageService.showErrorMessage(e);
       },
       complete: () => {
-        this.messageService.showSuccessMessage('Budget confirmed');
+        this.messageService.showSuccessMessage('Presupuesto Confirmado');
         this.onClosePanel();
       },
     });
@@ -95,7 +95,7 @@ export class ActionPanelComponent {
         this.messageService.showErrorMessage(e);
       },
       complete: () => {
-        this.messageService.showSuccessMessage('Budget finalized');
+        this.messageService.showSuccessMessage('Presupuesto Finalizado');
         this.onClosePanel();
       },
     });
@@ -108,7 +108,7 @@ export class ActionPanelComponent {
         this.messageService.showErrorMessage(e);
       },
       complete: () => {
-        this.messageService.showSuccessMessage('Budget revoked');
+        this.messageService.showSuccessMessage('Presupuesto Revocado');
         this.onClosePanel();
       },
     });

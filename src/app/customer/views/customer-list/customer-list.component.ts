@@ -94,11 +94,11 @@ export class CustomersListComponent {
       data: {
         object: customer,
         objectService: this.customerService,
-        confirmationMessage: `Are you sure to delete the Customer ${customer.firstName} ${customer.lastName}`,
-        waitMessage: 'Wait for deleting',
-        successMessage: 'Customer deleted successfully',
-        errorMessage: 'Error deleting Customer',
-        cancelMessage: 'Cancel deleting',
+        confirmationMessage: `¿Está seguro que desea eliminar el cliente ${customer.firstName} ${customer.lastName}?`,
+        waitMessage: 'Esperando para eliminar',
+        successMessage: 'Cliente eliminado correctamente',
+        errorMessage: 'Error borrando al cliente',
+        cancelMessage: 'Cancelando borrado',
       },
     });
     dialogRef.onClose.subscribe({

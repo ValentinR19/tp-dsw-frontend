@@ -91,11 +91,11 @@ export class UsersListComponent {
       data: {
         object: user,
         objectService: this.userService,
-        confirmationMessage: `Are you sure to delete the user ${user.username}`,
-        waitMessage: 'Wait for deleting',
-        successMessage: 'User deleted successfully',
-        errorMessage: 'Error deleting user',
-        cancelMessage: 'Cancel deleting',
+        confirmationMessage: `¿Está seguro que desea eliminar al usuario ${user.username}?`,
+        waitMessage: 'Esperando para eliminar',
+        successMessage: 'Usuario eliminado correctamente',
+        errorMessage: 'Error borrando al usuario',
+        cancelMessage: 'Cancelando borrado',
       },
     });
     dialogRef.onClose.subscribe({

@@ -18,7 +18,7 @@
 
     <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
       <tr [formGroup]="row">
-        <!-- ✅ Muestra el nombre en vez del ID -->
+
         <td>{{ row.value.productName }}</td>
 
         <td>
@@ -29,7 +29,7 @@
           <p-inputNumber formControlName="unitPrice" mode="currency" currency="ARS" [disabled]="true" class="w-8rem"></p-inputNumber>
         </td>
 
-        <!-- ✅ Descuento en porcentaje -->
+
         <td>
           <p-inputNumber formControlName="discountPercent" suffix="%" [min]="0" [max]="100" (onInput)="updateItemTotal(row)" class="w-6rem"></p-inputNumber>
         </td>

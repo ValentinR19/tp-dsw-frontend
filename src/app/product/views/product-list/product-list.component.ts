@@ -89,11 +89,11 @@ export class ProductsListComponent {
       data: {
         object: product,
         objectService: this.ProductService,
-        confirmationMessage: `Are you sure to delete the Product ${product.name}`,
-        waitMessage: 'Wait for deleting',
-        successMessage: 'Product deleted successfully',
-        errorMessage: 'Error deleting Product',
-        cancelMessage: 'Cancel deleting',
+        confirmationMessage: `¿Está seguro que desea eliminar el producto ${product.name}?`,
+        waitMessage: 'Esperando para eliminar',
+        successMessage: 'Producto eliminado correctamente',
+        errorMessage: 'Error borrando el producto',
+        cancelMessage: 'Cancelando borrado',
       },
     });
     dialogRef.onClose.subscribe({
