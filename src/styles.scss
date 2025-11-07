@@ -5,6 +5,47 @@
 @import '../node_modules/ngx-toastr/toastr.css';
 @import '../node_modules/quill/dist/quill.snow.css';
 
+// ===== AGREGAR ESTAS VARIABLES AQUÍ =====
+:root {
+  // Variables existentes (deberías tener algunas ya)
+  --paginator-bg: #ffffff;
+  --text-color: #333333;
+  --table-row-hover-bg: #f5f5f5;
+  --secondary-text-color: #666666;
+  --background-card: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --primary-color: #3b82f6;
+
+  // NUEVAS VARIABLES PARA BOTONES - ESENCIALES
+  --button-background-color: #3b82f6;
+  --button-background-color-dark: #2563eb;
+  --button-hover-bg: #60a5fa;
+  --button-hover-bg-dark: #3b82f6;
+  --button-text-color: #ffffff;
+
+  // Variables para variantes de botones
+  --primary-color-hover: #2563eb;
+  --danger-color: #dc2626;
+  --success-color: #10b981;
+
+  // Otras variables que podrían faltar
+  --background: #f8fafc;
+  --card-background-color: #ffffff;
+  --table-border-color: #e5e7eb;
+  --paginator-active-bg: #3b82f6;
+  --paginator-text-color: #374151;
+  --paginator-hover-bg: #e5e7eb;
+  --button-hover-background-color: #2563eb;
+  --button-disabled-background: #9ca3af;
+  --button-disabled-text: #6b7280;
+  --input-border-focus: #3b82f6;
+  --focus-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+  --border-radius: 6px;
+  --input-border-radius: 6px;
+  --font-size-base: 0.875rem;
+}
+
 * {
   box-sizing: border-box;
 }
