@@ -16,7 +16,7 @@ import { BudgetSummaryComponent } from '../../components/budget-summary/budget-s
 import { Budget } from '../../models/classes/budget.entity';
 import { BudgetService } from '../../services/budget.service';
 import { BudgetClientSelectorComponent } from './../../components/budget-client-selector/budget-client-selector.component';
-
+import { ViewChild } from '@angular/core';
 @Component({
   selector: 'app-budget-editor',
   standalone: true,
@@ -86,6 +86,16 @@ export class BudgetEditorComponent implements OnInit {
       }),
     });
   }
+  @ViewChild(BudgetShippingFormComponent) shippingFormComp!: BudgetShippingFormComponent;
+
+private hydrateShippingCascades() {
+  const shipping = this.budgetForm.get('budgetShipping') as FormGroup;
+  const countryId = shipping.get('countryId')?.value;
+  const stateId   = shipping.get('stateId')?.value;
+
+  if (countryId) this.shippingFormComp.onCountryChange();
+  if (stateId)   this.shippingFormComp.onStateChange();
+}
 
   private async loadIfEditing() {
     const params = await lastValueFrom(this.route.params.pipe(take(1)));
@@ -102,9 +112,16 @@ export class BudgetEditorComponent implements OnInit {
         totalDiscount: budget.totalDiscount,
         totalTax: budget.totalTax,
         total: budget.total,
-        budgetShipping: budget.budgetShipping,
+        budgetShipping: {
+          address: budget.budgetShipping?.address ?? '',
+          countryId: budget.budgetShipping?.country?.id ?? null,
+          stateId:   budget.budgetShipping?.state?.id ?? null,
+          cityId:    budget.budgetShipping?.city?.id ?? null,
+        },
         budgetBilling: budget.budgetBilling,
       });
+        // 1) microtarea
+  Promise.resolve().then(() => this.hydrateShippingCascades());
       const itemsArray = this.budgetForm.get('items') as FormArray;
       itemsArray.clear();
 
