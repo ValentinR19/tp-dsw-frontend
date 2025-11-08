@@ -30,8 +30,8 @@ export class ProductsListComponent {
   selectedFilters: IFilters;
 
   tableColumns: ITableColumn[] = [
-    { name: 'Name', attribute: 'name' },
-    { name: 'Description', attribute: 'description' },
+    { name: 'Nombre', attribute: 'name' },
+    { name: 'Descripción', attribute: 'description' },
   ];
 
   private readonly ProductService: ProductService = inject(ProductService);

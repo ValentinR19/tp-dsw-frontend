@@ -112,7 +112,7 @@ export class CustomerEditorComponent implements OnInit {
   update() {
     this.customerService.updateCustomer({ id: this.customerId, ...this.customerForm.value }).subscribe({
       next: (customer: Customer) => {
-        this.messageService.showSuccessMessage('cliente actualizado correctamente');
+        this.messageService.showSuccessMessage('Cliente actualizado correctamente');
         this.router.navigate(['customers']);
       },
       error: (error) => {

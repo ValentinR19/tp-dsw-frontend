@@ -30,9 +30,9 @@ export class UsersListComponent {
   selectedFilters: IFilters;
 
   tableColumns: ITableColumn[] = [
-    { name: 'FirstName', attribute: 'firstName' },
-    { name: 'LastName', attribute: 'lastName' },
-    { name: 'Username', attribute: 'username' },
+    { name: 'Nombre', attribute: 'firstName' },
+    { name: 'Apellido', attribute: 'lastName' },
+    { name: 'Nombre de Usuario', attribute: 'username' },
     { name: 'Email', attribute: 'email' },
   ];
 

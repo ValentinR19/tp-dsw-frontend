@@ -30,7 +30,7 @@ export class CustomersListComponent {
   selectedFilters: IFilters;
 
   tableColumns: ITableColumn[] = [
-    { name: '', attribute: 'status.name', isBadge: true, valueMapper: (v) => v.status },
+    //{ name: '', attribute: 'status.name', isBadge: true, valueMapper: (v) => v.status },
     { name: 'Código Interno', attribute: 'internalCode' },
     { name: 'Nombre', attribute: 'firstName' },
     { name: 'Apellido', attribute: 'lastName' },
