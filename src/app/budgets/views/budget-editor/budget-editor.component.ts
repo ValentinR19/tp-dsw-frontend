@@ -79,14 +79,14 @@ export class BudgetEditorComponent implements OnInit {
       }),
 
       budgetBilling: new FormGroup({
-        buyerCompany: new FormControl(''),
-        buyerAddress: new FormControl(''),
-        buyerTaxId: new FormControl(''),
-        shippingCountry: new FormControl(''),
-        consigneeCompany: new FormControl(''),
-        consigneeAddress: new FormControl(''),
-        portDestination: new FormControl(''),
-        paymentDescription: new FormControl(''),
+        buyerCompany: new FormControl('', [Validators.required]),
+        buyerAddress: new FormControl('', [Validators.required, Validators.minLength(5)]),
+        buyerTaxId: new FormControl('', [Validators.required]),
+        shippingCountry: new FormControl('', [Validators.required]),
+        portDestination: new FormControl('', [Validators.required]),
+        paymentDescription: new FormControl('', [Validators.required]),
+      consigneeCompany: new FormControl('Sin especificar',), // le asigno valores por defecto por ahora
+      consigneeAddress: new FormControl('Sin especificar',),
       }),
     });
   }
@@ -94,118 +94,130 @@ export class BudgetEditorComponent implements OnInit {
   @ViewChild(BudgetShippingFormComponent) shippingFormComp!: BudgetShippingFormComponent;
 
   private async loadIfEditing() {
-    const params = await lastValueFrom(this.route.params.pipe(take(1)));
-    this.budgetId = Number(params['id']);
+  const params = await lastValueFrom(this.route.params.pipe(take(1)));
+  this.budgetId = Number(params['id']);
 
-    if (!this.budgetId) return;
+  if (!this.budgetId) return;
 
-    this.budgetService.getById(this.budgetId).subscribe({
-      next: (budget) => {
-        this.budget = budget;
+  this.budgetService.getById(this.budgetId).subscribe({
+    next: (budget) => {
+      this.budget = budget;
+      this.budgetForm.reset();
 
-        this.budgetForm.reset();
+      // Datos básicos
+      this.budgetForm.patchValue({
+        customerId: budget.customerId,
+        sellerId: budget.sellerId,
+        currencyId: budget.currencyId || 1,
+        subtotal: budget.subtotal || 0,
+        totalDiscount: budget.totalDiscount || 0,
+        totalTax: budget.totaltax || 0,
+        total: budget.total || 0,
+      });
 
-        // Datos básicos
-        this.budgetForm.patchValue({
-          customerId: budget.customerId,
-          sellerId: budget.sellerId,
-          currencyId: budget.currencyId || 1,
-          subtotal: budget.subtotal || 0,
-          totalDiscount: budget.totalDiscount || 0,
-          totalTax: budget.totaltax || 0,
-          total: budget.total || 0,
+      // Items
+      const itemsArray = this.budgetForm.get('items') as FormArray;
+      itemsArray.clear();
+
+      if (budget.items && budget.items.length > 0) {
+        budget.items.forEach((item) => {
+          const itemGroup = new FormGroup({
+            productId: new FormControl(item.productId),
+            productName: new FormControl(item.productName || 'Producto'),
+            quantity: new FormControl(item.quantity || 1),
+            unitPrice: new FormControl(item.unitPrice || 0),
+            discountPercent: new FormControl(item.discountPercent || 0),
+            discount: new FormControl(item.discount || 0),
+            tax: new FormControl(item.tax || 0),
+            totalLine: new FormControl(item.totalLine || 0),
+          });
+          itemsArray.push(itemGroup);
         });
-
-        // Items
-        const itemsArray = this.budgetForm.get('items') as FormArray;
-        itemsArray.clear();
-
-        if (budget.items && budget.items.length > 0) {
-          budget.items.forEach((item) => {
-            const itemGroup = new FormGroup({
-              productId: new FormControl(item.productId),
-              productName: new FormControl(item.productName || 'Producto'),
-              quantity: new FormControl(item.quantity || 1),
-              unitPrice: new FormControl(item.unitPrice || 0),
-              discountPercent: new FormControl(item.discountPercent || 0),
-              discount: new FormControl(item.discount || 0),
-              tax: new FormControl(item.tax || 0),
-              totalLine: new FormControl(item.totalLine || 0),
-            });
-            itemsArray.push(itemGroup);
-          });
-        }
-
-        let countryId: number | null = null;
-        let stateId: number | null = null;
-        let cityId: number | null = null;
-
-        // Shipping
-        if (budget.budgetShipping) {
-          countryId = this.extractId(budget.budgetShipping.countryId);
-          stateId = this.extractId(budget.budgetShipping.stateId);
-          cityId = this.extractId(budget.budgetShipping.cityId);
-
-          this.budgetForm.patchValue({
-            budgetShipping: {
-              address: budget.budgetShipping.address || '',
-              email: budget.budgetShipping.email || '',
-              countryId: countryId,
-              stateId: stateId,
-              cityId: cityId,
-            }
-          });
-        }
-
-        setTimeout(() => {
-          this.loadShippingNames(countryId, stateId, cityId);
-        }, 800);
-
-        // Billing
-        if (budget.budgetBilling) {
-          this.budgetForm.patchValue({
-            budgetBilling: budget.budgetBilling
-          });
-        }
-
-        this.recalculateTotals();
-        this.changeDetector.detectChanges();
-      },
-      error: (error) => {
-        this.messageService.showErrorFromDTO('Error al cargar el presupuesto');
       }
-    });
-  }
+
+      let countryId: number | null = null;
+      let stateId: number | null = null;
+      let cityId: number | null = null;
+
+      if (budget.budgetShipping) {
+        countryId = this.extractId(budget.budgetShipping.countryId);
+        stateId = this.extractId(budget.budgetShipping.stateId);
+        cityId = this.extractId(budget.budgetShipping.cityId);
+
+        this.budgetForm.patchValue({
+          budgetShipping: {
+            address: budget.budgetShipping.address || '',
+            email: budget.budgetShipping.email || '',
+            countryId: countryId,
+            stateId: stateId,
+            cityId: cityId,
+          }
+        });
+      }
+
+      if (budget.budgetBilling) {
+        this.budgetForm.patchValue({
+          budgetBilling: budget.budgetBilling
+        });
+      }
+
+      const shippingFormValue = this.budgetForm.get('budgetShipping')?.value;
+
+      setTimeout(() => {
+        this.loadShippingNames(countryId, stateId, cityId);
+      }, 1000);
+
+      this.recalculateTotals();
+      this.changeDetector.detectChanges();
+    },
+    error: (error) => {
+      this.messageService.showErrorFromDTO('Error al cargar el presupuesto');
+    }
+  });
+}
 
   private extractId(value: any): number | null {
-    if (!value) return null;
-    if (typeof value === 'object' && value !== null) return value.id;
-    if (typeof value === 'number') return value;
+  if (!value) {
     return null;
   }
 
-  private loadShippingNames(countryId: number | null, stateId: number | null, cityId: number | null): void {
-    if (!this.shippingFormComp) {
-      setTimeout(() => this.loadShippingNames(countryId, stateId, cityId), 300);
-      return;
-    }
-
-    if (countryId) {
-      this.shippingFormComp.loadAndSelectCountry(countryId);
-
-      if (stateId) {
-        setTimeout(() => {
-          this.shippingFormComp.loadAndSelectState(stateId);
-
-          if (cityId) {
-            setTimeout(() => {
-              this.shippingFormComp.loadAndSelectCity(cityId);
-            }, 1000);
-          }
-        }, 800);
-      }
-    }
+  if (typeof value === 'object' && value !== null) {
+    return value.id;
   }
+
+  if (typeof value === 'number') {
+    return value;
+  }
+
+  // Si es string, intentar convertir a número
+  if (typeof value === 'string') {
+    const num = Number(value);
+    return isNaN(num) ? null : num;
+  }
+  return null;
+}
+
+  private loadShippingNames(countryId: number | null, stateId: number | null, cityId: number | null): void {
+  if (!this.shippingFormComp) {
+    setTimeout(() => this.loadShippingNames(countryId, stateId, cityId), 300);
+    return;
+  }
+
+  if (countryId && stateId && cityId) {
+    this.shippingFormComp.loadShippingData(countryId, stateId, cityId)
+      .then(() => {
+
+        setTimeout(() => {
+          const currentValues = this.budgetForm.get('budgetShipping')?.value;
+        }, 500);
+      })
+      .catch(error => {
+        console.error('Error cargando ubicaciones:', error);
+      });
+  } else {
+    console.warn('Faltan IDs para cargar ubicaciones:', { countryId, stateId, cityId });
+  }
+}
 
   onAddProduct(product: any) {
     const items = this.budgetForm.get('items') as FormArray;
@@ -285,63 +297,93 @@ export class BudgetEditorComponent implements OnInit {
   }
 
   submit() {
-    this.markAllFormGroupsAsTouched(this.budgetForm);
+  this.markAllFormGroupsAsTouched(this.budgetForm);
 
-    if (this.budgetForm.invalid) {
-      this.messageService.showErrorMessage('Por favor, complete todos los campos obligatorios');
-      return;
-    }
-
-    const rawData = this.budgetForm.getRawValue();
-    const payload = this.preparePayload(rawData);
-
-    const action = this.budgetId ?
-      this.budgetService.update(this.budgetId, payload) :
-      this.budgetService.create(payload);
-
-    action.subscribe({
-      next: () => {
-        this.messageService.showSuccessMessage('Presupuesto guardado correctamente');
-        this.router.navigate(['budgets']);
-      },
-      error: (err) => {
-        let errorMessage = 'Error al guardar el presupuesto';
-        if (err.status === 500) {
-          errorMessage = 'Error interno del servidor. Contacte al administrador.';
-        } else if (err.status === 400) {
-          errorMessage = 'Datos inválidos. Verifique la información ingresada.';
-        }
-        this.messageService.showErrorMessage(errorMessage);
-      },
-    });
+  if (this.budgetForm.invalid) {
+    this.messageService.showErrorMessage('Por favor, complete todos los campos obligatorios');
+    return;
   }
+
+  const rawData = this.budgetForm.getRawValue();
+
+  const payload = this.preparePayload(rawData);
+
+  const action = this.budgetId ?
+    this.budgetService.update(this.budgetId, payload) :
+    this.budgetService.create(payload);
+
+  action.subscribe({
+    next: (result) => {
+      this.messageService.showSuccessMessage('Presupuesto guardado correctamente');
+      this.router.navigate(['budgets']);
+    },
+    error: (err) => {
+      console.error('Error COMPLETO:', err);
+      console.error('Error response:', err.error);
+      console.error('Error status:', err.status);
+
+      let errorMessage = 'Error al guardar el presupuesto';
+      if (err.status === 500) {
+        errorMessage = 'Error interno del servidor. Contacte al administrador.';
+      } else if (err.status === 400) {
+        errorMessage = 'Datos inválidos. Verifique la información ingresada.';
+        console.error('Validation errors:', err.error?.message);
+      }
+      this.messageService.showErrorMessage(errorMessage);
+    },
+  });
+}
+
+// Agrega este método helper para debug
+private getFormErrors(form: FormGroup | FormArray): any {
+  const errors: any = {};
+  Object.keys(form.controls).forEach(key => {
+    const control = form.get(key);
+    if (control instanceof FormGroup || control instanceof FormArray) {
+      errors[key] = this.getFormErrors(control);
+    } else if (control?.errors) {
+      errors[key] = control.errors;
+    }
+  });
+  return errors;
+}
 
   private preparePayload(formData: any): any {
-    const payload = JSON.parse(JSON.stringify(formData));
+  const payload = JSON.parse(JSON.stringify(formData));
 
-    if (payload.budgetShipping) {
-      payload.budgetShipping.countryId = Number(payload.budgetShipping.countryId);
-      payload.budgetShipping.stateId = Number(payload.budgetShipping.stateId);
-      payload.budgetShipping.cityId = Number(payload.budgetShipping.cityId);
-    }
-
-    return this.removeEmptyFields(payload);
+  if (payload.budgetShipping) {
+    // Conversión segura - mantener como número o undefined, nunca null
+    payload.budgetShipping.countryId = this.safeNumberConversion(payload.budgetShipping.countryId);
+    payload.budgetShipping.stateId = this.safeNumberConversion(payload.budgetShipping.stateId);
+    payload.budgetShipping.cityId = this.safeNumberConversion(payload.budgetShipping.cityId);
   }
 
-  private removeEmptyFields(obj: any): any {
-    if (Array.isArray(obj)) {
-      return obj.map(item => this.removeEmptyFields(item));
-    } else if (obj !== null && typeof obj === 'object') {
-      return Object.keys(obj).reduce((acc, key) => {
-        const value = obj[key];
-        if (value !== null && value !== undefined && value !== '') {
-          acc[key] = this.removeEmptyFields(value);
-        }
-        return acc;
-      }, {} as any);
-    }
-    return obj;
+  return this.removeEmptyFields(payload);
+}
+
+private safeNumberConversion(value: any): number | undefined {
+  if (value === null || value === undefined || value === '' || isNaN(Number(value))) {
+    return undefined; // Usar undefined en lugar de null
   }
+  return Number(value);
+}
+
+private removeEmptyFields(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(item => this.removeEmptyFields(item));
+  } else if (obj !== null && typeof obj === 'object') {
+    return Object.keys(obj).reduce((acc, key) => {
+      const value = obj[key];
+      // Mantener valores 0 y false, pero eliminar null, undefined, ''
+      if (value !== null && value !== undefined && value !== '') {
+        acc[key] = this.removeEmptyFields(value);
+      }
+      return acc;
+    }, {} as any);
+  }
+  return obj;
+}
+
 
   private markAllFormGroupsAsTouched(formGroup: FormGroup | FormArray): void {
     Object.keys(formGroup.controls).forEach(key => {

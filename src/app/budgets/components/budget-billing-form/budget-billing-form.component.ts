@@ -12,4 +12,5 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class BudgetBillingFormComponent {
   @Input({ required: true }) form!: FormGroup;
+  @Input({ required: true }) parentForm!: FormGroup; // ← Agregar parentForm
 }

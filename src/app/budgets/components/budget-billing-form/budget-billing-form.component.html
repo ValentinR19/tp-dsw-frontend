@@ -4,23 +4,60 @@
 
   <div class="grid">
     <div class="col-12 md:col-6">
-      <label for="buyerCompany">Empresa compradora</label>
-      <input id="buyerCompany" pInputText formControlName="buyerCompany" class="w-full" />
+      <label for="buyerCompany">Empresa compradora *</label>
+        <input id="buyerCompany" type="text" pInputText formControlName="buyerCompany"
+          [class]="{'ng-invalid ng-dirty': parentForm.get('budgetBilling.buyerCompany')?.invalid && parentForm.get('budgetBilling.buyerCompany')?.touched}" />
+          @if (parentForm.get('budgetBilling.buyerCompany')?.invalid && parentForm.get('budgetBilling.buyerCompany')?.touched) {
+          <small class="text-red-500 block mt-1">
+            @if (parentForm.get('budgetBilling.buyerCompany')?.errors?.['required']) {
+            La empresa compradora es obligatoria
+            }
+          </small>
+          }
+          </div>
+
+
+    <div class="col-12 md:col-6">
+      <label for="buyerAddress">Dirección compradora *</label>
+      <input id="buyerAddress" type="text" pInputText formControlName="buyerAddress"
+        [class]="{'ng-invalid ng-dirty': parentForm.get('budgetBilling.buyerAddress')?.invalid && parentForm.get('budgetBilling.buyerAddress')?.touched}" />
+    @if (parentForm.get('budgetBilling.buyerAddress')?.invalid && parentForm.get('budgetBilling.buyerAddress')?.touched) {
+    <small class="text-red-500 block mt-1">
+      @if (parentForm.get('budgetBilling.buyerAddress')?.errors?.['required']) {
+      La dirección del comprador es obligatoria
+      }
+      @if (parentForm.get('budgetBilling.buyerAddress')?.errors?.['minlength']) {
+      La dirección debe tener al menos 5 caracteres
+      }
+    </small>
+    }
     </div>
 
     <div class="col-12 md:col-6">
-      <label for="buyerAddress">Dirección compradora</label>
-      <input id="buyerAddress" pInputText formControlName="buyerAddress" class="w-full" />
+      <label for="buyerTaxId">CUIT / Tax ID *</label>
+      <input id="buyerTaxId" type="text" pInputText formControlName="buyerTaxId"
+        [class]="{'ng-invalid ng-dirty': parentForm.get('budgetBilling.buyerTaxId')?.invalid && parentForm.get('budgetBilling.buyerTaxId')?.touched}" />
+    @if (parentForm.get('budgetBilling.buyerTaxId')?.invalid && parentForm.get('budgetBilling.buyerTaxId')?.touched) {
+    <small class="text-red-500 block mt-1">
+      @if (parentForm.get('budgetBilling.buyerTaxId')?.errors?.['required']) {
+      El Tax ID del comprador es obligatorio
+      }
+    </small>
+    }
     </div>
 
     <div class="col-12 md:col-6">
-      <label for="buyerTaxId">CUIT / Tax ID</label>
-      <input id="buyerTaxId" pInputText formControlName="buyerTaxId" class="w-full" />
-    </div>
-
-    <div class="col-12 md:col-6">
-      <label for="shippingCountry">País de envío</label>
-      <input id="shippingCountry" pInputText formControlName="shippingCountry" class="w-full" />
+      <label for="shippingCountry">País de envío *</label>
+      <input id="shippingCountry" type="text" pInputText formControlName="shippingCountry"
+        [class]="{'ng-invalid ng-dirty': parentForm.get('budgetBilling.shippingCountry')?.invalid && parentForm.get('budgetBilling.shippingCountry')?.touched}" />
+    @if (parentForm.get('budgetBilling.shippingCountry')?.invalid &&
+    parentForm.get('budgetBilling.shippingCountry')?.touched) {
+    <small class="text-red-500 block mt-1">
+      @if (parentForm.get('budgetBilling.shippingCountry')?.errors?.['required']) {
+      El país de envío es obligatorio
+      }
+    </small>
+    }
     </div>
 
     <!-- <div class="col-12 md:col-6">
@@ -34,13 +71,31 @@
     </div> -->
 
     <div class="col-12 md:col-6">
-      <label for="portDestination">Puerto de destino</label>
-      <input id="portDestination" pInputText formControlName="portDestination" class="w-full" />
+      <label for="portDestination">Puerto de destino *</label>
+      <input id="portDestination" type="text" pInputText formControlName="portDestination"
+        [class]="{'ng-invalid ng-dirty': parentForm.get('budgetBilling.portDestination')?.invalid && parentForm.get('budgetBilling.portDestination')?.touched}" />
+    @if (parentForm.get('budgetBilling.portDestination')?.invalid &&
+    parentForm.get('budgetBilling.portDestination')?.touched) {
+    <small class="text-red-500 block mt-1">
+      @if (parentForm.get('budgetBilling.portDestination')?.errors?.['required']) {
+      El puerto de destino es obligatorio
+      }
+    </small>
+    }
     </div>
 
-    <div class="col-12 md:col-6">
-      <label for="paymentDescription">Condición de pago</label>
-      <input id="paymentDescription" pInputText formControlName="paymentDescription" class="w-full" />
+    <div class="col-12">
+      <label for="paymentDescription">Condición de pago *</label>
+        <input id="paymentDescription" type="text" pInputText formControlName="paymentDescription"
+          [class]="{'ng-invalid ng-dirty': parentForm.get('budgetBilling.paymentDescription')?.invalid && parentForm.get('budgetBilling.paymentDescription')?.touched}" />
+      @if (parentForm.get('budgetBilling.paymentDescription')?.invalid &&
+      parentForm.get('budgetBilling.paymentDescription')?.touched) {
+      <small class="text-red-500 block mt-1">
+        @if (parentForm.get('budgetBilling.paymentDescription')?.errors?.['required']) {
+        La condición de pago es obligatoria
+        }
+      </small>
+      }
     </div>
   </div>
 </div>
