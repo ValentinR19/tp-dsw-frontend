@@ -8,7 +8,6 @@ import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { lastValueFrom, take } from 'rxjs';
-
 import { BackButtonComponent } from '@main-module/app/shared/components/back-button/back-button.component';
 import { MessageService } from '@main-module/app/shared/services/message.service';
 import { Currency } from 'src/app/shared/enums/currency.enum';
@@ -73,10 +72,69 @@ export class ProductEditorComponent implements OnInit {
 
   submit(): void {
     this.productForm.markAllAsTouched();
-    if (this.productForm.invalid) return;
+
+    if (this.productForm.invalid) {
+      this.showValidationErrors();
+      return;
+    }
+
     this.productId ? this.update() : this.create();
   }
 
+  private showValidationErrors(): void {
+    const controls = this.productForm.controls;
+
+    // Verificar cada campo y mostrar mensaje específico
+    if (controls['name'].errors?.['required']) {
+      this.messageService.showErrorMessage('El nombre del producto es obligatorio');
+      return;
+    }
+
+    if (controls['productCategoryId'].errors?.['required']) {
+      this.messageService.showErrorMessage('La categoría del producto es obligatoria');
+      return;
+    }
+
+    if (controls['price'].errors?.['required']) {
+      this.messageService.showErrorMessage('El precio del producto es obligatorio');
+      return;
+    }
+
+    if (controls['price'].errors?.['min']) {
+      this.messageService.showErrorMessage('El precio debe ser mayor a 0');
+      return;
+    }
+
+    if (controls['currency'].errors?.['required']) {
+      this.messageService.showErrorMessage('La moneda es obligatoria');
+      return;
+    }
+
+    // Validaciones de longitud para nombre
+    if (controls['name'].errors?.['minlength']) {
+      this.messageService.showErrorMessage('El nombre del producto debe tener al menos 4 caracteres');
+      return;
+    }
+
+    if (controls['name'].errors?.['maxlength']) {
+      this.messageService.showErrorMessage('El nombre del producto no puede exceder los 50 caracteres');
+      return;
+    }
+
+    // Validaciones de longitud para descripción (solo si se ingresó algo)
+    if (controls['description'].errors?.['minlength']) {
+      this.messageService.showErrorMessage('La descripción debe tener al menos 4 caracteres');
+      return;
+    }
+
+    if (controls['description'].errors?.['maxlength']) {
+      this.messageService.showErrorMessage('La descripción no puede exceder los 255 caracteres');
+      return;
+    }
+
+    // Mensaje genérico si hay otros errores
+    this.messageService.showErrorMessage('Por favor, complete todos los campos obligatorios');
+  }
   private create() {
     this.productService.createProduct(this.productForm.value).subscribe({
       next: (product: Product) => {

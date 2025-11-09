@@ -66,11 +66,65 @@ export class UserEditorComponent implements OnInit {
   }
 
   submit(): void {
-    this.userForm.markAllAsTouched();
-    if (this.userForm.invalid) return;
+  this.userForm.markAllAsTouched();
 
-    this.userId ? this.update() : this.create();
+  if (this.userForm.invalid) {
+    this.showValidationErrors();
+    return;
   }
+
+  this.userId ? this.update() : this.create();
+}
+
+private showValidationErrors(): void {
+  const controls = this.userForm.controls;
+
+  // Verificar cada campo y mostrar mensaje específico
+  if (controls['username'].errors?.['required']) {
+    this.messageService.showErrorMessage('El nombre de usuario es obligatorio');
+    return;
+  }
+
+  if (controls['firstName'].errors?.['required']) {
+    this.messageService.showErrorMessage('El nombre es obligatorio');
+    return;
+  }
+
+  if (controls['lastName'].errors?.['required']) {
+    this.messageService.showErrorMessage('El apellido es obligatorio');
+    return;
+  }
+
+  if (controls['email'].errors?.['required']) {
+    this.messageService.showErrorMessage('El email es obligatorio');
+    return;
+  }
+
+  if (controls['email'].errors?.['email']) {
+    this.messageService.showErrorMessage('El formato del email no es válido');
+    return;
+  }
+
+  if (controls['roles'].errors?.['required']) {
+    this.messageService.showErrorMessage('Debe seleccionar al menos un rol');
+    return;
+  }
+
+  // Validaciones de longitud
+  if (controls['username'].errors?.['minlength']) {
+    this.messageService.showErrorMessage('El nombre de usuario debe tener al menos 4 caracteres');
+    return;
+  }
+
+  if (controls['firstName'].errors?.['minlength'] || controls['lastName'].errors?.['minlength']) {
+    this.messageService.showErrorMessage('El nombre y apellido deben tener al menos 3 caracteres');
+    return;
+  }
+
+  // Mensaje genérico si hay otros errores
+  this.messageService.showErrorMessage('Por favor, complete todos los campos obligatorios');
+}
+
 
   getAllRole() {
     this.roleService.findAll().subscribe((roles) => {

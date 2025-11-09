@@ -19,17 +19,17 @@
 
         <p-iftalabel>
           <input id="firstName" type="text" pInputText formControlName="firstName" />
-          <label for="firstName">Nombre</label>
+          <label for="firstName">Nombre *</label>
         </p-iftalabel>
 
         <p-iftalabel>
           <input id="lastName" type="text" pInputText formControlName="lastName" />
-          <label for="lastName">Apellido</label>
+          <label for="lastName">Apellido *</label>
         </p-iftalabel>
 
         <p-iftalabel>
           <input id="companyName" type="text" pInputText formControlName="companyName" />
-          <label for="companyName">Razón Social</label>
+          <label for="companyName">Razón Social *</label>
         </p-iftalabel>
 
         <p-iftalabel>
@@ -70,17 +70,17 @@
             placeholder="Tipo de documento"
             styleClass="w-full"
           ></p-select>
-          <label for="typeOfDocument">Tipo de Documento</label>
+          <label for="typeOfDocument">Tipo de Documento *</label>
         </p-iftalabel>
 
         <p-iftalabel>
           <input id="document" type="text" pInputText formControlName="document" />
-          <label for="document">Documento</label>
+          <label for="document">Documento *</label>
         </p-iftalabel>
 
         <p-iftalabel>
           <input id="internalCode" type="text" pInputText formControlName="internalCode" />
-          <label for="internalCode">Código Interno</label>
+          <label for="internalCode">Código Interno *</label>
         </p-iftalabel>
       </div>
     </div>
@@ -102,7 +102,7 @@
           [filter]="true"
           [virtualScroll]="true"
           [virtualScrollItemSize]="40"
-          placeholder="Seleccionar Categoría"
+          placeholder="Seleccionar Categoría *"
           [showClear]="true"
           styleClass="w-full"
         ></p-select>
@@ -116,14 +116,14 @@
           <div class="col-12 md:col-6">
             <p-iftalabel>
               <input id="recipientFirstName" type="text" pInputText formControlName="recipientFirstName" />
-              <label for="recipientFirstName">Nombre del destinatario</label>
+              <label for="recipientFirstName">Nombre del destinatario *</label>
             </p-iftalabel>
           </div>
 
           <div class="col-12 md:col-6">
             <p-iftalabel>
               <input id="recipientLastName" type="text" pInputText formControlName="recipientLastName" />
-              <label for="recipientLastName">Apellido del destinatario</label>
+              <label for="recipientLastName">Apellido del destinatario *</label>
             </p-iftalabel>
           </div>
 
@@ -138,11 +138,11 @@
             <div class="flex gap-2 align-items-center">
               <p-iftalabel class="w-4">
                 <input id="phoneAreaCode" type="text" pInputText formControlName="phoneAreaCode" />
-                <label for="phoneAreaCode">Cod. Área</label>
+                <label for="phoneAreaCode">Cod. Área *</label>
               </p-iftalabel>
               <p-iftalabel class="w-8">
                 <input id="phoneNumber" type="text" pInputText formControlName="phoneNumber" />
-                <label for="phoneNumber">Teléfono</label>
+                <label for="phoneNumber">Teléfono *</label>
               </p-iftalabel>
             </div>
           </div>
@@ -157,14 +157,14 @@
           <div class="col-12 md:col-8">
             <p-iftalabel>
               <input id="adress" type="text" pInputText formControlName="adress" />
-              <label for="adress">Dirección</label>
+              <label for="adress">Dirección *</label>
             </p-iftalabel>
           </div>
 
           <div class="col-12 md:col-4">
             <p-iftalabel>
               <input id="number" type="text" pInputText formControlName="number" />
-              <label for="number">Número</label>
+              <label for="number">Número *</label>
             </p-iftalabel>
           </div>
 
@@ -178,7 +178,7 @@
           <div class="col-12 md:col-6">
             <p-iftalabel>
               <input id="postalCode" type="text" pInputText formControlName="postalCode" />
-              <label for="postalCode">Código Postal</label>
+              <label for="postalCode">Código Postal *</label>
             </p-iftalabel>
           </div>
 

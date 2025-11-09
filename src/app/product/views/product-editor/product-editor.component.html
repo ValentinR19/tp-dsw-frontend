@@ -18,7 +18,7 @@
 
         <p-iftalabel>
           <input id="name" type="text" pInputText formControlName="name" />
-          <label for="name">Nombre</label>
+          <label for="name">Nombre *</label>
         </p-iftalabel>
 
         <p-iftalabel>
@@ -55,12 +55,12 @@
 
         <p-iftalabel>
           <input id="price" type="number" pInputText formControlName="price" />
-          <label for="price">Precio</label>
+          <label for="price">Precio *</label>
         </p-iftalabel>
 
         <p-iftalabel>
           <p-select id="currency" formControlName="currency" [options]="currencies" placeholder="Seleccionar moneda" styleClass="w-full" [showClear]="true"></p-select>
-          <label for="currency">Moneda</label>
+          <label for="currency">Moneda *</label>
         </p-iftalabel>
       </div>
     </div>
