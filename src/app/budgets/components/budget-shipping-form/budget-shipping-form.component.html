@@ -5,13 +5,24 @@
   <div class="grid">
     <!-- Dirección -->
     <div class="col-12 md:col-6">
-      <label for="address">Dirección</label>
-      <input id="address" pInputText formControlName="address" placeholder="Dirección de envío" class="w-full" />
+      <label for="address">Dirección *</label>
+    <input id="address" type="text" pInputText formControlName="address"
+      [class]="{'ng-invalid ng-dirty': form.get('budgetShipping.address')?.invalid && form.get('budgetShipping.address')?.touched}" />
+    @if (form.get('budgetShipping.address')?.invalid && form.get('budgetShipping.address')?.touched) {
+    <small class="text-red-500 block mt-1">
+      @if (form.get('budgetShipping.address')?.errors?.['required']) {
+      La dirección es obligatoria
+      }
+      @if (form.get('budgetShipping.address')?.errors?.['minlength']) {
+      La dirección debe tener al menos 5 caracteres
+      }
+    </small>
+    }
     </div>
 
     <!-- País -->
     <div class="col-12 md:col-6">
-      <label for="countryId">País</label>
+      <label for="countryId">País *</label>
       <p-select
         id="countryId"
         formControlName="countryId"
@@ -27,11 +38,16 @@
         (onLazyLoad)="loadCountriesLazy($event)"
         (onChange)="onCountryChange()"
       ></p-select>
+      @if (form.get('budgetShipping.countryId')?.invalid && form.get('budgetShipping.countryId')?.touched) {
+      <small class="text-red-500 block mt-1">
+        El país es obligatorio
+      </small>
+      }
     </div>
 
     <!-- Provincia / Estado -->
     <div class="col-12 md:col-6">
-      <label for="stateId">Provincia / Estado</label>
+      <label for="stateId">Provincia / Estado *</label>
       <p-select
         id="stateId"
         formControlName="stateId"
@@ -48,11 +64,16 @@
         (onLazyLoad)="loadStatesLazy($event)"
         (onChange)="onStateChange()"
       ></p-select>
+      @if (form.get('budgetShipping.stateId')?.invalid && form.get('budgetShipping.stateId')?.touched) {
+      <small class="text-red-500 block mt-1">
+        La provincia/estado es obligatorio
+      </small>
+      }
     </div>
 
     <!-- Ciudad -->
     <div class="col-12 md:col-6">
-      <label for="cityId">Ciudad</label>
+      <label for="cityId">Ciudad *</label>
       <p-select
         id="cityId"
         formControlName="cityId"
@@ -68,6 +89,11 @@
         [virtualScrollItemSize]="30"
         (onLazyLoad)="loadCitiesLazy($event)"
       ></p-select>
+    @if (form.get('budgetShipping.cityId')?.invalid && form.get('budgetShipping.cityId')?.touched) {
+    <small class="text-red-500 block mt-1">
+      La ciudad es obligatoria
+    </small>
+    }
     </div>
   </div>
 </div>

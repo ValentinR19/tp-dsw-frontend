@@ -1,3 +1,6 @@
+import { City } from "../../locations/location.service";
+import { State } from "../../locations/location.service";
+import { Country } from "../../locations/location.service";
 export class BudgetShipping {
   id: number;
   address: string;
@@ -6,4 +9,8 @@ export class BudgetShipping {
   stateId: number;
   countryId: number;
   email: string;
+
+  city?: City;
+  state?: State;
+  country?: Country;
 }

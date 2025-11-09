@@ -17,6 +17,7 @@ import { Budget } from '../../models/classes/budget.entity';
 import { BudgetService } from '../../services/budget.service';
 import { BudgetClientSelectorComponent } from './../../components/budget-client-selector/budget-client-selector.component';
 import { ViewChild } from '@angular/core';
+
 @Component({
   selector: 'app-budget-editor',
   standalone: true,
@@ -67,13 +68,16 @@ export class BudgetEditorComponent implements OnInit {
       totalDiscount: new FormControl(0),
       totalTax: new FormControl(0),
       total: new FormControl(0),
-      items: new FormArray([]),
+      items: new FormArray([], [Validators.required, Validators.minLength(1)]),
+
       budgetShipping: new FormGroup({
-        address: new FormControl(''),
-        cityId: new FormControl(null),
-        stateId: new FormControl(null),
-        countryId: new FormControl(null),
+        address: new FormControl('', [Validators.required, Validators.minLength(5)]),
+        cityId: new FormControl(null, [Validators.required]),
+        stateId: new FormControl(null, [Validators.required]),
+        countryId: new FormControl(null, [Validators.required]),
+        email: new FormControl('', [Validators.email]),
       }),
+
       budgetBilling: new FormGroup({
         buyerCompany: new FormControl(''),
         buyerAddress: new FormControl(''),
@@ -86,69 +90,121 @@ export class BudgetEditorComponent implements OnInit {
       }),
     });
   }
+
   @ViewChild(BudgetShippingFormComponent) shippingFormComp!: BudgetShippingFormComponent;
-
-private hydrateShippingCascades() {
-  const shipping = this.budgetForm.get('budgetShipping') as FormGroup;
-  const countryId = shipping.get('countryId')?.value;
-  const stateId   = shipping.get('stateId')?.value;
-
-  if (countryId) this.shippingFormComp.onCountryChange();
-  if (stateId)   this.shippingFormComp.onStateChange();
-}
 
   private async loadIfEditing() {
     const params = await lastValueFrom(this.route.params.pipe(take(1)));
     this.budgetId = Number(params['id']);
+
     if (!this.budgetId) return;
 
-    this.budgetService.getById(this.budgetId).subscribe((budget) => {
-      this.budget = budget;
-      this.budgetForm.patchValue({
-        customerId: budget.customerId,
-        sellerId: budget.sellerId,
-        currencyId: budget.currencyId,
-        subtotal: budget.subtotal,
-        totalDiscount: budget.totalDiscount,
-        totalTax: budget.totalTax,
-        total: budget.total,
-        budgetShipping: {
-          address: budget.budgetShipping?.address ?? '',
-          countryId: budget.budgetShipping?.country?.id ?? null,
-          stateId:   budget.budgetShipping?.state?.id ?? null,
-          cityId:    budget.budgetShipping?.city?.id ?? null,
-        },
-        budgetBilling: budget.budgetBilling,
-      });
-        // 1) microtarea
-  Promise.resolve().then(() => this.hydrateShippingCascades());
-      const itemsArray = this.budgetForm.get('items') as FormArray;
-      itemsArray.clear();
+    this.budgetService.getById(this.budgetId).subscribe({
+      next: (budget) => {
+        this.budget = budget;
 
-      (budget.items || []).forEach((i) => {
-        const unitPrice = Number(i.unitPrice) || 0;
-        const quantity = Number(i.quantity) || 0;
-        const discountPercent = Number(i.discountPercent) || 0;
+        this.budgetForm.reset();
 
-        const discount = (unitPrice * quantity * discountPercent) / 100;
-        const totalLine = unitPrice * quantity - discount;
-
-        const itemGroup = new FormGroup({
-          productId: new FormControl(i.productId),
-          productName: new FormControl(i.productName),
-          quantity: new FormControl(quantity),
-          unitPrice: new FormControl({ value: unitPrice, disabled: true }),
-          discountPercent: new FormControl(discountPercent),
-          discount: new FormControl(discount),
-          tax: new FormControl(i.tax ?? 0),
-          totalLine: new FormControl(totalLine),
+        // Datos básicos
+        this.budgetForm.patchValue({
+          customerId: budget.customerId,
+          sellerId: budget.sellerId,
+          currencyId: budget.currencyId || 1,
+          subtotal: budget.subtotal || 0,
+          totalDiscount: budget.totalDiscount || 0,
+          totalTax: budget.totaltax || 0,
+          total: budget.total || 0,
         });
 
-        itemsArray.push(itemGroup);
-      });
-      this.recalculateTotals();
-      this.changeDetector.detectChanges();
+        // Items
+        const itemsArray = this.budgetForm.get('items') as FormArray;
+        itemsArray.clear();
+
+        if (budget.items && budget.items.length > 0) {
+          budget.items.forEach((item) => {
+            const itemGroup = new FormGroup({
+              productId: new FormControl(item.productId),
+              productName: new FormControl(item.productName || 'Producto'),
+              quantity: new FormControl(item.quantity || 1),
+              unitPrice: new FormControl(item.unitPrice || 0),
+              discountPercent: new FormControl(item.discountPercent || 0),
+              discount: new FormControl(item.discount || 0),
+              tax: new FormControl(item.tax || 0),
+              totalLine: new FormControl(item.totalLine || 0),
+            });
+            itemsArray.push(itemGroup);
+          });
+        }
+
+        let countryId: number | null = null;
+        let stateId: number | null = null;
+        let cityId: number | null = null;
+
+        // Shipping
+        if (budget.budgetShipping) {
+          countryId = this.extractId(budget.budgetShipping.countryId);
+          stateId = this.extractId(budget.budgetShipping.stateId);
+          cityId = this.extractId(budget.budgetShipping.cityId);
+
+          this.budgetForm.patchValue({
+            budgetShipping: {
+              address: budget.budgetShipping.address || '',
+              email: budget.budgetShipping.email || '',
+              countryId: countryId,
+              stateId: stateId,
+              cityId: cityId,
+            }
+          });
+        }
+
+        setTimeout(() => {
+          this.loadShippingNames(countryId, stateId, cityId);
+        }, 800);
+
+        // Billing
+        if (budget.budgetBilling) {
+          this.budgetForm.patchValue({
+            budgetBilling: budget.budgetBilling
+          });
+        }
+
+        this.recalculateTotals();
+        this.changeDetector.detectChanges();
+      },
+      error: (error) => {
+        this.messageService.showErrorFromDTO('Error al cargar el presupuesto');
+      }
     });
+  }
+
+  private extractId(value: any): number | null {
+    if (!value) return null;
+    if (typeof value === 'object' && value !== null) return value.id;
+    if (typeof value === 'number') return value;
+    return null;
+  }
+
+  private loadShippingNames(countryId: number | null, stateId: number | null, cityId: number | null): void {
+    if (!this.shippingFormComp) {
+      setTimeout(() => this.loadShippingNames(countryId, stateId, cityId), 300);
+      return;
+    }
+
+    if (countryId) {
+      this.shippingFormComp.loadAndSelectCountry(countryId);
+
+      if (stateId) {
+        setTimeout(() => {
+          this.shippingFormComp.loadAndSelectState(stateId);
+
+          if (cityId) {
+            setTimeout(() => {
+              this.shippingFormComp.loadAndSelectCity(cityId);
+            }, 1000);
+          }
+        }, 800);
+      }
+    }
   }
 
   onAddProduct(product: any) {
@@ -227,22 +283,75 @@ private hydrateShippingCascades() {
       }
     });
   }
+
   submit() {
-    this.budgetForm.markAllAsTouched();
+    this.markAllFormGroupsAsTouched(this.budgetForm);
 
     if (this.budgetForm.invalid) {
+      this.messageService.showErrorMessage('Por favor, complete todos los campos obligatorios');
       return;
     }
 
-    const payload = this.budgetForm.getRawValue();
-    const action = this.budgetId ? this.budgetService.udpate(this.budgetId, payload) : this.budgetService.create(payload);
+    const rawData = this.budgetForm.getRawValue();
+    const payload = this.preparePayload(rawData);
+
+    const action = this.budgetId ?
+      this.budgetService.update(this.budgetId, payload) :
+      this.budgetService.create(payload);
 
     action.subscribe({
       next: () => {
         this.messageService.showSuccessMessage('Presupuesto guardado correctamente');
         this.router.navigate(['budgets']);
       },
-      error: (err) => this.messageService.showErrorFromDTO(`Error: ${err}`),
+      error: (err) => {
+        let errorMessage = 'Error al guardar el presupuesto';
+        if (err.status === 500) {
+          errorMessage = 'Error interno del servidor. Contacte al administrador.';
+        } else if (err.status === 400) {
+          errorMessage = 'Datos inválidos. Verifique la información ingresada.';
+        }
+        this.messageService.showErrorMessage(errorMessage);
+      },
+    });
+  }
+
+  private preparePayload(formData: any): any {
+    const payload = JSON.parse(JSON.stringify(formData));
+
+    if (payload.budgetShipping) {
+      payload.budgetShipping.countryId = Number(payload.budgetShipping.countryId);
+      payload.budgetShipping.stateId = Number(payload.budgetShipping.stateId);
+      payload.budgetShipping.cityId = Number(payload.budgetShipping.cityId);
+    }
+
+    return this.removeEmptyFields(payload);
+  }
+
+  private removeEmptyFields(obj: any): any {
+    if (Array.isArray(obj)) {
+      return obj.map(item => this.removeEmptyFields(item));
+    } else if (obj !== null && typeof obj === 'object') {
+      return Object.keys(obj).reduce((acc, key) => {
+        const value = obj[key];
+        if (value !== null && value !== undefined && value !== '') {
+          acc[key] = this.removeEmptyFields(value);
+        }
+        return acc;
+      }, {} as any);
+    }
+    return obj;
+  }
+
+  private markAllFormGroupsAsTouched(formGroup: FormGroup | FormArray): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+
+      if (control instanceof FormGroup || control instanceof FormArray) {
+        this.markAllFormGroupsAsTouched(control);
+      } else {
+        control?.markAsTouched();
+      }
     });
   }
 

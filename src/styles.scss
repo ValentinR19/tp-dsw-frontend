@@ -5,9 +5,9 @@
 @import '../node_modules/ngx-toastr/toastr.css';
 @import '../node_modules/quill/dist/quill.snow.css';
 
-// ===== AGREGAR ESTAS VARIABLES AQUÍ =====
+
 :root {
-  // Variables existentes (deberías tener algunas ya)
+
   --paginator-bg: #ffffff;
   --text-color: #333333;
   --table-row-hover-bg: #f5f5f5;
@@ -17,19 +17,17 @@
   --input-border: #d1d5db;
   --primary-color: #3b82f6;
 
-  // NUEVAS VARIABLES PARA BOTONES - ESENCIALES
+  // para botones
   --button-background-color: #3b82f6;
   --button-background-color-dark: #2563eb;
   --button-hover-bg: #60a5fa;
   --button-hover-bg-dark: #3b82f6;
   --button-text-color: #ffffff;
 
-  // Variables para variantes de botones
+  // para variables de botones
   --primary-color-hover: #2563eb;
   --danger-color: #dc2626;
   --success-color: #10b981;
-
-  // Otras variables que podrían faltar
   --background: #f8fafc;
   --card-background-color: #ffffff;
   --table-border-color: #e5e7eb;
@@ -44,6 +42,37 @@
   --border-radius: 6px;
   --input-border-radius: 6px;
   --font-size-base: 0.875rem;
+}
+
+:host ::ng-deep {
+
+
+  .p-floatlabel {
+    .ng-invalid.ng-dirty {
+      border-color: #e24c4c !important;
+
+      &+label {
+        color: #e24c4c !important;
+      }
+    }
+  }
+
+
+  p-select.ng-invalid.ng-dirty {
+    .p-dropdown {
+      border-color: #e24c4c !important;
+    }
+
+    &+label {
+      color: #e24c4c !important;
+    }
+  }
+}
+
+
+.text-red-500 {
+  color: #e24c4c;
+  font-size: 0.875rem;
 }
 
 * {

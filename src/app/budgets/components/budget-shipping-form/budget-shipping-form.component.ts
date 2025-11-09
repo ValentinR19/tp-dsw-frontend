@@ -32,8 +32,126 @@ export class BudgetShippingFormComponent implements OnInit {
   ngOnInit(): void {
     this.disableControl('stateId');
     this.disableControl('cityId');
-
     this.loadCountriesLazy({ first: 0, last: 0 });
+  }
+
+  public loadAndSelectCountry(countryId: number): void {
+    if (!countryId) return;
+
+    const existingCountry = this.countries.find(c => c.id === countryId);
+    if (existingCountry) {
+      setTimeout(() => {
+        this.form.get('countryId')?.setValue(countryId);
+        this.onCountryChange();
+      }, 100);
+      return;
+    }
+
+    this.loc.getCountries(1)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.countries = res.data;
+          this.cdr.markForCheck();
+
+          const country = this.countries.find(c => c.id === countryId);
+          if (country) {
+            setTimeout(() => {
+              this.form.get('countryId')?.setValue(countryId);
+              this.onCountryChange();
+            }, 150);
+          }
+        }
+      });
+  }
+
+  public loadAndSelectState(stateId: number): void {
+    if (!stateId) return;
+
+    const countryId = this.form.get('countryId')?.value;
+    if (!countryId) return;
+
+    const existingState = this.states.find(s => s.id === stateId);
+    if (existingState) {
+      this.onStateChange();
+      return;
+    }
+
+    this.enableControl('stateId');
+
+    this.loc.getStatesByCountry(countryId, 1)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.states = res.data;
+          this.cdr.markForCheck();
+
+          const state = this.states.find(s => s.id === stateId);
+          if (state) {
+            setTimeout(() => {
+              this.enableControl('stateId');
+              this.form.get('stateId')?.setValue(stateId);
+              this.onStateChange();
+            }, 100);
+          }
+        }
+      });
+  }
+
+  public loadAndSelectCity(cityId: number): void {
+    if (!cityId) return;
+
+    const stateId = this.form.get('stateId')?.value;
+    if (!stateId) {
+      setTimeout(() => this.loadAndSelectCity(cityId), 200);
+      return;
+    }
+
+    const existingCity = this.cities.find(c => c.id === cityId);
+    if (existingCity) {
+      setTimeout(() => {
+        this.form.get('cityId')?.setValue(cityId);
+      }, 100);
+      return;
+    }
+
+    this.loc.getCitiesByState(stateId, 1)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res1) => {
+          this.loc.getCitiesByState(stateId, 2)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+              next: (res2) => {
+                this.cities = [...res1.data, ...res2.data];
+                this.cdr.markForCheck();
+
+                const city = this.cities.find(c => c.id === cityId);
+                if (city) {
+                  setTimeout(() => {
+                    this.form.get('cityId')?.setValue(cityId);
+                  }, 100);
+                } else {
+                  this.loc.getCitiesByState(stateId, 3)
+                    .pipe(takeUntilDestroyed(this.destroyRef))
+                    .subscribe({
+                      next: (res3) => {
+                        this.cities = [...this.cities, ...res3.data];
+                        this.cdr.markForCheck();
+
+                        const city3 = this.cities.find(c => c.id === cityId);
+                        if (city3) {
+                          setTimeout(() => {
+                            this.form.get('cityId')?.setValue(cityId);
+                          }, 100);
+                        }
+                      }
+                    });
+                }
+              }
+            });
+        }
+      });
   }
 
   onCountryChange(): void {
@@ -62,7 +180,6 @@ export class BudgetShippingFormComponent implements OnInit {
     }
   }
 
-  // Lazy load de países
   loadCountriesLazy(event: SelectLazyLoadEvent): void {
     const page = Math.floor((event.last ?? 0) / 10) + 1;
     if (page <= this.countryPage) return;
@@ -77,7 +194,6 @@ export class BudgetShippingFormComponent implements OnInit {
       });
   }
 
-  // Lazy load de provincias
   loadStatesLazy(event: SelectLazyLoadEvent): void {
     const page = Math.floor((event.last ?? 0) / 10) + 1;
     if (page <= this.statePage) return;
